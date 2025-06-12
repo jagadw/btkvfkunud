@@ -27,7 +27,7 @@
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-  
+
 
 
     @livewireStyles
@@ -89,6 +89,13 @@
     <!--end::App-->
 
     <!--begin::Javascript-->
+    <script>
+        if (!sessionStorage.getItem('reloaded')) {
+            sessionStorage.setItem('reloaded', 'true');
+            window.location.reload();
+        }
+
+    </script>
 
     <script data-navigate-once src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script data-navigate-once src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -119,52 +126,16 @@
             });
         });
 
-
-
-    function handleSearchServices() {
-    Livewire.dispatch('loadDataService');
-    }
-
-    function handleSearchSparepart() {
-        Livewire.dispatch('loadDataSparepart');
-    }
-      
-    function printInvoice() {
-
-        const printContents = document.querySelector('.main').innerHTML;
-        const originalContents = document.body.innerHTML;
-
-        const printStyle = document.createElement('style');
-        printStyle.innerHTML = `
-            @page {
-                size: A4 portrait;
-                margin: 20mm;
-            }
-        `;
-        document.head.appendChild(printStyle);
-
-        document.body.innerHTML = printContents;
-        document.title = "Invoice";
-        window.print();
-        document.body.innerHTML = originalContents;
-        document.head.removeChild(printStyle);
-    }
-
-    function backOperational() {
-        window.Livewire.navigate('serviceoperational');
-    }
-        
-
     </script>
-    <script>
+    <script data-navigate-once>
         var hostUrl = "{{ asset('assets/')}}";
 
     </script>
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
     <script data-navigate-once src="{{ asset('assets/plugins/global/plugins.bundle.js')}}"></script>
     <script data-navigate-once src="{{ asset('assets/js/scripts.bundle.js')}}"></script>
-	<script data-navigate-once src="{{ asset('assets/js/custom/widgets.js') }}"></script>
-   
+    <script data-navigate-once src="{{ asset('assets/js/custom/widgets.js') }}"></script>
+
     @stack('scripts')
     @stack('script')
     {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
