@@ -1,0 +1,52 @@
+<div class="modal fade" tabindex="-1" id="mahasiswaModal" aria-hidden="true" wire:ignore.self>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ $isEdit ? 'Edit' : 'Add' }} Student</h3>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" wire:click="resetForm">
+                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="row g-9 mb-8">
+                    <div class="col-md-6">
+                        <label class="required form-label">Name</label>
+                        <input type="text" class="form-control form-control-solid @error('nama') is-invalid @enderror" wire:model="nama" placeholder="Nama">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="required form-label">Initials</label>
+                        <input type="text" class="form-control form-control-solid @error('inisial_residen') is-invalid @enderror" wire:model="inisial_residen" placeholder="Inisial Residen">
+                    </div>
+                </div>
+
+                <div class="row g-9 mb-8">
+                    <div class="col-md-6">
+                        <label class="required form-label">User</label>
+                        <select class="form-select @error('user_id') is-invalid @enderror" wire:model="user_id">
+                            <option value="">Select User</option>
+                            @foreach ($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="required form-label">Status</label>
+                        <select class="form-select @error('status') is-invalid @enderror" wire:model="status">
+                            <option value="">Select Status</option>
+                            <option value="aktif">Aktif</option>
+                            <option value="nonaktif">Nonaktif</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal" wire:click="resetForm">Close</button>
+                <button class="btn btn-primary" wire:click="{{ $isEdit ? 'updateMahasiswa' : 'store' }}">
+                    {{ $isEdit ? 'Update' : 'Store' }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
