@@ -33,7 +33,7 @@ class Tindakan extends Model
     }
     public function asisten2()
     {
-        return $this->belongsTo(User::class, 'asisten2_id','id')->withTrasherd();
+    return $this->belongsTo(User::class, 'asisten2_id', 'id')->withTrashed();
     }
     public function onLoop()
     {
