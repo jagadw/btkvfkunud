@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('tanggal_conference');
             $table->string('hasil_conference');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

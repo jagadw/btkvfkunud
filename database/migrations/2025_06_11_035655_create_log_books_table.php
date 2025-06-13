@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('kegiatan');
             $table->timestamp('tanggal');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('inisial_residen');
             $table->timestamps();
             $table->unsignedBigInteger('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
             $table->softDeletes();
 
         });

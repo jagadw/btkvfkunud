@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('jenis_kelamin');
             $table->string('tipe_jantung');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
