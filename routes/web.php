@@ -20,7 +20,9 @@ Route::get('/', function () {
         Route::get('/roles', RolesPermissions::class)->name('role');
         Route::get('/mahasiswa', \App\Livewire\Mahasiswa::class)->name('mahasiswa');
         Route::get('/pasien', \App\Livewire\Pasien::class)->name('pasien');
+
         Route::get('/tindakan', \App\Livewire\Tindakan::class)->name('tindakan');
+        Route::get('/add-tindakan', \App\Livewire\CreateTindakan::class)->name('create-tindakan');
         Route::get('/logbook', \App\Livewire\LogBook::class)->name('logbook');
         Route::get('/fototindakan', \App\Livewire\FotoTindakan::class)->name('fototindakan');
         Route::get('/conference', \App\Livewire\Conference::class)->name('conference');

@@ -99,6 +99,52 @@
                 </div>
                 <!--end::Input group-->
 
+                <!--begin::Input group-->
+                <div class="row g-9 mb-8">
+
+                    <div class="d-flex flex-column col-md-6 mb-8 fv-row">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                            <span class="required">Student</span>
+                            <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
+                                <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </span>
+                        </label>
+                        <!--end::Label-->
+
+                        <select class="form-select @error('role') is-invalid @enderror" data-control="select2" data-placeholder="Select Role" wire:model="selectedRole">
+
+                            <option>Select Student</option>
+                            @foreach ($mahasiswas as $role)
+                                
+                            <option value="{{ $role->id }}">{{ $role->nama }}</option>
+                            @endforeach
+
+                        </select>
+                    </div>
+                    <div class="d-flex flex-column col-md-6 mb-8 fv-row">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                            <span class="required">Password</span>
+                            <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target Position for future usage and reference">
+                                <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </span>
+                        </label>
+                        <!--end::Label-->
+                     
+                        <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Enter Password" autocomplete="off" id="position" wire:model="password" />
+                    </div>
+                </div>
+                <!--end::Input group-->
+
 
             </div>
 

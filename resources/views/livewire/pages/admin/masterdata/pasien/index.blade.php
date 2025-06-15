@@ -31,7 +31,7 @@
                 <div class="table-responsive">
                     <table class="table table-row-bordered gy-5">
                         <thead>
-                            <tr class="fw-semibold fs-6 text-muted">
+                            <tr class="fw-semibold fs-6">
                                 <th>No</th>
                                 <th>Name</th>
                                 <th>Age</th>

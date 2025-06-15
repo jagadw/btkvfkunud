@@ -127,6 +127,7 @@
         });
 
     </script>
+    
     <script data-navigate-once>
         var hostUrl = "{{ asset('assets/')}}";
 

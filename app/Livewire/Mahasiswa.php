@@ -2,100 +2,136 @@
 
 namespace App\Livewire;
 
-use Livewire\WithPagination;
-use Livewire\Attributes\Layout;
-use Livewire\Component;
 use App\Models\Mahasiswa as MahasiswaModel;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 #[Layout('layouts.admin')]
 class Mahasiswa extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
 
-    public $nama, $inisial_residen, $user_id, $mahasiswa_id, $status;
-    public $isEdit = false;
-    public $search = '';
+    public $mahasiswaId, $nama, $inisial_residen,  $status, $idToDelete, $search = '';
+    protected $listeners = ['deleteMahasiswaConfirmed'];
 
-    protected $rules = [
-        'nama' => 'required|string',
-        'inisial_residen' => 'required|string',
-        'user_id' => 'required|exists:users,id',
-        'status' => 'in:aktif,nonaktif',
-    ];
-
-    public function updatingSearch()
+    public function mount()
     {
-        $this->resetPage();
+        $userPermissions = Auth::user()->roles->flatMap(function ($role) {
+            return $role->permissions->pluck('name');
+        });
+
+        if (!$userPermissions->contains('masterdata-mahasiswa')) {
+            abort(403, 'Unauthorized action.');
+        }
     }
 
-    public function render()
+    public function openModal()
     {
-        $query = MahasiswaModel::with('user')
-            ->when($this->search, function ($q) {
-                $q->where('nama', 'like', '%' . $this->search . '%')
-                  ->orWhere('inisial_residen', 'like', '%' . $this->search . '%')
-                  ->orWhereHas('user', function ($u) {
-                      $u->where('name', 'like', '%' . $this->search . '%');
-                  });
-            })
-            ->latest();
+        $this->dispatch('show-modal');
+    }
 
-        return view('livewire.pages.admin.masterdata.mahasiswa.index', [
-            'mahasiswas' => $query->paginate(10),
-            'users' => User::all(),
-        ]);
+    public function closeModal()
+    {
+        $this->resetForm();
+        $this->dispatch('hide-modal');
     }
 
     public function resetForm()
     {
-        $this->reset(['nama', 'inisial_residen', 'user_id', 'mahasiswa_id', 'status', 'isEdit']);
+        $this->reset(['mahasiswaId', 'nama', 'inisial_residen', 'status']);
+    }
+
+    public function create()
+    {
+        $this->openModal();
     }
 
     public function store()
     {
-        $this->validate();
+        try {
+            $this->validate([
+                'nama' => 'required|string',
+                'inisial_residen' => 'required|string',
+                'status' => 'in:aktif,nonaktif',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('error', collect($e->errors())->flatten()->first());
+            return;
+        }
 
         MahasiswaModel::create([
             'nama' => $this->nama,
             'inisial_residen' => $this->inisial_residen,
-            'user_id' => $this->user_id,
             'status' => $this->status,
         ]);
 
-        session()->flash('message', 'Student has been successfully added.');
-        $this->resetForm();
+        $this->dispatch('success', 'Student created successfully.');
+        $this->closeModal();
     }
 
     public function edit($id)
     {
         $data = MahasiswaModel::findOrFail($id);
-        $this->mahasiswa_id = $id;
+        $this->mahasiswaId = $data->id;
         $this->nama = $data->nama;
         $this->inisial_residen = $data->inisial_residen;
-        $this->user_id = $data->user_id;
         $this->status = $data->status;
-        $this->isEdit = true;
+        $this->openModal();
     }
 
-    public function updateMahasiswa()
+    public function update()
     {
-        $this->validate();
+        try {
+            $this->validate([
+                'nama' => 'required|string',
+                'inisial_residen' => 'required|string',
+                'status' => 'in:aktif,nonaktif',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('error', collect($e->errors())->flatten()->first());
+            return;
+        }
 
-        MahasiswaModel::where('id', $this->mahasiswa_id)->update([
+        $mahasiswa = MahasiswaModel::findOrFail($this->mahasiswaId);
+        $mahasiswa->update([
             'nama' => $this->nama,
             'inisial_residen' => $this->inisial_residen,
-            'user_id' => $this->user_id,
             'status' => $this->status,
         ]);
 
-        session()->flash('message', 'Student data has been updated.');
-        $this->resetForm();
+        $this->dispatch('success', 'Student updated successfully.');
+        $this->closeModal();
     }
 
-    public function deleteMahasiswa($id)
+    public function delete($id)
     {
-        MahasiswaModel::findOrFail($id)->delete();
-        session()->flash('message', 'Student has been deleted.');
+        $this->idToDelete = $id;
+        $this->dispatch('confirm-delete', 'Are you sure you want to delete this student?');
+    }
+
+    public function deleteMahasiswaConfirmed()
+    {
+        MahasiswaModel::destroy($this->idToDelete);
+        $this->dispatch('delete-success', 'Student deleted successfully.');
+    }
+
+    public function render()
+    {
+        return view('livewire.pages.admin.masterdata.mahasiswa.index', [
+            'mahasiswas' => MahasiswaModel::with('user')
+                ->when($this->search, function ($q) {
+                    $q->where('nama', 'like', '%' . $this->search . '%')
+                        ->orWhere('inisial_residen', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('user', function ($u) {
+                            $u->where('name', 'like', '%' . $this->search . '%');
+                        });
+                })
+                ->paginate(10),
+            'users' => User::all(),
+        ]);
     }
 }

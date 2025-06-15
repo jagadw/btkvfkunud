@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">{{ $isEdit ? 'Edit' : 'Add' }} Student</h3>
+                <h3 class="modal-title">{{ $mahasiswaId ? 'Edit' : 'Add' }} Student</h3>
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" wire:click="resetForm">
                     <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                 </div>
@@ -21,16 +21,8 @@
                 </div>
 
                 <div class="row g-9 mb-8">
-                    <div class="col-md-6">
-                        <label class="required form-label">User</label>
-                        <select class="form-select @error('user_id') is-invalid @enderror" wire:model="user_id">
-                            <option value="">Select User</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-6">
+                    
+                    <div class="col-md-12">
                         <label class="required form-label">Status</label>
                         <select class="form-select @error('status') is-invalid @enderror" wire:model="status">
                             <option value="">Select Status</option>
@@ -43,8 +35,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal" wire:click="resetForm">Close</button>
-                <button class="btn btn-primary" wire:click="{{ $isEdit ? 'updateMahasiswa' : 'store' }}">
-                    {{ $isEdit ? 'Update' : 'Store' }}
+                <button class="btn btn-primary" wire:click="{{ $mahasiswaId ? 'update' : 'store' }}">
+                    {{ $mahasiswaId ? 'Update' : 'Store' }}
                 </button>
             </div>
         </div>

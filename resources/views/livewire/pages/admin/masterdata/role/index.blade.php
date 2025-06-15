@@ -143,7 +143,7 @@
                 <div class="row g-5 g-xl-8 d-flex justify-content-center m-5">
                     <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
                         <thead>
-                            <tr class="fw-semibold fs-6 text-muted">
+                            <tr class="fw-semibold fs-6">
                                 <th>No</th>
                                 <th>Action</th>
                                 <th>Name</th>

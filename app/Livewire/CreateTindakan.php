@@ -4,67 +4,20 @@ namespace App\Livewire;
 
 use App\Models\Conference;
 use App\Models\Pasien;
-use App\Models\Tindakan as TindakanModel;
+use App\Models\Tindakan;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
-use Livewire\WithPagination;
 
 #[Layout('layouts.admin')]
-class Tindakan extends Component
+class CreateTindakan extends Component
 {
-    use WithPagination;
-
     public $selectedPasien;
     public $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung;
     public $diagnosa, $tanggal_conference, $hasil_conference;
     public $pasien_id, $operator_id, $asisten1_id, $asisten2_id, $on_loop_id;
-    public $tanggal_operasi, $relealisasi_tindakan, $kesesuaian, $tindakan_id, $waktu_operasi;
+    public $tanggal_operasi, $relealisasi_tindakan, $kesesuaian, $tindakan_id;
     public $isEdit = false;
-    public $search = '';
-
-    public function mount()
-    {
-        $userPermissions = Auth::user()->roles->flatMap(fn($role) => $role->permissions->pluck('name'));
-        abort_unless($userPermissions->contains('masterdata-tindakan'), 403);
-    }
-
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
-
-    public function render()
-    {
-        return view('livewire.pages.admin.masterdata.tindakan.index', [
-            'tindakans' => TindakanModel::with(['pasien', 'operator', 'asisten1', 'asisten2', 'onLoop'])
-                ->where(function ($query) {
-                    $user = Auth::user();
-                    $userId = $user->id;
-                    if ($user->roles->pluck('name')->first() === 'dokter' && $user->akses_semua == 0) {
-                        $query->where('operator_id', $userId)
-                            ->orWhere('asisten1_id', $userId)
-                            ->orWhere('asisten2_id', $userId)
-                            ->orWhere('on_loop_id', $userId);
-                    }
-                })
-                ->when($this->tanggal_operasi, function ($query) {
-                    $query->whereYear('tanggal_operasi', substr($this->tanggal_operasi, 0, 4))
-                        ->whereMonth('tanggal_operasi', substr($this->tanggal_operasi, 5, 2));
-                })
-                ->when($this->search, function ($query) {
-                    $query->whereHas('pasien', function ($q) {
-                        $q->where('nama', 'like', '%' . $this->search . '%');
-                    });
-                })
-                ->latest()
-                ->paginate(10),
-            'pasiens' => Pasien::all(),
-            'dokters' => User::with('mahasiswa')->whereHas('roles', fn($q) => $q->where('name', 'dokter'))->get(),
-            'users' => User::all(),
-        ]);
-    }
 
     public function resetForm()
     {
@@ -124,12 +77,14 @@ class Tindakan extends Component
                 }
             } else {
                 $this->pasien_id = $this->selectedPasien;
-                $newConference = Conference::create([
-                    'pasien_id' => $this->pasien_id,
-                    'diagnosa' => $this->diagnosa,
-                    'tanggal_conference' => $this->tanggal_conference,
-                    'hasil_conference' => $this->hasil_conference,
-                ]);
+                  if ($this->diagnosa && $this->tanggal_conference && $this->hasil_conference) {
+                    Conference::create([
+                        'pasien_id' => $this->pasien_id,
+                        'diagnosa' => $this->diagnosa,
+                        'tanggal_conference' => $this->tanggal_conference,
+                        'hasil_conference' => $this->hasil_conference,
+                    ]);
+                }
             }
 
             $this->validate([
@@ -143,7 +98,7 @@ class Tindakan extends Component
                 'kesesuaian' => 'required|string',
             ]);
 
-            TindakanModel::create([
+            Tindakan::create([
                 'pasien_id' => $this->pasien_id,
                 'operator_id' => $this->operator_id,
                 'asisten1_id' => $this->asisten1_id,
@@ -164,7 +119,7 @@ class Tindakan extends Component
 
     public function edit($id)
     {
-        $data = TindakanModel::findOrFail($id);
+        $data = Tindakan::findOrFail($id);
         $this->fill($data->only([
             'pasien_id',
             'operator_id',
@@ -193,7 +148,7 @@ class Tindakan extends Component
             'kesesuaian' => 'required|string',
         ]);
 
-        TindakanModel::where('id', $this->tindakan_id)->update([
+        Tindakan::where('id', $this->tindakan_id)->update([
             'pasien_id' => $this->pasien_id,
             'operator_id' => $this->operator_id,
             'asisten1_id' => $this->asisten1_id,
@@ -210,7 +165,15 @@ class Tindakan extends Component
 
     public function deleteTindakan($id)
     {
-        TindakanModel::findOrFail($id)->delete();
+        Tindakan::findOrFail($id)->delete();
         $this->dispatch('delete-success', 'Tindakan berhasil dihapus.');
+    }
+    public function render()
+    {
+        return view('livewire.pages.admin.masterdata.tindakan.create-tindakan', [
+            'pasiens' => Pasien::all(),
+            'dokters' => User::with('mahasiswa')->whereHas('roles', fn($q) => $q->where('name', 'dokter'))->get(),
+            'users' => User::all(),
+        ]);
     }
 }

@@ -50,7 +50,7 @@
                 <div class="table-responsive">
                     <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
                         <thead>
-                            <tr class="fw-semibold fs-6 text-muted">
+                            <tr class="fw-semibold fs-6">
                                 <th>No</th>
                                 <th>Action</th>
                                 <th>Name</th>
@@ -88,7 +88,7 @@
                                 <td>{{ $menu->route }}</td>
                                 <td>{{ $menu->order }}</td>
                             </tr>
-                            <tr class="fw-semibold fs-6 text-muted">
+                            <tr class="fw-semibold fs-6">
                                 <th></th>
                                 <th>Action</th>
                                 <th>Name</th>

@@ -12,7 +12,7 @@ use Spatie\Permission\Models\Role;
 
 class User extends Component
 {
-    public $userId, $name, $email, $password,  $idToDelete, $selectedRole;
+    public $userId, $name, $email, $password,  $idToDelete, $selectedRole, $selectedMahasiswa, $showForm = false;
     protected $listeners = ['deleteUser', 'loadData'];
     public $search = '';
 
@@ -28,13 +28,21 @@ class User extends Component
     }
     public function openModal()
     {
-        $this->dispatch('show-modal');
+        if($this->showForm) {
+            $this->showForm = false;
+        } else {
+            $this->showForm = true;
+        }
     }
     public function closeModal()
     {
         $this->userId = null;
         $this->reset(['name', 'email', 'password', 'selectedRole']);
-        $this->dispatch('hide-modal');
+        if($this->showForm) {
+            $this->showForm = false;
+        }else {
+            $this->showForm = true;
+        }
     }
     public function create()
     {
@@ -61,7 +69,19 @@ class User extends Component
         ]);
 
         $user->assignRole($this->selectedRole);
-
+        if ($this->selectedMahasiswa) {
+            $mahasiswa = \App\Models\Mahasiswa::find($this->selectedMahasiswa);
+            if ($mahasiswa instanceof \App\Models\Mahasiswa) {
+            if ($mahasiswa->user_id) {
+                $this->dispatch('error', 'This Student already has a user account.');
+                // Delete the newly created user to avoid orphaned
+                $user->delete();
+                return;
+        }
+            $mahasiswa->user_id = $user->id;
+            $mahasiswa->save();
+            }
+        }
 
         $this->dispatch('success', 'User created successfully.');
         $this->closeModal();
@@ -103,6 +123,13 @@ class User extends Component
             $dataToUpdate['password'] = bcrypt($this->password);
         }
 
+        if ($this->selectedMahasiswa) {
+            $mahasiswa = \App\Models\Mahasiswa::find($this->selectedMahasiswa);
+            if ($mahasiswa) {
+                $mahasiswa->user_id = $user->id;
+                $mahasiswa->save();
+            }
+        }
         $user->update($dataToUpdate);
 
         $user->syncRoles($this->selectedRole);
@@ -128,6 +155,21 @@ class User extends Component
             $this->dispatch('error', 'Failed to delete user: ' . $e->getMessage());
         }
     }
+    public function aksesSemua($id)
+    {
+        $user = ModelsUser::find($id);
+        if ($user) {
+            $user->akses_semua = $user->akses_semua ? 0 : 1;
+            $user->save();
+            if ($user->akses_semua) {
+            $this->dispatch('success', 'User diberikan semua akses data tindakan.');
+            } else {
+            $this->dispatch('success', 'User tidak dapat mengakses semua data tindakan.');
+            }
+        } else {
+            $this->dispatch('error', 'User not found.');
+        }
+    }
     public function render()
     {
         return view('livewire.pages.admin.masterdata.user.index', data: [
@@ -135,6 +177,7 @@ class User extends Component
                 $query->where('name', 'like', '%' . $this->search . '%');
             })->paginate(10),
             'roles' => Role::all(),
+            'mahasiswas' => \App\Models\Mahasiswa::all(),
         ]);
     }
 }

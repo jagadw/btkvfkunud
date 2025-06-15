@@ -45,6 +45,108 @@
         <!--end::Toolbar container-->
     </div>
     <!--end::Toolbar-->
+
+    <div class="collapse @if($showForm) show @endif m-5" id="userFormAccordion">
+        <div class="accordion-item">
+            {{-- <h2 class="accordion-header" id="headingUserForm">
+                {{ $userId ? 'Edit' : 'Tambah' }} User
+
+            </h2> --}}
+            <div id="collapseUserForm" class="accordion-collapse collapse show" aria-labelledby="headingUserForm" data-bs-parent="#userFormAccordion">
+                <div class="accordion-body">
+                    <div class="row g-9 mb-8">
+                        <div class="d-flex flex-column col-md-6 mb-8 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                                <span class="required">Nama</span>
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
+                                    <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                        <span class="path3"></span>
+                                    </i>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Enter Name" id="name" autocomplete="off" wire:model="name" />
+                        </div>
+                        <div class="d-flex flex-column col-md-6 mb-8 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                                <span class="required">Email</span>
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target Position for future usage and reference">
+                                    <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                        <span class="path3"></span>
+                                    </i>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control form-control-solid @error('email') is-invalid @enderror" placeholder="Enter Email" autocomplete="off" id="position" wire:model="email" />
+                        </div>
+                    </div>
+                    <div class="row g-9 mb-8">
+                        <div class="d-flex flex-column col-md-6 mb-8 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                                <span class="required">Role</span>
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
+                                    <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                        <span class="path3"></span>
+                                    </i>
+                                </span>
+                            </label>
+                            <div class="">
+                                <select class="form-select @error('role') is-invalid @enderror" data-control="select2" data-placeholder="Select Role" wire:model="selectedRole">
+                                    <option>Select Role</option>
+                                    @foreach ($roles as $role)
+                                    @if ($role->name !== 'developer' || (auth()->user() && auth()->user()->hasRole('developer')))
+                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                    @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column col-md-6 mb-8 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                                <span >Student</span>
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
+                                    <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                        <span class="path3"></span>
+                                    </i>
+                                </span>
+                            </label>
+                            <div class="" wire:ignore>
+                                <select class="form-select @error('departement') is-invalid @enderror" data-control="select2" data-placeholder="Select Student" wire:model="selectedMahasiswa" data-allow-clear="true" onchange="@this.set('selectedMahasiswa', Array.from(this.selectedOptions).map(option => option.value))">
+                                    <option></option>
+                                    @foreach ($mahasiswas as $mahasiswa)
+                                    <option value="{{ $mahasiswa->id }}">{{ $mahasiswa->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column col-md-6 mb-8 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
+                                <span class="required">Password</span>
+                                <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target Position for future usage and reference">
+                                    <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                        <span class="path3"></span>
+                                    </i>
+                                </span>
+                            </label>
+                            <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Enter Password" autocomplete="off" id="position" wire:model="password" />
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-light me-2" wire:click="closeModal">Close</button>
+                        <button class="btn btn-primary" wire:click="{{ isset($userId) ? 'update' : 'store' }}">{{ $userId ? 'Update' : 'Store' }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
@@ -56,20 +158,14 @@
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
-                        <input
-                            type="text"
-                            data-kt-customer-table-filter="search"
-                            class="form-control form-control-solid w-250px ps-12"
-                            placeholder="Search User"
-                            wire:model.live.debounce.100ms="search"
-                        />
+                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Search User" wire:model.live.debounce.100ms="search" />
                     </div>
-    
+
                 </div>
                 <div class="table-responsive">
                     <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
                         <thead>
-                            <tr class="fw-semibold fs-6 text-muted">
+                            <tr class="fw-semibold fs-6">
                                 <th>No</th>
                                 <th>Action</th>
                                 <th>Name</th>
@@ -82,9 +178,9 @@
                                 <td colspan="6" class="text-center">No Data Found</td>
                                 </tr>
                                 @else
-    
+
                                 @foreach ( $data as $index => $user)
-    
+
                                 <tr wire:key="user-{{ $user->id }}">
                                     <td>{{ $index + 1 }}</td>
                                     <td>
@@ -101,24 +197,29 @@
                                             <div class="menu-item px-3">
                                                 <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $user->id }})">Delete</a>
                                             </div>
+                                            @if($user->getRoleNames()->first() === 'dokter')
+                                            <div class="menu-item px-3">
+                                                <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="aksesSemua({{ $user->id }})">{{ $user->akses_semua == 1 ? 'Tarik Akses' : 'Berikan Akses' }}</a>
+                                            </div>
+                                            @endif
                                             <!--end::Menu item-->
                                     </td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->getRoleNames()->first() }}</td>
-    
+
                                 </tr>
                                 @endforeach
                                 @endif
                         </tbody>
-    
-    
+
+
                     </table>
                     <div class="mt-4 d-flex justify-content-center">
                         {{ $data->onEachSide(1)->links() }}
                     </div>
                 </div>
-    
+
                 @include('livewire.pages.admin.masterdata.user.modal')
             </div>
 
@@ -133,11 +234,11 @@
             var modalEl = document.getElementById('userModal');
             var existingModal = bootstrap.Modal.getInstance(modalEl);
             if (!existingModal) {
-            var myModal = new bootstrap.Modal(modalEl, {});
-            myModal.show();
-        } else {
-            existingModal.show();
-        }
+                var myModal = new bootstrap.Modal(modalEl, {});
+                myModal.show();
+            } else {
+                existingModal.show();
+            }
         });
         Livewire.on('hide-modal', () => {
             var modalEl = document.getElementById('userModal');
@@ -151,9 +252,9 @@
             modalEl.setAttribute('aria-hidden', 'true');
             modalEl.removeAttribute('aria-modal');
             modalEl.removeAttribute('role');
-            document.body.classList.remove('modal-open'); 
-            document.body.style.overflow = ''; 
-            document.body.style.paddingRight = ''; 
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+            document.body.style.paddingRight = '';
         });
         Livewire.on('confirm-delete', (message) => {
             Swal.fire({
@@ -171,7 +272,7 @@
             });
         });
 
-        
+
     });
 
 </script>
