@@ -1,0 +1,49 @@
+<div class="d-flex flex-column flex-column-fluid">
+    <x-slot:title>Foto Tindakan Management</x-slot:title>
+
+    <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+        <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+            <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Foto Tindakan Management</h1>
+            </div>
+            <div class="d-flex align-items-center gap-2 gap-lg-3">
+                <button class="btn btn-sm fw-bold btn-primary" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#fotoTindakanModal">Add Foto Tindakan</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-row-bordered gy-5">
+            <thead>
+                <tr class="fw-semibold fs-6">
+                    <th>No</th>
+                    <th>Action</th>
+                    <th>Tindakan</th>
+                    <th>Foto</th>
+                    <th>Deskripsi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($fotoTindakans as $index => $foto)
+                <tr>
+                    <td>{{ $index + 1 }}</td>
+                    <td>
+                        <a wire:click="edit({{ $foto->id }})" class="btn btn-sm btn-light">Edit</a>
+                        <a wire:click="delete({{ $foto->id }})" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                    <td>{{ $foto->tindakan->name }}</td>
+                    <td><img src="{{ asset('storage/'.$foto->foto) }}" width="100"></td>
+                    <td>{{ $foto->deskripsi }}</td>
+                </tr>
+                @empty
+                <tr><td colspan="5" class="text-center">No Data Found!</td></tr>
+                @endforelse
+            </tbody>
+        </table>
+        {{ $fotoTindakans->links() }}
+    </div>
+
+    <!-- Modal Include -->
+    @include('livewire.pages.admin.masterdata.fototindakan.modal')
+
+</div>
