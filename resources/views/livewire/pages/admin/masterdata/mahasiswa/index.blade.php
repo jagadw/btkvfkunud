@@ -46,8 +46,8 @@
                                 <tr class="fw-semibold fs-6">
                                     <th>No</th>
                                     <th>Action</th>
-                                    <th>Name</th>
-                                    <th>Initial</th>
+                                    <th>Nama</th>
+                                    <th>Inisial Residen</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>

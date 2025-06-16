@@ -10,27 +10,27 @@
                 </div>
                 <div class="modal-body row g-3">
                     <div class="col-md-6">
-                        <label class="form-label">Name</label>
+                        <label class="form-label">Nama</label>
                         <input type="text" wire:model.defer="nama" class="form-control @error('nama') is-invalid @enderror">
                         @error('nama') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Age</label>
+                        <label class="form-label">Usia</label>
                         <input type="number" wire:model.defer="usia" class="form-control @error('usia') is-invalid @enderror">
                         @error('usia') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Medical Record Number</label>
+                        <label class="form-label">No Rekam Medis</label>
                         <input type="text" wire:model.defer="nomor_rekam_medis" class="form-control @error('nomor_rekam_medis') is-invalid @enderror">
                         @error('nomor_rekam_medis') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Date of Birth</label>
+                        <label class="form-label">Tanggal Lahir</label>
                         <input type="date" wire:model.defer="tanggal_lahir" class="form-control @error('tanggal_lahir') is-invalid @enderror">
                         @error('tanggal_lahir') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Gender</label>
+                        <label class="form-label">Jenis Kelamin</label>
                         <select wire:model.defer="jenis_kelamin" class="form-select @error('jenis_kelamin') is-invalid @enderror">
                             <option value="">Select</option>
                             <option value="laki-laki">Male</option>
@@ -39,7 +39,7 @@
                         @error('jenis_kelamin') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label">Heart Type</label>
+                        <label class="form-label">Tipe Jantung</label>
                         <input type="text" wire:model.defer="tipe_jantung" class="form-control @error('tipe_jantung') is-invalid @enderror">
                         @error('tipe_jantung') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>

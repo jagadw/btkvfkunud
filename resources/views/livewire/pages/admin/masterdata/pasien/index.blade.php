@@ -33,12 +33,12 @@
                         <thead>
                             <tr class="fw-semibold fs-6">
                                 <th>No</th>
-                                <th>Name</th>
-                                <th>Age</th>
-                                <th>Medical Record</th>
-                                <th>Birth Date</th>
-                                <th>Gender</th>
-                                <th>Heart Type</th>
+                                <th>Nama</th>
+                                <th>Usia</th>
+                                <th>No Rekam Medis</th>
+                                <th>Tanggal Lahir</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Tipe Jantung</th>
                                 <th>Action</th>
                             </tr>
                         </thead>

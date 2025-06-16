@@ -43,8 +43,8 @@
                                 <th>No</th>
                                 <th>Action</th>
                                 <th>User</th>
-                                <th>Activity</th>
-                                <th>Date</th>
+                                <th>Aktivitas</th>
+                                <th>Tanggal</th>
                             </tr>
                         </thead>
                         <tbody>

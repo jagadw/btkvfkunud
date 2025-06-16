@@ -20,11 +20,11 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label class="required form-label">Activity</label>
+                        <label class="required form-label">Aktivitas</label>
                         <input type="text" class="form-control" wire:model="kegiatan" placeholder="Kegiatan">
                     </div>
                     <div class="col-md-12">
-                        <label class="required form-label">Date</label>
+                        <label class="required form-label">Tanggal</label>
                         <input type="date" class="form-control" wire:model="tanggal">
                     </div>
                 </div>

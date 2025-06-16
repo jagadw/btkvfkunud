@@ -11,11 +11,11 @@
             <div class="modal-body">
                 <div class="row g-9 mb-8">
                     <div class="col-md-6">
-                        <label class="required form-label">Name</label>
+                        <label class="required form-label">Nama</label>
                         <input type="text" class="form-control form-control-solid @error('nama') is-invalid @enderror" wire:model="nama" placeholder="Nama">
                     </div>
                     <div class="col-md-6">
-                        <label class="required form-label">Initials</label>
+                        <label class="required form-label">Inisial Residen</label>
                         <input type="text" class="form-control form-control-solid @error('inisial_residen') is-invalid @enderror" wire:model="inisial_residen" placeholder="Inisial Residen">
                     </div>
                 </div>
