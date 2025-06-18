@@ -114,14 +114,14 @@ class DatabaseSeeder extends Seeder
         $admin =  User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('admin123')
+            'password' => bcrypt('adminbtkv')
         ]);
         $admin->assignRole('admin');
 
         $operator = User::factory()->create([
             'name' => 'operator',
             'email' => 'operator@gmail.com',
-            'password' => bcrypt('operator123')
+            'password' => bcrypt('operatorbtkv')
         ]);
         $operator->assignRole('operator');
         

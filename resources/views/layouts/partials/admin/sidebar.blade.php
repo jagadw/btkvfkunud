@@ -30,16 +30,22 @@ $menus = Menu::with('submenus')->get();
                     @php
                     // Filter submenus based on the user's permissions through roles
                     $filteredSubmenus = $menu->submenus->filter(function ($submenu) {
-                    $userPermissions = auth()->user()->roles->flatMap(function ($role) {
-                    return $role->permissions->pluck('id');
+                        $userPermissions = auth()->user()->roles->flatMap(function ($role) {
+                            return $role->permissions->pluck('id');
+                        });
+                        return $userPermissions->contains($submenu->permission_id);
                     });
-                    return $userPermissions->contains($submenu->permission_id);
-                    });
+
+                    // Tambahkan pengecekan khusus untuk route tindakan dan create-tindakan
+                    $submenuRoutes = $filteredSubmenus->pluck('route')->toArray();
+                    if (in_array('tindakan', $submenuRoutes) && !in_array('create-tindakan', $submenuRoutes)) {
+                        $submenuRoutes[] = 'create-tindakan';
+                    }
                     @endphp
 
                     @if ($filteredSubmenus->isNotEmpty())
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs($filteredSubmenus->pluck('route')->toArray()) ? 'show' : '' }}">
-                        <span class="menu-link {{ request()->routeIs($filteredSubmenus->pluck('route')->toArray()) ? 'active' : '' }}">
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs($submenuRoutes) ? 'show' : '' }}">
+                        <span class="menu-link {{ request()->routeIs($submenuRoutes) ? 'active' : '' }}">
                             <span class="menu-icon">
                                 <i class="{{ $menu->icon }} fs-2"></i>
                             </span>
@@ -50,7 +56,7 @@ $menus = Menu::with('submenus')->get();
                         <div class="menu-sub menu-sub-accordion">
                             @foreach ($filteredSubmenus as $submenu)
                             <div class="menu-item">
-                                <a class="menu-link {{ request()->routeIs($submenu->route) ? 'active' : '' }}" href="{{ route($submenu->route) }}" wire:navigate>
+                                <a class="menu-link {{ request()->routeIs([$submenu->route, $submenu->route == 'tindakan' ? 'create-tindakan' : null]) ? 'active' : '' }}" href="{{ route($submenu->route) }}" wire:navigate>
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>

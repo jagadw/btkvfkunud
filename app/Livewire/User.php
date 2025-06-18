@@ -74,7 +74,7 @@ class User extends Component
         $getUserId = ModelsUser::where('email', $this->email)->first();
         $mahasiswa = Mahasiswa::where('id', $this->selectedMahasiswa)->first();
 
-      
+
         if ($mahasiswa && $mahasiswa instanceof Mahasiswa) {
             $mahasiswa->user_id = $getUserId->id;
             $mahasiswa->save();
@@ -122,7 +122,7 @@ class User extends Component
         }
 
         if ($this->selectedMahasiswa) {
-           $mahasiswa = Mahasiswa::where('id', $this->selectedMahasiswa)->first();
+            $mahasiswa = Mahasiswa::where('id', $this->selectedMahasiswa)->first();
             if ($mahasiswa) {
                 $mahasiswa->user_id = $user->id;
                 $mahasiswa->save();
@@ -144,9 +144,8 @@ class User extends Component
         try {
             $user = ModelsUser::find($this->idToDelete);
             if ($user) {
-                dd($user->mahasiswa);
-                // $user->delete();
-                // $this->dispatch('delete-success', params: 'User deleted successfully.');
+                $user->delete();
+                $this->dispatch('delete-success',  'User deleted successfully.');
             } else {
                 $this->dispatch('error', 'User not found.');
             }

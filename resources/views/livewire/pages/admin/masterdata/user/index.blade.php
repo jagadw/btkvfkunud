@@ -179,36 +179,42 @@
                                 </tr>
                                 @else
 
-                                @foreach ( $data as $index => $user)
-
-                                <tr wire:key="user-{{ $user->id }}">
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
-                                            <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
-                                        <!--begin::Menu-->
-                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <a wire:click="edit({{ $user->id }})" class="menu-link px-3 w-100">Edit</a>
-                                            </div>
-                                            <!--end::Menu item-->
-                                            <!--begin::Menu item-->
-                                            <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $user->id }})">Hapus</a>
-                                            </div>
-                                            @if($user->getRoleNames()->first() === 'dokter')
-                                            <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="aksesSemua({{ $user->id }})">{{ $user->akses_semua == 1 ? 'Tarik Akses' : 'Berikan Akses' }}</a>
-                                            </div>
-                                            @endif
-                                            <!--end::Menu item-->
-                                    </td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->getRoleNames()->first() }}</td>
-
-                                </tr>
+                                @php $rowNumber = 1; @endphp
+                                @foreach ($data as $user)
+                                    @php
+                                        $userRole = $user->getRoleNames()->first();
+                                        $currentUserRole = Auth::user()->roles->pluck('name')->first();
+                                    @endphp
+                                    @if ($userRole !== 'developer' || $currentUserRole === 'developer')
+                                        <tr wire:key="user-{{ $user->id }}">
+                                            <td>{{ $rowNumber++ }}</td>
+                                            <td>
+                                                <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
+                                                    <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
+                                                <!--begin::Menu-->
+                                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                                    <!--begin::Menu item-->
+                                                    <div class="menu-item px-3">
+                                                        <a wire:click="edit({{ $user->id }})" class="menu-link px-3 w-100">Edit</a>
+                                                    </div>
+                                                    <!--end::Menu item-->
+                                                    <!--begin::Menu item-->
+                                                    <div class="menu-item px-3">
+                                                        <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $user->id }})">Hapus</a>
+                                                    </div>
+                                                    @if($userRole === 'dokter')
+                                                    <div class="menu-item px-3">
+                                                        <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="aksesSemua({{ $user->id }})">{{ $user->akses_semua == 1 ? 'Tarik Akses' : 'Berikan Akses' }}</a>
+                                                    </div>
+                                                    @endif
+                                                    <!--end::Menu item-->
+                                                </div>
+                                            </td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>{{ $userRole }}</td>
+                                        </tr>
+                                    @endif
                                 @endforeach
                                 @endif
                         </tbody>
