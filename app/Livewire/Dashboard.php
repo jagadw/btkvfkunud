@@ -4,6 +4,9 @@ namespace App\Livewire;
 
 
 use App\Models\Tindakan;
+use App\Models\Pasien;
+use App\Models\User;
+use App\Models\Mahasiswa;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
 use Carbon\Carbon;
@@ -12,10 +15,12 @@ use Illuminate\Support\Facades\Auth;
 #[Layout('layouts.admin')]
 class Dashboard extends Component
 {
-    public $userRole, $tanggal_operasi, $dataJumlahPasienDitangani, $dataPasienDitanganiFilter, $search = '';
+    public $userRole, $tanggal_operasi, $dataJumlahPasienDitangani, $dataPasienDitanganiFilter, $JumlahDokter, $JumlahPasien, $JumlahTindakan, $JumlahUser, $search = '';
 
     protected $listerners = [
-        'loadDashboardDokter'
+        'loadDashboardDokter',
+        'loadDashboardOperator',
+        'loadDashboardAdmin'
     ];
 
     public function mount()
@@ -40,14 +45,34 @@ class Dashboard extends Component
         } else {
             abort(403, 'Unauthorized action.');
         }
+
+        if ($this->userRole === 'admin') {
+        $this->JumlahPasien = Pasien::count();
+        $this->JumlahDokter = Mahasiswa::count();
+        $this->JumlahTindakan = Tindakan::count();
+        } elseif ($this->userRole === 'operator') {
+            $this->JumlahUser = User::count();
+            $this->JumlahDokter = Mahasiswa::count();
+            $this->JumlahPasien = Pasien::count();
+            $this->JumlahTindakan = Tindakan::count();
+        }
     }
 
     public function render()
     {
         if ($this->userRole === 'admin') {
-            return view('livewire.pages.admin.dashboard');
+            $JumlahPasien = Pasien::count();
+            $JumlahDokter = Mahasiswa::count();
+            $JumlahTindakan = Tindakan::count();
+
+            return view('livewire.pages.dashboard-admin', compact('JumlahPasien', 'JumlahDokter', 'JumlahTindakan'));
         } elseif ($this->userRole === 'operator') {
-            return view('livewire.pages.dashboard-operator');
+            $JumlahUser = User::count();
+            $JumlahDokter = Mahasiswa::count();
+            $JumlahPasien = Pasien::count();
+            $JumlahTindakan = Tindakan::count();
+
+            return view('livewire.pages.dashboard-operator', compact('JumlahUser', 'JumlahDokter', 'JumlahPasien', 'JumlahTindakan'));
         } elseif ($this->userRole === 'dokter') {
 
 
