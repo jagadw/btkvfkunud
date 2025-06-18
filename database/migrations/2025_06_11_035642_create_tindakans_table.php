@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('asisten2_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('on_loop_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('tanggal_operasi');
-            $table->string('relealisasi_tindakan');
-            $table->string('kesesuaian');
+            $table->text('relealisasi_tindakan');
+            $table->text('kesesuaian');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -45,6 +45,11 @@ class Tindakan extends Model
         return $this->hasOne(FotoTindakan::class);
     }
 
+    public function conference()
+    {
+        return $this->hasOne(Conference::class);
+    }
+
     protected static function boot()
     {
         parent::boot();

@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('conferences', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('pasien_id')->references('id')->on('pasiens')->onDelete('cascade');
-            $table->string('diagnosa');
+            $table->unsignedBigInteger('tindakan_id')->references('id')->on('tindakans')->onDelete('cascade');
+            $table->text('diagnosa');
             $table->timestamp('tanggal_conference');
-            $table->string('hasil_conference');
+            $table->text('hasil_conference');
             $table->timestamps();
             $table->softDeletes();
         });

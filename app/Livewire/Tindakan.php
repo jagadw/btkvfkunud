@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Conference;
+use App\Models\FotoTindakan;
 use App\Models\Pasien;
 use App\Models\Tindakan as TindakanModel;
 use App\Models\User;
@@ -16,11 +17,10 @@ class Tindakan extends Component
 {
     use WithPagination;
 
-    public $selectedPasien;
-    public $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung;
-    public $diagnosa, $tanggal_conference, $hasil_conference;
-    public $pasien_id, $operator_id, $asisten1_id, $asisten2_id, $on_loop_id;
-    public $tanggal_operasi, $relealisasi_tindakan, $kesesuaian, $tindakan_id, $waktu_operasi;
+    public $selectedPasien, $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung, $diagnosa, $tanggal_conference, $hasil_conference, $pasien_id, $operator_id, $asisten1_id, $asisten2_id, $on_loop_id, $tanggal_operasi, $relealisasi_tindakan, $kesesuaian, $tindakan_id, $waktu_operasi, $isTambahFoto = false, $fotoPaths;
+
+    // Foto Tindakan
+    public  $fotoTindakanId, $foto, $deskripsi;
     public $isEdit = false;
     public $search = '';
 
@@ -30,13 +30,67 @@ class Tindakan extends Component
         abort_unless($userPermissions->contains('masterdata-tindakan'), 403);
     }
 
-    public function updatingSearch()
+    public $fotoPreview = '';
+
+    public function tambahFoto($id)
     {
-        $this->resetPage();
+        $this->tindakan_id = $id;
+        $this->isTambahFoto = true;
+        $this->foto = null;
+        $this->fotoPreview = null;
+        return route('create-fototindakan', ['id' => $this->tindakan_id]);
     }
+
+    public function showModal()
+    {
+        $this->dispatch('show-modal');
+    }
+    public function closeModal()
+    {
+        $this->dispatch('close-modal');
+    }
+    public function showFotoTindakan($id)
+    {
+
+        $this->fotoTindakanId = $id;
+        $this->showModal();
+        $this->fotoPreview = FotoTindakan::where('tindakan_id', $id)->firstOrFail();
+    }
+
+    // public function deleteFoto()
+    // {
+    //     $this->foto = null;
+    //     $this->fotoPreview = null;
+    // }
+
+    // public function storeFoto()
+    // {
+    //     try {
+    //         $this->validate([
+    //             'tindakan_id' => 'required|exists:tindakans,id',
+    //             'foto' => 'required|image|max:2048',
+    //             'deskripsi' => 'nullable|string',
+    //         ]);
+    //     } catch (\Illuminate\Validation\ValidationException $e) {
+    //         $this->dispatch('error', collect($e->errors())->flatten()->first());
+    //         return;
+    //     }
+
+    //     $fotoPath = $this->foto->store('foto_tindakans', 'public');
+
+    //     FotoTindakan::create([
+    //         'tindakan_id' => $this->tindakan_id,
+    //         'foto' => $fotoPath,
+    //         'deskripsi' => $this->deskripsi,
+    //     ]);
+
+    //     $this->dispatch('success', 'Foto tindakan created successfully.');
+    //     $this->closeModal();
+    // }
 
     public function render()
     {
+
         return view('livewire.pages.admin.masterdata.tindakan.index', [
             'tindakans' => TindakanModel::with(['pasien', 'operator', 'asisten1', 'asisten2', 'onLoop'])
                 ->where(function ($query) {
@@ -102,6 +156,7 @@ class Tindakan extends Component
                     'nomor_rekam_medis' => 'required|string|unique:pasiens,nomor_rekam_medis',
                     'tanggal_lahir' => 'required|date',
                     'jenis_kelamin' => 'required|in:L,P',
+                    'tipe_jantung' => 'required|in:Jantung Dewasa,Jantung Pediatri & Kongengital',
                 ]);
 
                 $pasien = Pasien::create([
@@ -156,6 +211,7 @@ class Tindakan extends Component
 
             $this->dispatch('success', 'Tindakan berhasil disimpan.');
             $this->resetForm();
+            return redirect()->route('tindakan');
         } catch (\Throwable $e) {
             $this->dispatch('error', 'Terjadi kesalahan: ' . $e->getMessage());
             return;

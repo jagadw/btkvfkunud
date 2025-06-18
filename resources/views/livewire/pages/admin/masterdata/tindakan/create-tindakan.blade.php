@@ -48,7 +48,7 @@
                         <div class="card-body row g-3">
                             <div class="col-md-6">
                                 <label>Nama</label>
-                                <input type="text" class="form-control" wire:model="nama">
+                                <textarea class="form-control" wire:model="nama" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
                             </div>
                             <div class="col-md-3">
                                 <label>Usia</label>
@@ -56,7 +56,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label>No. Rekam Medis</label>
-                                <input type="text" class="form-control" wire:model="nomor_rekam_medis">
+                                <textarea class="form-control" wire:model="nomor_rekam_medis" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
                             </div>
                             <div class="col-md-3">
                                 <label>Tanggal Lahir</label>
@@ -72,7 +72,11 @@
                             </div>
                             <div class="col-md-3">
                                 <label>Tipe Jantung</label>
-                                <input type="text" class="form-control" wire:model="tipe_jantung">
+                                <select class="form-select" wire:model="tipe_jantung">
+                                    <option value="">Pilih Tipe Jantung</option>
+                                    <option value="Jantung Dewasa">Jantung Dewasa</option>
+                                    <option value="Jantung Pediatri & Kongenital">Jantung Pediatri & Kongenital</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -84,19 +88,19 @@
                     <button class="btn btn-secondary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseConference">
                         Tambah Data Conference (Opsional)
                     </button>
-                    <div class="collapse" id="collapseConference">
+                    <div class="collapse" id="collapseConference" wire:ignore>
                         <div class="row g-3">
                             <div class="col-md-4">
                                 <label>Diagnosa</label>
-                                <input type="text" class="form-control" wire:model="diagnosa">
+                                <textarea class="form-control" wire:model="diagnosa" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
                             </div>
                             <div class="col-md-4">
                                 <label>Tanggal Conference</label>
-                                <input type="datetime-local" class="form-control" wire:model="tanggal_conference">
+                                <input type="date" class="form-control" wire:model="tanggal_conference">
                             </div>
                             <div class="col-md-4">
                                 <label>Hasil Conference</label>
-                                <input type="text" class="form-control" wire:model="hasil_conference">
+                                <textarea class="form-control" wire:model="hasil_conference" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
                             </div>
                         </div>
                     </div>
@@ -148,11 +152,11 @@
                         </div>
                         <div class="col-md-4">
                             <label>Realisasi Tindakan</label>
-                            <input type="text" class="form-control" wire:model="relealisasi_tindakan">
+                            <textarea class="form-control" wire:model="relealisasi_tindakan" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
                         </div>
                         <div class="col-md-4">
                             <label>Kesesuaian</label>
-                            <input type="text" class="form-control" wire:model="kesesuaian">
+                            <textarea class="form-control" wire:model="kesesuaian" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -180,7 +184,7 @@
                 if (result.isConfirmed) {
                     Livewire.dispatch('deleteMahasiswaConfirmed');
                 } else {
-                    Swal.fire("Canceled", "Action Canceled.", "info");
+                    Swal.fire("DiBatalkan", "Aksi DiBatalkan.", "info");
                 }
             });
         });

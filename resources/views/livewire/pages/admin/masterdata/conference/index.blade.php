@@ -17,83 +17,61 @@
             </div>
             {{-- <div class="d-flex align-items-center gap-2 gap-lg-3">
                 <a class="btn btn-sm fw-bold btn-primary" href="{{route('create-conference')}}" wire:navigate>Tambah Conference</a>
-            </div> --}}
-        </div>
+        </div> --}}
     </div>
-    <div id="kt_app_content" class="app-content flex-column-fluid">
-        <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5">
-                <div class="row mb-5 align-items-center">
-                    <div class="col-md-auto mb-2 mb-md-0">
-                        <label class="mb-1">Cari Nama Pasien</label>
-                        <div class="d-flex align-items-center position-relative my-1">
-                            <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                            <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Cari Nama Pasien" wire:model.live.debounce.100ms="search" />
-                        </div>
+</div>
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    <div id="kt_app_content_container" class="app-container container-xxl">
+        <div class="card p-5">
+            <div class="row mb-5 align-items-center">
+                <div class="col-md-auto mb-2 mb-md-0">
+                    <label class="mb-1">Cari Nama Pasien</label>
+                    <div class="d-flex align-items-center position-relative my-1">
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Cari Nama Pasien" wire:model.live.debounce.100ms="search" />
                     </div>
-                    <div class="col-md-auto mb-2 mb-md-0">
-                        <label class="mb-1">Tanggal Conference</label>
-                        <input type="month" id="tanggal_conference" class="form-control" wire:model="tanggal_conference" onchange="@this.set('tanggal_conference', this.value)">
-                    </div>
-                    <div class="col-md-auto mb-2 mb-md-0 d-flex align-items-center gap-2">
-                        <button class="btn btn-sm fw-bold btn-danger" onclick="exportToPDF()">Export To PDF</button>
-                        <button class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export To EXCEL</button>
-                    </div>
-
+                </div>
+                <div class="col-md-auto mb-2 mb-md-0">
+                    <label class="mb-1">Tanggal Conference</label>
+                    <input type="month" id="tanggal_conference" class="form-control" wire:model="tanggal_conference" onchange="@this.set('tanggal_conference', this.value)">
+                </div>
+                <div class="col-md-auto mb-2 mb-md-0 d-flex align-items-center gap-2">
+                    <button class="btn btn-sm fw-bold btn-danger" onclick="exportToPDF()">Export To PDF</button>
+                    <button class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export To EXCEL</button>
                 </div>
 
-                <div class="main m-5">
-                    <div class="table-responsive">
-                        <table id="table-responsive" class="table table-row-bordered gy-5">
-                            <thead>
-                                <tr class="fw-semibold fs-6">
-                                    <th>No</th>
-                                    {{-- <th>Aksi</th> --}}
-                                    <th>ID</th>
-                                    <th>Nama</th>
-                                    <th>Diagnosa</th>
-                                    <th>Tanggal Conference</th>
-                                    <th>Hasil Conference</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($conference as $index => $c)
-                                <tr>
-                                    <td>{{ $conference->firstItem() + $index }}</td>
-                                    {{-- <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                            Aksi
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#" wire:click.prevent="edit({{ $t->id }})" data-bs-toggle="modal" data-bs-target="#tindakanModal">
-                                    Edit
-                                    </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-danger" href="#" wire:click.prevent="deleteTindakan({{ $t->id }})" onclick="confirm('Apakah Anda yakin?') || event.stopImmediatePropagation()">
-                                            Hapus
-                                        </a>
-                                    </li>
-                                    </ul>
-                    </div>
-                    </td> --}}
-                    <td>{{ $c->pasien_id ?? '-' }}</td>
-                    <td>{{ $c->pasien_id ?? '-' }}</td>
-                    <td>{{ $c->diagnosa ?? '-' }}</td>
-                    <td>{{ \Carbon\Carbon::parse($c->tanggal_conference)->format('d M Y H:i') }}</td>
-                    <td>{{ $c->hasil_conference }}</td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="10" class="text-center">Data Tidak Ditemukan</td>
-                    </tr>
-                    @endforelse
-                    </tbody>
+            </div>
+
+            <div class="main m-5">
+                <div class="table-responsive">
+                    <table id="table-responsive" class="table table-row-bordered gy-5">
+                        <thead>
+                            <tr class="fw-semibold fs-6">
+                                <th>No</th>
+                                <th>Nama Pasien</th>
+                                <th>Diagnosa</th>
+                                <th>Tanggal Conference</th>
+                                <th>Hasil Conference</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($conference as $index => $c)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>{{ $c->pasien->nama ?? '-' }}</td>
+                                <td>{{ $c->diagnosa ?? '-' }}</td>
+                                <td>{{ \Carbon\Carbon::parse($c->tanggal_conference)->format('d M Y H:i') }}</td>
+                                <td>{{ $c->hasil_conference }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="10" class="text-center">Data Tidak Ditemukan</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
                     </table>
 
                 </div>
@@ -152,8 +130,8 @@
             }
         }
 
-        var waktu_operasi = document.getElementById("waktu_operasi").value || "";
-        XLSX.writeFile(wb, `Data Conference Pasien - ${waktu_operasi}.xlsx`);
+        var tanggal_conference = document.getElementById("tanggal_conference").value || "";
+        XLSX.writeFile(wb, `Data Conference Pasien - ${tanggal_conference}.xlsx`);
     }
 
     function exportToPDF() {
@@ -206,7 +184,7 @@
                 if (result.isConfirmed) {
                     Livewire.dispatch('deleteMahasiswaConfirmed');
                 } else {
-                    Swal.fire("Canceled", "Action Canceled.", "info");
+                    Swal.fire("DiBatalkan", "Aksi DiBatalkan.", "info");
                 }
             });
         });

@@ -12,9 +12,9 @@ class Pasien extends Component
 {
     use WithPagination;
 
-    public $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung;
+    public $idToDelete, $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung;
     public $pasien_id, $isEdit = false, $search = '';
-
+    protected $listeners = ['deletePasienConfirmed'];
     protected $rules = [
         'nama' => 'required|string',
         'usia' => 'required|integer',
@@ -24,34 +24,38 @@ class Pasien extends Component
         'tipe_jantung' => 'required|string',
     ];
 
-    public function updatingSearch()
-    {
-        $this->resetPage();
-    }
 
     public function render()
     {
-        $query = PasienModel::query()
-            ->when($this->search, fn($q) =>
-                $q->where('nama', 'like', '%' . $this->search . '%')
-            )
-            ->latest();
-
+    
+        if($this->search) {
+            dd('Search triggered: ' . $this->search);
+        }
         return view('livewire.pages.admin.masterdata.pasien.index', [
-            'pasiens' => $query->paginate(10),
+            'pasiens' => PasienModel::when($this->search, function ($query) {
+                return $query->where('nama', 'like', '%' . $this->search . '%');
+            })->get(),
         ]);
     }
 
-    public function resetForm()
+    public function showModal()
+    {
+        $this->dispatch('show-modal');
+    }
+    public function closeModal()
     {
         $this->reset([
             'nama', 'usia', 'nomor_rekam_medis',
             'tanggal_lahir', 'jenis_kelamin',
             'tipe_jantung', 'pasien_id', 'isEdit'
         ]);
-        $this->resetValidation();
+        $this->dispatch('close-modal');
     }
-
+    public function create()
+    {
+        $this->showModal();
+    }
+    
     public function store()
     {
         $this->validate();
@@ -66,7 +70,7 @@ class Pasien extends Component
         ]);
 
         $this->dispatch('success', message: 'Data has been added.');
-        $this->resetForm();
+        $this->closeModal();
     }
 
     public function edit($id)
@@ -78,7 +82,7 @@ class Pasien extends Component
             'tipe_jantung'
         ]));
         $this->pasien_id = $id;
-        $this->isEdit = true;
+        $this->showModal();
     }
 
     public function updatePasien()
@@ -102,12 +106,19 @@ class Pasien extends Component
         ]);
 
         $this->dispatch('success', message: 'Data has been updated.');
-        $this->resetForm();
+        $this->closeModal();
     }
 
-    public function deletePasien($id)
+
+    public function delete($id)
     {
-        PasienModel::findOrFail($id)->delete();
-        $this->dispatch('success', message: 'Data has been deleted.');
+        $this->idToDelete = $id;
+        $this->dispatch('confirm-delete', 'Yakin Ingin Menghapus Data Pasien Ini?');
+    }
+    public function deletePasienConfirmed()
+    {
+        $pasienData = Pasien::where('id', $this->idToDelete);
+        $pasienData->delete();
+        $this->dispatch('delete-success', 'Data Pasien Sudah di Hapus');
     }
 }

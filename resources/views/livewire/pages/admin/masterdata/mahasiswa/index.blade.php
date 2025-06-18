@@ -1,11 +1,11 @@
 <div class="d-flex flex-column flex-column-fluid">
-    <x-slot:title>Student Management</x-slot:title>
+    <x-slot:title>Manajemen Mahasiswa</x-slot:title>
 
     <!--begin::Toolbar-->
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Student Management</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Manajemen Mahasiswa</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
@@ -13,11 +13,11 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Students</li>
+                    <li class="breadcrumb-item text-muted">Mahasiswa</li>
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <button class="btn btn-sm fw-bold btn-primary" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#mahasiswaModal">Add Student</button>
+                <button class="btn btn-sm fw-bold btn-primary" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#mahasiswaModal">Tambah Mahasiswa</button>
             </div>
         </div>
     </div>
@@ -45,7 +45,7 @@
                             <thead>
                                 <tr class="fw-semibold fs-6">
                                     <th>No</th>
-                                    <th>Action</th>
+                                    <th>Aksi</th>
                                     <th>Nama</th>
                                     <th>Inisial Residen</th>
                                     <th>Status</th>
@@ -56,7 +56,7 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Action
+                                        <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
                                             <i class="ki-duotone ki-down fs-5 ms-1"></i>
                                         </a>
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
@@ -64,7 +64,7 @@
                                                 <a wire:click="edit({{ $student->id }})" class="menu-link px-3 w-100">Edit</a>
                                             </div>
                                             <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3 w-100 text-danger" wire:click="delete({{ $student->id }})">Delete</a>
+                                                <a href="#" class="menu-link px-3 w-100 text-danger" wire:click="delete({{ $student->id }})">Non Aktifkan</a>
                                             </div>
                                         </div>
                                     </td>
@@ -78,7 +78,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">No Data Found!</td>
+                                    <td colspan="6" class="text-center">Data Tidak Ditemukan!</td>
                                 </tr>
                                 @endforelse
                             </tbody>
@@ -138,7 +138,7 @@
                 if (result.isConfirmed) {
                     Livewire.dispatch('deleteMahasiswaConfirmed');
                 } else {
-                    Swal.fire("Canceled", "Action Canceled.", "info");
+                    Swal.fire("DiBatalkan", "Aksi DiBatalkan.", "info");
                 }
             });
         });

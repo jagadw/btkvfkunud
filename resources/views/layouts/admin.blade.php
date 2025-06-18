@@ -26,6 +26,7 @@
     <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css')}}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/dropify/dropify.min.css')}}" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
@@ -136,7 +137,8 @@
     <script data-navigate-once src="{{ asset('assets/plugins/global/plugins.bundle.js')}}"></script>
     <script data-navigate-once src="{{ asset('assets/js/scripts.bundle.js')}}"></script>
     <script data-navigate-once src="{{ asset('assets/js/custom/widgets.js') }}"></script>
-
+    <script data-navigate-once src="{{ asset('assets/js/plugin/dropify/dropify.min.js') }}"></script>
+    
     @stack('scripts')
     @stack('script')
     {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>

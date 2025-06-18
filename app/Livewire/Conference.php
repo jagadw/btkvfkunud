@@ -34,16 +34,21 @@ class Conference extends Component
     public function render()
     {
         return view('livewire.pages.admin.masterdata.conference.index', [
-            'conference' => ConferenceModel::with(['pasien_id', 'diagnosa', 'hasil_conference'])
+            // Ambil data tindakan yang terkait dengan user dokter (asisten1_id, asisten2_id, on_loop_id)
+            'tindakans' => $tindakans = \App\Models\Tindakan::with('conference')
                 ->where(function ($query) {
                     $user = Auth::user();
-                    $userId = $user->id;
                     if ($user->roles->pluck('name')->first() === 'dokter' && $user->akses_semua == 0) {
-                        $query->where('pasien_id', $userId)
-                            ->orWhere('diagnosa', $userId)
-                            ->orWhere('hasil_conference', $userId);
+                        $query->where('asisten1_id', $user->id)
+                            ->orWhere('asisten2_id', $user->id)
+                            ->orWhere('on_loop_id', $user->id);
                     }
                 })
+                ->get(),
+
+            // Ambil data conference yang tindakan_id-nya ada di tindakan yang ditemukan di atas
+            'conference' => ConferenceModel::with(['pasien', 'tindakan'])
+                ->whereIn('tindakan_id', $tindakans->pluck('id'))
                 ->when($this->tanggal_conference, function ($query) {
                     $query->whereYear('tanggal_conference', substr($this->tanggal_conference, 0, 4))
                         ->whereMonth('tanggal_conference', substr($this->tanggal_conference, 5, 2));
@@ -54,7 +59,7 @@ class Conference extends Component
                     });
                 })
                 ->latest()
-                ->paginate(10),
+                ->get(),
             'pasiens' => Pasien::all(),
             'dokters' => User::with('mahasiswa')->whereHas('roles', fn($q) => $q->where('name', 'dokter'))->get(),
             'users' => User::all(),

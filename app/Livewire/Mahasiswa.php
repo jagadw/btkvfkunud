@@ -56,7 +56,6 @@ class Mahasiswa extends Component
             $this->validate([
                 'nama' => 'required|string',
                 'inisial_residen' => 'required|string',
-                'status' => 'in:aktif,nonaktif',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->dispatch('error', collect($e->errors())->flatten()->first());
@@ -66,7 +65,7 @@ class Mahasiswa extends Component
         MahasiswaModel::create([
             'nama' => $this->nama,
             'inisial_residen' => $this->inisial_residen,
-            'status' => $this->status,
+            'status' => 'aktif',
         ]);
 
         $this->dispatch('success', 'Student created successfully.');
@@ -103,20 +102,30 @@ class Mahasiswa extends Component
             'status' => $this->status,
         ]);
 
-        $this->dispatch('success', 'Student updated successfully.');
+        $this->dispatch('success', 'Mahasiswa Berhasil di Update.');
         $this->closeModal();
     }
 
     public function delete($id)
     {
         $this->idToDelete = $id;
-        $this->dispatch('confirm-delete', 'Are you sure you want to delete this student?');
+        $this->dispatch('confirm-delete', 'Yakin ingin menonaktifkan mahasiswa ini?');
     }
 
     public function deleteMahasiswaConfirmed()
     {
-        MahasiswaModel::destroy($this->idToDelete);
-        $this->dispatch('delete-success', 'Student deleted successfully.');
+        $mahasiswaData = MahasiswaModel::where('id', $this->idToDelete)->first();
+        // if ($mahasiswaData) {
+        //     // Hapus user terkait jika ada
+        //     if ($mahasiswaData->user) {
+        //     $mahasiswaData->user->delete();
+        //     }
+        // }
+        // Hapus data mahasiswa
+        $mahasiswaData->delete();
+      
+       
+        $this->dispatch('delete-success', 'Mahasiswa Berhasil di Non Aktifkan!.');
     }
 
     public function render()

@@ -6,6 +6,7 @@ use App\Models\Bank;
 use App\Models\Customer;
 use App\Models\Departement;
 use App\Models\Employee;
+use App\Models\Mahasiswa;
 use App\Models\Menu;
 use App\Models\Service;
 use App\Models\SparePart;
@@ -70,8 +71,8 @@ class DatabaseSeeder extends Seeder
         $operator->syncPermissions([
             'dashboard',
             'masterdata-user',
-            'masterdata-menu',
-            'masterdata-role',
+            // 'masterdata-menu',
+            // 'masterdata-role',
             'masterdata-mahasiswa',
             'masterdata-pasien',
             'masterdata-conference',
@@ -83,8 +84,8 @@ class DatabaseSeeder extends Seeder
         $admin->syncPermissions([
             'dashboard',
             'masterdata-user',
-            'masterdata-menu',
-            'masterdata-role',
+            // 'masterdata-menu',
+            // 'masterdata-role',
             'masterdata-mahasiswa',
             'masterdata-pasien',
             'masterdata-conference',
@@ -96,7 +97,7 @@ class DatabaseSeeder extends Seeder
         $dokter->syncPermissions([
             'dashboard',
             'masterdata-tindakan',
-            'masterdata-fototindakan',
+            // 'masterdata-fototindakan',
             'masterdata-conference',
             'masterdata-logbook',
         ]);
@@ -216,6 +217,37 @@ class DatabaseSeeder extends Seeder
             'order' => 9,
             'permission_id' => Permission::where('name', 'masterdata-logbook')->first()->id
         ]);
-        // Create other necessary data
+        
+        // Create Mahasiswa
+        Mahasiswa::create([
+            'nama' => 'Andi Pratama',
+            'inisial_residen' => 'AP',
+            'user_id' => null,
+            'status' => 'aktif',
+        ]);
+        Mahasiswa::create([
+            'nama' => 'Budi Santoso',
+            'inisial_residen' => 'BS',
+            'user_id' => null,
+            'status' => 'aktif',
+        ]);
+        Mahasiswa::create([
+            'nama' => 'Citra Dewi',
+            'inisial_residen' => 'CD',
+            'user_id' => null,
+            'status' => 'aktif',
+        ]);
+        Mahasiswa::create([
+            'nama' => 'Dewi Lestari',
+            'inisial_residen' => 'DL',
+            'user_id' => null,
+            'status' => 'aktif',
+        ]);
+        Mahasiswa::create([
+            'nama' => 'Eko Wijaya',
+            'inisial_residen' => 'EW',
+            'user_id' => null,
+            'status' => 'aktif',
+        ]);
     }
 }

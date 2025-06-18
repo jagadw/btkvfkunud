@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Mahasiswa;
 use App\Models\User as ModelsUser;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
@@ -21,14 +22,14 @@ class User extends Component
         $userPermissions = Auth::user()->roles->flatMap(function ($role) {
             return $role->permissions->pluck('name');
         });
-    
+
         if (!$userPermissions->contains('masterdata-user')) {
             abort(403, 'Unauthorized action.');
         }
     }
     public function openModal()
     {
-        if($this->showForm) {
+        if ($this->showForm) {
             $this->showForm = false;
         } else {
             $this->showForm = true;
@@ -38,9 +39,9 @@ class User extends Component
     {
         $this->userId = null;
         $this->reset(['name', 'email', 'password', 'selectedRole']);
-        if($this->showForm) {
+        if ($this->showForm) {
             $this->showForm = false;
-        }else {
+        } else {
             $this->showForm = true;
         }
     }
@@ -50,14 +51,15 @@ class User extends Component
     }
     public function store()
     {
-        try{
+
+        try {
             $this->validate([
                 'name' => 'required|string|max:255',
                 'email' => 'required|email',
                 'password' => 'required|min:6',
                 'selectedRole' => 'required',
             ]);
-        }catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (\Illuminate\Validation\ValidationException $e) {
             $this->dispatch('error', collect($e->errors())->flatten()->first());
             return;
         }
@@ -67,23 +69,20 @@ class User extends Component
             'email' => $this->email,
             'password' => bcrypt($this->password),
         ]);
-
         $user->assignRole($this->selectedRole);
-        if ($this->selectedMahasiswa) {
-            $mahasiswa = \App\Models\Mahasiswa::find($this->selectedMahasiswa);
-            if ($mahasiswa instanceof \App\Models\Mahasiswa) {
-            if ($mahasiswa->user_id) {
-                $this->dispatch('error', 'This Student already has a user account.');
-                // Delete the newly created user to avoid orphaned
-                $user->delete();
-                return;
-        }
-            $mahasiswa->user_id = $user->id;
+
+        $getUserId = ModelsUser::where('email', $this->email)->first();
+        $mahasiswa = Mahasiswa::where('id', $this->selectedMahasiswa)->first();
+
+      
+        if ($mahasiswa && $mahasiswa instanceof Mahasiswa) {
+            $mahasiswa->user_id = $getUserId->id;
             $mahasiswa->save();
-            }
+            $this->dispatch('success', 'User created successfully.');
+        } else {
+            $this->dispatch('error', 'Mahasiswa not found.');
         }
 
-        $this->dispatch('success', 'User created successfully.');
         $this->closeModal();
     }
 
@@ -101,18 +100,17 @@ class User extends Component
     public function update()
     {
 
-    try{
-        $this->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'selectedRole' => 'required',
-            'password' => 'nullable|min:6',
-        ]);
-      
-    }catch (\Illuminate\Validation\ValidationException $e) {
-        $this->dispatch('error', collect($e->errors())->flatten()->first());
-        return;
-    }
+        try {
+            $this->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email',
+                'selectedRole' => 'required',
+                'password' => 'nullable|min:6',
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('error', collect($e->errors())->flatten()->first());
+            return;
+        }
         $user = ModelsUser::find($this->userId);
         $dataToUpdate = [
             'name' => $this->name,
@@ -124,7 +122,7 @@ class User extends Component
         }
 
         if ($this->selectedMahasiswa) {
-            $mahasiswa = \App\Models\Mahasiswa::find($this->selectedMahasiswa);
+           $mahasiswa = Mahasiswa::where('id', $this->selectedMahasiswa)->first();
             if ($mahasiswa) {
                 $mahasiswa->user_id = $user->id;
                 $mahasiswa->save();
@@ -146,8 +144,9 @@ class User extends Component
         try {
             $user = ModelsUser::find($this->idToDelete);
             if ($user) {
-                $user->delete();
-                $this->dispatch('delete-success', params: 'User deleted successfully.');
+                dd($user->mahasiswa);
+                // $user->delete();
+                // $this->dispatch('delete-success', params: 'User deleted successfully.');
             } else {
                 $this->dispatch('error', 'User not found.');
             }
@@ -162,9 +161,9 @@ class User extends Component
             $user->akses_semua = $user->akses_semua ? 0 : 1;
             $user->save();
             if ($user->akses_semua) {
-            $this->dispatch('success', 'User diberikan semua akses data tindakan.');
+                $this->dispatch('success', 'User diberikan semua akses data tindakan.');
             } else {
-            $this->dispatch('success', 'User tidak dapat mengakses semua data tindakan.');
+                $this->dispatch('success', 'User tidak dapat mengakses semua data tindakan.');
             }
         } else {
             $this->dispatch('error', 'User not found.');
@@ -177,7 +176,7 @@ class User extends Component
                 $query->where('name', 'like', '%' . $this->search . '%');
             })->paginate(10),
             'roles' => Role::all(),
-            'mahasiswas' => \App\Models\Mahasiswa::all(),
+            'mahasiswas' => Mahasiswa::where('user_id', null)->get(), // Get Mahasiswa without user_id
         ]);
     }
 }

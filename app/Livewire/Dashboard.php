@@ -28,7 +28,7 @@ class Dashboard extends Component
             abort(403, 'Unauthorized action.');
         }
 
-        $userRole = Auth::user()->roles()->pluck('name')->first();
+        $userRole = Auth::user()->roles->pluck('name')->first();
         if ($userRole === 'admin') {
             $this->userRole = 'admin';
         } elseif ($userRole === 'operator') {

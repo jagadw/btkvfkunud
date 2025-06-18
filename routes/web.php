@@ -6,6 +6,8 @@ use App\Livewire\MenuManagement;
 use App\Livewire\RolesPermissions;
 use App\Livewire\User;
 use App\Livewire\Auth\Login;
+use App\Livewire\CreateFotoTindakan;
+use App\Livewire\FotoTindakan;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -23,8 +25,10 @@ Route::get('/', function () {
 
         Route::get('/tindakan', \App\Livewire\Tindakan::class)->name('tindakan');
         Route::get('/add-tindakan', \App\Livewire\CreateTindakan::class)->name('create-tindakan');
+        Route::get('/tindakan/{id}/foto-tindakan', action: CreateFotoTindakan::class)->name('create-fototindakan');
+
         Route::get('/logbook', \App\Livewire\LogBook::class)->name('logbook');
-        Route::get('/fototindakan', \App\Livewire\FotoTindakan::class)->name('fototindakan');
+        Route::get('/fototindakan',FotoTindakan::class)->name('fototindakan');
         Route::get('/conference', \App\Livewire\Conference::class)->name('conference');
         Route::get('/test', MenuManagement::class)->name('test');
     });

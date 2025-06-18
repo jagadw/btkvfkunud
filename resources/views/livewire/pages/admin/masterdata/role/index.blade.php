@@ -33,8 +33,8 @@
                 {{-- <a href="#" class="btn btn-sm fw-bold btn-secondary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Rollover</a> --}}
                 <!--end::Secondary button-->
                 <!--begin::Primary button-->
-                <button class="btn btn-sm fw-bold btn-primary" wire:click="create()">Add Role</button>
-                <button class="btn btn-sm fw-bold btn-primary" wire:click="createPermission()">Add Permission</button>
+                <button class="btn btn-sm fw-bold btn-primary" wire:click="create()">Tambah Role</button>
+                <button class="btn btn-sm fw-bold btn-primary" wire:click="createPermission()">Tambah Permission</button>
                 <!--end::Primary button-->
             </div>
             <!--end::Actions-->
@@ -171,7 +171,7 @@
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="deletePermission({{ $permission->id }})">Delete</a>
+                                                <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="deletePermission({{ $permission->id }})">Hapus</a>
                                             </div>
                                             <!--end::Menu item-->
                                     </td>

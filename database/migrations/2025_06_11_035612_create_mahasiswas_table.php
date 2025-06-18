@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('mahasiswas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->string('inisial_residen');
+            $table->text('nama');
+            $table->text('inisial_residen');
             $table->timestamps();
             $table->unsignedBigInteger('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
             $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');

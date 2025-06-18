@@ -10,7 +10,7 @@
 
             <div class="modal-body">
                 <div class="row g-9 mb-8">
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <label class="required form-label">User</label>
                         <select class="form-select" wire:model="user_id">
                             <option value="">Select User</option>
@@ -18,10 +18,10 @@
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
                         </select>
-                    </div>
-                    <div class="col-md-6">
+                    </div> --}}
+                    <div class="col-md-12">
                         <label class="required form-label">Aktivitas</label>
-                        <input type="text" class="form-control" wire:model="kegiatan" placeholder="Kegiatan">
+                        <textarea class="form-control" wire:model="kegiatan" placeholder="Kegiatan" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
                     </div>
                     <div class="col-md-12">
                         <label class="required form-label">Tanggal</label>

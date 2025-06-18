@@ -37,7 +37,7 @@
                 {{-- <a href="#" class="btn btn-sm fw-bold btn-secondary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Rollover</a> --}}
                 <!--end::Secondary button-->
                 <!--begin::Primary button-->
-                <button class="btn btn-sm fw-bold btn-primary" wire:click="create()">Add User</button>
+                <button class="btn btn-sm fw-bold btn-primary" wire:click="create()">Tambah User</button>
                 <!--end::Primary button-->
             </div>
             <!--end::Actions-->
@@ -117,7 +117,7 @@
                                 </span>
                             </label>
                             <div class="" wire:ignore>
-                                <select class="form-select @error('departement') is-invalid @enderror" data-control="select2" data-placeholder="Select Student" wire:model="selectedMahasiswa" data-allow-clear="true" onchange="@this.set('selectedMahasiswa', Array.from(this.selectedOptions).map(option => option.value))">
+                                <select class="form-select @error('selectedMahasiswa') is-invalid @enderror" data-control="select2" data-placeholder="Select Student" wire:model="selectedMahasiswa" data-allow-clear="true" onchange="@this.set('selectedMahasiswa', Array.from(this.selectedOptions).map(option => option.value))">
                                     <option></option>
                                     @foreach ($mahasiswas as $mahasiswa)
                                     <option value="{{ $mahasiswa->id }}">{{ $mahasiswa->nama }}</option>
@@ -167,7 +167,7 @@
                         <thead>
                             <tr class="fw-semibold fs-6">
                                 <th>No</th>
-                                <th>Action</th>
+                                <th>Aksi</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
@@ -175,7 +175,7 @@
                         </thead>
                         <tbody>
                             @if (count($data) < 1) <tr>
-                                <td colspan="6" class="text-center">No Data Found</td>
+                                <td colspan="6" class="text-center">Data Tidak Ditemukan!</td>
                                 </tr>
                                 @else
 
@@ -184,7 +184,7 @@
                                 <tr wire:key="user-{{ $user->id }}">
                                     <td>{{ $index + 1 }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
+                                        <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
                                             <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                         <!--begin::Menu-->
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
@@ -195,7 +195,7 @@
                                             <!--end::Menu item-->
                                             <!--begin::Menu item-->
                                             <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $user->id }})">Delete</a>
+                                                <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $user->id }})">Hapus</a>
                                             </div>
                                             @if($user->getRoleNames()->first() === 'dokter')
                                             <div class="menu-item px-3">

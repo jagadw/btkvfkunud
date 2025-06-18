@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('log_books', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('kegiatan');
+            $table->text('kegiatan');
             $table->timestamp('tanggal');
             $table->timestamps();
             $table->softDeletes();

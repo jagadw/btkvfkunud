@@ -46,12 +46,12 @@
                 </div>
 
                 <div class="main m-5">
-                    <div class="table-responsive">
+                    
                         <table id="table-responsive" class="table table-row-bordered gy-5">
                             <thead>
                                 <tr class="fw-semibold fs-6">
                                     <th>No</th>
-                                    {{-- <th>Aksi</th> --}}
+                                    <th>Aksi</th>
                                     <th>Pasien</th>
                                     <th>Operator</th>
                                     <th>Asisten 1</th>
@@ -66,50 +66,56 @@
                                 @forelse ($tindakans as $index => $t)
                                 <tr>
                                     <td>{{ $tindakans->firstItem() + $index }}</td>
-                                    {{-- <td>
-                                    <div class="dropdown">
-                                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                            Aksi
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#" wire:click.prevent="edit({{ $t->id }})" data-bs-toggle="modal" data-bs-target="#tindakanModal">
-                                    Edit
-                                    </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item text-danger" href="#" wire:click.prevent="deleteTindakan({{ $t->id }})" onclick="confirm('Apakah Anda yakin?') || event.stopImmediatePropagation()">
-                                            Hapus
-                                        </a>
-                                    </li>
-                                    </ul>
-                    </div>
-                    </td> --}}
-                    <td>{{ $t->pasien->nama ?? '-' }}</td>
-                    <td>{{ $t->operator->name ?? '-' }}</td>
-                    <td>{{ $t->asisten1->name ?? '-' }}</td>
-                    <td>{{ $t->asisten2->name ?? '-' }}</td>
-                    <td>{{ $t->onLoop->name ?? '-' }}</td>
-                    <td>{{ \Carbon\Carbon::parse($t->tanggal_operasi)->format('d M Y H:i') }}</td>
-                    <td>{{ $t->relealisasi_tindakan }}</td>
-                    <td>{{ $t->kesesuaian }}</td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                                Aksi
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    @if($t->fotoTindakan && $t->fotoTindakan->foto)
+                                                    <button class="dropdown-item" wire:click="showFotoTindakan({{ $t->id }})">
+                                                        Lihat Foto
+                                                    </button>
 
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="10" class="text-center">Data Tidak Ditemukan</td>
-                    </tr>
-                    @endforelse
-                    </tbody>
-                    </table>
+                                                    @else
+                                                    <a class="dropdown-item" href="{{ route('create-fototindakan', ['id' => encrypt($t->id)]) }}" wire:navigate>
+                                                        Tambah Foto
+                                                    </a>
+                                                    @endif
+
+                                                    @if(Auth::user()->roles->pluck('name')->first() == 'operator' || Auth::user()->roles->pluck('name')->first() == 'developer')
+                                                    <button class="dropdown-item text-danger" wire:click="showFotoTindakan({{ $t->id }})">
+                                                        Hapus Foto
+                                                    </button>
+                                                    @endif
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>{{ $t->pasien->nama ?? '-' }}</td>
+                                    <td>{{ $t->operator->name ?? '-' }}</td>
+                                    <td>{{ $t->asisten1->name ?? '-' }}</td>
+                                    <td>{{ $t->asisten2->name ?? '-' }}</td>
+                                    <td>{{ $t->onLoop->name ?? '-' }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($t->tanggal_operasi)->format('d M Y') }}</td>
+                                    <td>{{ $t->relealisasi_tindakan }}</td>
+                                    <td>{{ $t->kesesuaian }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="10" class="text-center">Data Tidak Ditemukan</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
 
                 </div>
-            </div>
 
-            @include('livewire.pages.admin.masterdata.tindakan.modal')
+                @include('livewire.pages.admin.masterdata.tindakan.modal')
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 @push('script')
@@ -178,7 +184,7 @@
     }
     $(function() {
         Livewire.on('show-modal', () => {
-            var modalEl = document.getElementById('mahasiswaModal');
+            var modalEl = document.getElementById('fotoModal');
             var existingModal = bootstrap.Modal.getInstance(modalEl);
             if (existingModal) {
                 existingModal.dispose();
@@ -187,7 +193,7 @@
             myModal.show();
         });
         Livewire.on('hide-modal', () => {
-            var modalEl = document.getElementById('mahasiswaModal');
+            var modalEl = document.getElementById('fotoModal');
             var modal = bootstrap.Modal.getInstance(modalEl);
             if (modal) {
                 modal.hide();
@@ -213,7 +219,7 @@
                 if (result.isConfirmed) {
                     Livewire.dispatch('deleteMahasiswaConfirmed');
                 } else {
-                    Swal.fire("Canceled", "Action Canceled.", "info");
+                    Swal.fire("DiBatalkan", "Aksi DiBatalkan.", "info");
                 }
             });
         });

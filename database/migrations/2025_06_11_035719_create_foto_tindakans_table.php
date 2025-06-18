@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tindakan_id')->references('id')->on('tindakans')->onDelete('cascade');
             $table->string('foto');
-            $table->string('deskripsi')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

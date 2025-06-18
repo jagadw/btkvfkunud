@@ -52,7 +52,7 @@ class LogBook extends Component
     {
         try {
             $this->validate([
-                'user_id' => 'required|exists:users,id',
+                
                 'kegiatan' => 'required|string',
                 'tanggal' => 'required|date',
             ]);
@@ -62,12 +62,12 @@ class LogBook extends Component
         }
 
         LogBookModel::create([
-            'user_id' => $this->user_id,
+            'user_id' => Auth::user()->id,
             'kegiatan' => $this->kegiatan,
             'tanggal' => $this->tanggal,
         ]);
 
-        $this->dispatch('success', 'Logbook entry created successfully.');
+        $this->dispatch('success', 'LogBook Berhasil Di Simpan.');
         $this->closeModal();
     }
 
@@ -108,24 +108,29 @@ class LogBook extends Component
     public function delete($id)
     {
         $this->idToDelete = $id;
-        $this->dispatch('confirm-delete', 'Are you sure you want to delete this logbook entry?');
+        $this->dispatch('confirm-delete', 'Yakin ingin menghapus LogBook Ini?');
     }
 
     public function deleteLogBookConfirmed()
     {
         LogBookModel::destroy($this->idToDelete);
-        $this->dispatch('delete-success', 'Logbook entry deleted successfully.');
+        $this->dispatch('delete-success', 'LogBook berhasil dihapus.');
     }
 
     public function render()
     {
         return view('livewire.pages.admin.masterdata.logbook.index', [
             'logbooks' => LogBookModel::with('user')
-                ->when($this->search, function ($q) {
-                    $q->where('kegiatan', 'like', '%' . $this->search . '%')
-                        ->orWhereHas('user', fn($u) => $u->where('name', 'like', '%' . $this->search . '%'));
+                ->when(Auth::user()->hasRole('dokter'), function ($q) {
+                    $q->where('user_id', Auth::user()->id);
                 })
-                ->paginate(10),
+                ->when($this->search, function ($q) {
+                    $q->where(function ($query) {
+                        $query->where('kegiatan', 'like', '%' . $this->search . '%')
+                            ->orWhereHas('user', fn($u) => $u->where('name', 'like', '%' . $this->search . '%'));
+                    });
+                })
+                ->get(),
             'users' => User::all(),
         ]);
     }

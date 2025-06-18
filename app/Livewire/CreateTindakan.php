@@ -66,25 +66,8 @@ class CreateTindakan extends Component
                     'tipe_jantung' => $this->tipe_jantung,
                 ]);
                 $this->pasien_id = $pasien->id;
-
-                if ($this->diagnosa && $this->tanggal_conference && $this->hasil_conference) {
-                    Conference::create([
-                        'pasien_id' => $pasien->id,
-                        'diagnosa' => $this->diagnosa,
-                        'tanggal_conference' => $this->tanggal_conference,
-                        'hasil_conference' => $this->hasil_conference,
-                    ]);
-                }
             } else {
                 $this->pasien_id = $this->selectedPasien;
-                  if ($this->diagnosa && $this->tanggal_conference && $this->hasil_conference) {
-                    Conference::create([
-                        'pasien_id' => $this->pasien_id,
-                        'diagnosa' => $this->diagnosa,
-                        'tanggal_conference' => $this->tanggal_conference,
-                        'hasil_conference' => $this->hasil_conference,
-                    ]);
-                }
             }
 
             $this->validate([
@@ -98,7 +81,7 @@ class CreateTindakan extends Component
                 'kesesuaian' => 'required|string',
             ]);
 
-            Tindakan::create([
+            $tindakan = Tindakan::create([
                 'pasien_id' => $this->pasien_id,
                 'operator_id' => $this->operator_id,
                 'asisten1_id' => $this->asisten1_id,
@@ -109,8 +92,21 @@ class CreateTindakan extends Component
                 'kesesuaian' => $this->kesesuaian,
             ]);
 
+            $this->tindakan_id = $tindakan->id;
+
+            if ($this->diagnosa && $this->tanggal_conference && $this->hasil_conference) {
+                Conference::create([
+                    'tindakan_id' => $this->tindakan_id,
+                    'pasien_id' => $this->pasien_id,
+                    'diagnosa' => $this->diagnosa,
+                    'tanggal_conference' => $this->tanggal_conference,
+                    'hasil_conference' => $this->hasil_conference,
+                ]);
+            }
+
             $this->dispatch('success', 'Tindakan berhasil disimpan.');
             $this->resetForm();
+            return redirect()->route('tindakan');
         } catch (\Throwable $e) {
             $this->dispatch('error', 'Terjadi kesalahan: ' . $e->getMessage());
             return;

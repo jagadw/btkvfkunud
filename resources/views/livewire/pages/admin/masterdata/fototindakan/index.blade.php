@@ -7,40 +7,47 @@
                 <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Foto Tindakan Management</h1>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <button class="btn btn-sm fw-bold btn-primary" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#fotoTindakanModal">Add Foto Tindakan</button>
+                <button class="btn btn-sm fw-bold btn-primary" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#fotoTindakanModal">Tambah Foto Tindakan</button>
             </div>
         </div>
     </div>
-
-    <div class="table-responsive">
-        <table class="table table-row-bordered gy-5">
-            <thead>
-                <tr class="fw-semibold fs-6">
-                    <th>No</th>
-                    <th>Action</th>
-                    <th>Tindakan</th>
-                    <th>Foto</th>
-                    <th>Deskripsi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($fotoTindakans as $index => $foto)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>
-                        <a wire:click="edit({{ $foto->id }})" class="btn btn-sm btn-light">Edit</a>
-                        <a wire:click="delete({{ $foto->id }})" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                    <td>{{ $foto->tindakan->name }}</td>
-                    <td><img src="{{ asset('storage/'.$foto->foto) }}" width="100"></td>
-                    <td>{{ $foto->deskripsi }}</td>
-                </tr>
-                @empty
-                <tr><td colspan="5" class="text-center">No Data Found!</td></tr>
-                @endforelse
-            </tbody>
-        </table>
-        {{ $fotoTindakans->links() }}
+    <div id="kt_app_content" class="app-content flex-column-fluid">
+        <div id="kt_app_content_container" class="app-container container-xxl">
+            <div class="card p-5">
+                <div class="table-responsive">
+                    <table class="table table-row-bordered gy-5">
+                        <thead>
+                            <tr class="fw-semibold fs-6">
+                                <th>No</th>
+                                <th>Action</th>
+                                <th>Tindakan</th>
+                                <th>Foto</th>
+                                <th>Deskripsi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($fotoTindakans as $index => $foto)
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                <td>
+                                    <a wire:click="edit({{ $foto->id }})" class="btn btn-sm btn-light">Edit</a>
+                                    <a wire:click="delete({{ $foto->id }})" class="btn btn-sm btn-danger">Hapus</a>
+                                </td>
+                                <td>{{ $foto->tindakan->name }}</td>
+                                <td><img src="{{ asset('storage/'.$foto->foto) }}" width="100"></td>
+                                <td>{{ $foto->deskripsi }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-center">Data Tidak Ditemukan!</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                    {{ $fotoTindakans->links() }}
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal Include -->

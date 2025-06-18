@@ -34,7 +34,7 @@
                 {{-- <a href="#" class="btn btn-sm fw-bold btn-secondary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Rollover</a> --}}
                 <!--end::Secondary button-->
                 <!--begin::Primary button-->
-                <button class="btn btn-sm fw-bold btn-primary" wire:click="create()">Add Menu</button>
+                <button class="btn btn-sm fw-bold btn-primary" wire:click="create()">Tambah Menu</button>
                 <!--end::Primary button-->
             </div>
             <!--end::Actions-->
@@ -76,11 +76,11 @@
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
-                                            <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $menu->id }})">Delete</a>
+                                            <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $menu->id }})">Hapus</a>
                                         </div>
     
                                         <div class="menu-item px-3">
-                                            <a class="menu-link px-3 w-100" wire:click="createSubMenu({{ $menu->id }})">Add SubMenu</a>
+                                            <a class="menu-link px-3 w-100" wire:click="createSubMenu({{ $menu->id }})">Tambah SubMenu</a>
                                         </div>
                                 </td>
                                 <td>{{ $menu->name }}</td>
@@ -109,7 +109,7 @@
                                         </div>
     
                                         <div class="menu-item px-3">
-                                            <a class="menu-link px-3 w-100" wire:click="deleteSubMenu({{ $submenu->id }})">Delete</a>
+                                            <a class="menu-link px-3 w-100" wire:click="deleteSubMenu({{ $submenu->id }})">Hapus</a>
                                         </div>
                                 </td>
                                 <td>— {{ $submenu->name }}</td>

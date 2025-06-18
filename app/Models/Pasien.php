@@ -29,18 +29,18 @@ class Pasien extends Model
         return $this->hasMany(Tindakan::class);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::deleting(function ($pasien) {
-            $pasien->conferences()->delete();
-            $pasien->tindakans()->delete();
-        });
+    //     static::deleting(function ($pasien) {
+    //         $pasien->conferences()->delete();
+    //         $pasien->tindakans()->delete();
+    //     });
 
-        static::restoring(function ($pasien) {
-            $pasien->conferences()->restore();
-            $pasien->tindakans()->restore();
-        });
-    }
+    //     static::restoring(function ($pasien) {
+    //         $pasien->conferences()->restore();
+    //         $pasien->tindakans()->restore();
+    //     });
+    // }
 }
