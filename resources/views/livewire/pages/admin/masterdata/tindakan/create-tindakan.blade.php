@@ -46,21 +46,21 @@
                     <div class="card mt-3">
                         <div class="card-header"><strong>Data Pasien Baru</strong></div>
                         <div class="card-body row g-3">
+                            <div class="col-md-3">
+                                <label>No. Rekam Medis</label>
+                                <textarea class="form-control" wire:model="nomor_rekam_medis" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
+                            </div>
                             <div class="col-md-6">
                                 <label>Nama</label>
                                 <textarea class="form-control" wire:model="nama" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
                             </div>
                             <div class="col-md-3">
-                                <label>Usia</label>
-                                <input type="number" class="form-control" wire:model="usia">
-                            </div>
-                            <div class="col-md-3">
-                                <label>No. Rekam Medis</label>
-                                <textarea class="form-control" wire:model="nomor_rekam_medis" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
-                            </div>
-                            <div class="col-md-3">
                                 <label>Tanggal Lahir</label>
                                 <input type="date" class="form-control" wire:model="tanggal_lahir">
+                            </div>
+                            <div class="col-md-3">
+                                <label>Usia</label>
+                                <input type="number" class="form-control" wire:model="usia">
                             </div>
                             <div class="col-md-3">
                                 <label>Jenis Kelamin</label>
@@ -157,6 +157,16 @@
                         <div class="col-md-4">
                             <label>Kesesuaian</label>
                             <textarea class="form-control" wire:model="kesesuaian" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Upload Foto Tindakan</label>
+                            <input type="file" class="dropify form-control @error('foto') is-invalid @enderror"
+                                wire:model="foto" accept="image/jpeg,image/png"
+                                data-height="275" data-allowed-file-extensions="jpg jpeg png"
+                                data-max-file-size="4M" />
+                            @error('foto')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div>
