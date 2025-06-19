@@ -21,7 +21,7 @@
                     <div class="d-flex flex-column col-md-6 mb-8 fv-row">
                         <!--begin::Label-->
                         <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
-                            <span class="required">Name</span>
+                            <span class="required">Username</span>
                             <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
                                 <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                                     <span class="path1"></span>
@@ -32,7 +32,7 @@
                         </label>
                         <!--end::Label-->
                       
-                        <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Enter Name" id="name" autocomplete="off" wire:model="name" />
+                        <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Username" id="name" autocomplete="off" wire:model="name" />
                     </div>
                     <div class="d-flex flex-column col-md-6 mb-8 fv-row">
                         <!--begin::Label-->
@@ -48,7 +48,7 @@
                         </label>
                         <!--end::Label-->
                       
-                        <input type="text" class="form-control form-control-solid @error('email') is-invalid @enderror" placeholder="Enter Position" autocomplete="off" id="position" wire:model="email" />
+                        <input type="text" class="form-control form-control-solid @error('email') is-invalid @enderror" placeholder="Email" autocomplete="off" id="position" wire:model="email" />
                     </div>
                 </div>
                 <!--end::Input group-->
@@ -105,7 +105,7 @@
                     <div class="d-flex flex-column col-md-6 mb-8 fv-row">
                         <!--begin::Label-->
                         <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
-                            <span class="required">Student</span>
+                            <span class="required">Mahasiswa</span>
                             <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
                                 <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                                     <span class="path1"></span>

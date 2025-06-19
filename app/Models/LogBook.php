@@ -19,4 +19,21 @@ class LogBook extends Model
     {
         return $this->belongsTo(User::class)->withTrashed();
     }
+    public function fotoTindakan()
+    {
+        return $this->hasOne(FotoTindakan::class, 'log_book_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($logBook) {
+            $logBook->fotoTindakan()->delete();
+        });
+
+        static::restoring(function ($logBook) {
+            $logBook->fotoTindakan()->restore();
+        });
+    }
 }

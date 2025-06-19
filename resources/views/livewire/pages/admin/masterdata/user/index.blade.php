@@ -1,5 +1,5 @@
 <div class="d-flex flex-column flex-column-fluid">
-    <x-slot:title>User Management</x-slot:title>
+    <x-slot:title>Manajemen User</x-slot:title>
     <!--begin::Toolbar-->
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <!--begin::Toolbar container-->
@@ -7,7 +7,7 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <!--begin::Title-->
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">User Management</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Manajemen User</h1>
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -57,7 +57,7 @@
                     <div class="row g-9 mb-8">
                         <div class="d-flex flex-column col-md-6 mb-8 fv-row">
                             <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
-                                <span class="required">Nama</span>
+                                <span class="required">Username</span>
                                 <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
                                     <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                                         <span class="path1"></span>
@@ -66,7 +66,7 @@
                                     </i>
                                 </span>
                             </label>
-                            <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Enter Name" id="name" autocomplete="off" wire:model="name" />
+                            <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Username" id="name" autocomplete="off" wire:model="name" />
                         </div>
                         <div class="d-flex flex-column col-md-6 mb-8 fv-row">
                             <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
@@ -79,7 +79,7 @@
                                     </i>
                                 </span>
                             </label>
-                            <input type="text" class="form-control form-control-solid @error('email') is-invalid @enderror" placeholder="Enter Email" autocomplete="off" id="position" wire:model="email" />
+                            <input type="text" class="form-control form-control-solid @error('email') is-invalid @enderror" placeholder="Email" autocomplete="off" id="position" wire:model="email" />
                         </div>
                     </div>
                     <div class="row g-9 mb-8">
@@ -96,7 +96,7 @@
                             </label>
                             <div class="">
                                 <select class="form-select @error('role') is-invalid @enderror" data-control="select2" data-placeholder="Select Role" wire:model="selectedRole">
-                                    <option>Select Role</option>
+                                    <option>Pilih Role</option>
                                     @foreach ($roles as $role)
                                     @if ($role->name !== 'developer' || (auth()->user() && auth()->user()->hasRole('developer')))
                                     <option value="{{ $role->name }}">{{ $role->name }}</option>
@@ -107,7 +107,7 @@
                         </div>
                         <div class="d-flex flex-column col-md-6 mb-8 fv-row">
                             <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
-                                <span >Student</span>
+                                <span >Mahasiswa</span>
                                 <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
                                     <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
                                         <span class="path1"></span>
@@ -117,7 +117,7 @@
                                 </span>
                             </label>
                             <div class="" wire:ignore>
-                                <select class="form-select @error('selectedMahasiswa') is-invalid @enderror" data-control="select2" data-placeholder="Select Student" wire:model="selectedMahasiswa" data-allow-clear="true" onchange="@this.set('selectedMahasiswa', Array.from(this.selectedOptions).map(option => option.value))">
+                                <select class="form-select @error('selectedMahasiswa') is-invalid @enderror" data-control="select2" data-placeholder="Pilih Mahasiswa" wire:model="selectedMahasiswa" data-allow-clear="true" onchange="@this.set('selectedMahasiswa', Array.from(this.selectedOptions).map(option => option.value))">
                                     <option></option>
                                     @foreach ($mahasiswas as $mahasiswa)
                                     <option value="{{ $mahasiswa->id }}">{{ $mahasiswa->nama }}</option>
@@ -136,7 +136,7 @@
                                     </i>
                                 </span>
                             </label>
-                            <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Enter Password" autocomplete="off" id="position" wire:model="password" />
+                            <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Passoword" autocomplete="off" id="position" wire:model="password" />
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">

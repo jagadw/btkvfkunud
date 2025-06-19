@@ -34,7 +34,7 @@
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
-                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Search Student" wire:model.live.debounce.100ms="search" />
+                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Cari Nama / NIM" wire:model.live.debounce.100ms="search" />
                     </div>
                 </div>
 
@@ -46,6 +46,7 @@
                                 <tr class="fw-semibold fs-6">
                                     <th>No</th>
                                     <th>Aksi</th>
+                                    <th>NIM</th>
                                     <th>Nama</th>
                                     <th>Inisial Residen</th>
                                     <th>Status</th>
@@ -68,6 +69,7 @@
                                             </div>
                                         </div>
                                     </td>
+                                    <td>{{ $student->nim }}</td>
                                     <td>{{ $student->nama }}</td>
                                     <td>{{ $student->inisial_residen }}</td>
                                     <td>

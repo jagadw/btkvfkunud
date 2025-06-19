@@ -24,10 +24,13 @@ Route::get('/', function () {
         Route::get('/pasien', \App\Livewire\Pasien::class)->name('pasien');
 
         Route::get('/tindakan', \App\Livewire\Tindakan::class)->name('tindakan');
-        Route::get('/add-tindakan', \App\Livewire\CreateTindakan::class)->name('create-tindakan');
+        Route::get('/tindakan/add', \App\Livewire\CreateTindakan::class)->name('create-tindakan');
+        Route::get('/tindakan/edit/{id}', \App\Livewire\CreateTindakan::class)->name('edit-tindakan');
         Route::get('/tindakan/{id}/foto-tindakan', action: CreateFotoTindakan::class)->name('create-fototindakan');
 
         Route::get('/logbook', \App\Livewire\LogBook::class)->name('logbook');
+        Route::get('/logbook/add', \App\Livewire\CreateLogBook::class)->name(name: 'add-logbook');
+
         Route::get('/fototindakan',FotoTindakan::class)->name('fototindakan');
         Route::get('/conference', \App\Livewire\Conference::class)->name('conference');
         Route::get('/test', MenuManagement::class)->name('test');

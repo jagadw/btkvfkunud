@@ -30,9 +30,9 @@
                 {{-- PASIEN --}}
                 <div class="mb-4">
                     <div class="row g-3">
-                        <div class="col-md-6" wire:ignore>
+                        <div class="col-md-6" >
                             <label>Nama Pasien</label>
-                            <select class="form-select" wire:model="selectedPasien" data-control="select2" onchange="@this.set('selectedPasien', this.value)">
+                            <select class="form-select" wire:model="selectedPasien" data-control="select2" disabled onchange="@this.set('selectedPasien', this.value)">
                                 <option value="">-- Cari Pasien --</option>
                                 <option value="manual">+ Tambah Pasien Baru</option>
                                 @foreach($pasiens as $pasien)
@@ -88,7 +88,7 @@
                     <button class="btn btn-secondary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseConference">
                         Tambah Data Conference (Opsional)
                     </button>
-                    <div class="collapse" id="collapseConference" wire:ignore>
+                    <div class="collapse" id="collapseConference" >
                         <div class="row g-3">
                             <div class="col-md-4">
                                 <label>Diagnosa</label>
@@ -110,36 +110,36 @@
                 <div class="mb-4">
                     <h4 class="fw-bold">Data Tindakan</h4>
                     <div class="row g-3">
-                        <div class="col-md-4" wire:ignore>
+                        <div class="col-md-4" >
                             <label>Operator</label>
-                            <select class="form-select" data-control="select2" onchange="@this.set('operator_id',this.value)" wire:model="operator_id">
+                            <select class="form-select" data-control="select2" disabled onchange="@this.set('operator_id',this.value)" wire:model="operator_id">
                                 <option value="">Pilih Operator</option>
                                 @foreach($dokters as $dokter)
                                 <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' .   $dokter->mahasiswa->inisial_residen }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-4" wire:ignore>
+                        <div class="col-md-4" >
                             <label>Asisten 1</label>
-                            <select class="form-select" data-control="select2" onchange="@this.set('asisten1_id', this.value)" wire:model="asisten1_id">
+                            <select class="form-select" data-control="select2" disabled onchange="@this.set('asisten1_id', this.value)" wire:model="asisten1_id">
                                 <option value="">Pilih Asisten 1</option>
                                 @foreach($dokters as $dokter)
                                 <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' .   $dokter->mahasiswa->inisial_residen }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-4" wire:ignore>
+                        <div class="col-md-4" >
                             <label>Asisten 2</label>
-                            <select class="form-select" data-control="select2" onchange="@this.set('asisten2_id', this.value)" wire:model="asisten2_id">
+                            <select class="form-select" data-control="select2" disabled onchange="@this.set('asisten2_id', this.value)" wire:model="asisten2_id">
                                 <option value="">Pilih Asisten 2</option>
                                 @foreach($dokters as $dokter)
                                 <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' .   $dokter->mahasiswa->inisial_residen }}</option>
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-md-4" wire:ignore>
+                        <div class="col-md-4" >
                             <label>On Loop</label>
-                            <select class="form-select" data-control="select2" onchange="@this.set('on_loop_id', this.value)" wire:model="on_loop_id">
+                            <select class="form-select" data-control="select2" disabled onchange="@this.set('on_loop_id', this.value)" wire:model="on_loop_id">
                                 <option value="">Pilih On Loop</option>
                                 @foreach($dokters as $dokter)
                                 <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' .   $dokter->mahasiswa->inisial_residen }}</option>
@@ -149,6 +149,7 @@
                         <div class="col-md-4">
                             <label>Tanggal Operasi</label>
                             <input type="date" class="form-control" wire:model="tanggal_operasi">
+                        
                         </div>
                         <div class="col-md-4">
                             <label>Realisasi Tindakan</label>
@@ -170,7 +171,7 @@
 
                 <div class="d-flex justify-content-end">
                     <button class="btn btn-light me-2" wire:click="resetForm">Batal</button>
-                    <button class="btn btn-primary" wire:click="store">{{ $idTindakan ? 'Update' : 'Simpan' }}</button>
+                    <button class="btn btn-primary" wire:click="update">{{ $idTindakan ? 'Update' : 'Simpan' }}</button>
                 </div>
             </div>
         </div>

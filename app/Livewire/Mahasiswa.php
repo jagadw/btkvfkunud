@@ -15,7 +15,7 @@ class Mahasiswa extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $mahasiswaId, $nama, $inisial_residen,  $status, $idToDelete, $search = '';
+    public $mahasiswaId, $nim, $nama, $inisial_residen,  $status, $idToDelete, $search = '';
     protected $listeners = ['deleteMahasiswaConfirmed'];
 
     public function mount()
@@ -42,7 +42,7 @@ class Mahasiswa extends Component
 
     public function resetForm()
     {
-        $this->reset(['mahasiswaId', 'nama', 'inisial_residen', 'status']);
+        $this->reset(['mahasiswaId', 'nim', 'nama', 'inisial_residen', 'status']);
     }
 
     public function create()
@@ -54,6 +54,7 @@ class Mahasiswa extends Component
     {
         try {
             $this->validate([
+                'nim' => 'required|string',
                 'nama' => 'required|string',
                 'inisial_residen' => 'required|string',
             ]);
@@ -63,6 +64,7 @@ class Mahasiswa extends Component
         }
 
         MahasiswaModel::create([
+            'nim' => $this->nim,
             'nama' => $this->nama,
             'inisial_residen' => $this->inisial_residen,
             'status' => 'aktif',
@@ -76,6 +78,7 @@ class Mahasiswa extends Component
     {
         $data = MahasiswaModel::findOrFail($id);
         $this->mahasiswaId = $data->id;
+        $this->nim = $data->nim;
         $this->nama = $data->nama;
         $this->inisial_residen = $data->inisial_residen;
         $this->status = $data->status;
@@ -86,6 +89,7 @@ class Mahasiswa extends Component
     {
         try {
             $this->validate([
+                'nim' => 'required|string', 
                 'nama' => 'required|string',
                 'inisial_residen' => 'required|string',
                 'status' => 'in:aktif,nonaktif',
@@ -97,6 +101,7 @@ class Mahasiswa extends Component
 
         $mahasiswa = MahasiswaModel::findOrFail($this->mahasiswaId);
         $mahasiswa->update([
+            'nim' => $this->nim,
             'nama' => $this->nama,
             'inisial_residen' => $this->inisial_residen,
             'status' => $this->status,
@@ -123,8 +128,8 @@ class Mahasiswa extends Component
         // }
         // Hapus data mahasiswa
         $mahasiswaData->delete();
-      
-       
+
+
         $this->dispatch('delete-success', 'Mahasiswa Berhasil di Non Aktifkan!.');
     }
 
@@ -135,9 +140,12 @@ class Mahasiswa extends Component
                 ->when($this->search, function ($q) {
                     $q->where('nama', 'like', '%' . $this->search . '%')
                         ->orWhere('inisial_residen', 'like', '%' . $this->search . '%')
+                        ->orWhere('nim', 'like', '%' . $this->search . '%')
                         ->orWhereHas('user', function ($u) {
                             $u->where('name', 'like', '%' . $this->search . '%');
-                        });
+                        })
+                      
+                        ;
                 })
                 ->paginate(10),
             'users' => User::all(),

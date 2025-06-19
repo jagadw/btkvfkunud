@@ -14,16 +14,27 @@ class Pasien extends Component
 
     public $idToDelete, $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung;
     public $pasien_id, $isEdit = false, $search = '';
-    protected $listeners = ['deletePasienConfirmed'];
+    protected $listeners = ['deletePasienConfirmed','updateUsia'];
     protected $rules = [
         'nama' => 'required|string',
-        'usia' => 'required|integer',
+        'usia' => 'required|string',
         'nomor_rekam_medis' => 'required|string|unique:pasiens,nomor_rekam_medis',
         'tanggal_lahir' => 'required|date',
         'jenis_kelamin' => 'required|string',
         'tipe_jantung' => 'required|string',
     ];
 
+    public function updateUsia()
+    {
+        if ($this->tanggal_lahir) {
+            $birthDate = \Carbon\Carbon::parse($this->tanggal_lahir);
+            $now = now();
+            $diff = $birthDate->diff($now);
+            $this->usia = "{$diff->y} tahun {$diff->m} bulan {$diff->d} hari";
+        } else {
+            $this->usia = null;
+        }
+    }
 
     public function render()
     {
@@ -85,11 +96,11 @@ class Pasien extends Component
         $this->showModal();
     }
 
-    public function updatePasien()
+    public function update()
     {
         $this->validate([
             'nama' => 'required|string',
-            'usia' => 'required|integer',
+            'usia' => 'required|string',
             'nomor_rekam_medis' => 'required|string|unique:pasiens,nomor_rekam_medis,' . $this->pasien_id,
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|string',

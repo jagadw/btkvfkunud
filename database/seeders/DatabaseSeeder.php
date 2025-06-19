@@ -105,23 +105,30 @@ class DatabaseSeeder extends Seeder
         // Create a developer user
 
         $developerUser = User::factory()->create([
-            'name' => 'developer',
-            'email' => 'dev@me',
+            'name' => 'Harrys',
+            'email' => 'harrysputra46@gmail.com',
             'password' => bcrypt('guarajadisini')
         ]);
         $developerUser->assignRole('developer');
 
         $admin =  User::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-            'password' => bcrypt('adminbtkv')
+            'name' => 'Resident BTKV',
+            'email' => 'residenbtkv.udayana@gmail.com',
+            'password' => bcrypt('banjarbtkv')
         ]);
         $admin->assignRole('admin');
 
         $operator = User::factory()->create([
-            'name' => 'operator',
-            'email' => 'operator@gmail.com',
-            'password' => bcrypt('operatorbtkv')
+            'name' => 'Gede Juliarta',
+            'email' => 'gdejuliaarta@gmail.com',
+            'password' => bcrypt('Acmilan22!')
+        ]);
+        $operator->assignRole('operator');
+
+        $operator = User::factory()->create([
+            'name' => 'Bhaskara Satria',
+            'email' => 'bhaskara.satria78@gmail.com',
+            'password' => bcrypt('btkvoperator2!')
         ]);
         $operator->assignRole('operator');
         
@@ -219,35 +226,56 @@ class DatabaseSeeder extends Seeder
         ]);
         
         // Create Mahasiswa
-        Mahasiswa::create([
-            'nama' => 'Andi Pratama',
-            'inisial_residen' => 'AP',
-            'user_id' => null,
-            'status' => 'aktif',
-        ]);
-        Mahasiswa::create([
-            'nama' => 'Budi Santoso',
-            'inisial_residen' => 'BS',
-            'user_id' => null,
-            'status' => 'aktif',
-        ]);
-        Mahasiswa::create([
-            'nama' => 'Citra Dewi',
-            'inisial_residen' => 'CD',
-            'user_id' => null,
-            'status' => 'aktif',
-        ]);
-        Mahasiswa::create([
-            'nama' => 'Dewi Lestari',
-            'inisial_residen' => 'DL',
-            'user_id' => null,
-            'status' => 'aktif',
-        ]);
-        Mahasiswa::create([
-            'nama' => 'Eko Wijaya',
-            'inisial_residen' => 'EW',
-            'user_id' => null,
-            'status' => 'aktif',
-        ]);
+ 
+        $mahasiswas = [
+            [
+                'nama' => 'Andi Pratama',
+                'inisial_residen' => 'AP',
+                'nim' => '24993929',
+                'email' => 'andi.pratama@gmail.com',
+            ],
+            [
+                'nama' => 'Budi Santoso',
+                'inisial_residen' => 'BS',
+                'nim' => '24993930',
+                'email' => 'budi.santoso@gmail.com',
+            ],
+            [
+                'nama' => 'Citra Dewi',
+                'inisial_residen' => 'CD',
+                'nim' => '24993931',
+                'email' => 'citra.dewi@gmail.com',
+            ],
+            [
+                'nama' => 'Dewi Lestari',
+                'inisial_residen' => 'DL',
+                'nim' => '24993932',
+                'email' => 'dewi.lestari@gmail.com',
+            ],
+            [
+                'nama' => 'Eko Wijaya',
+                'inisial_residen' => 'EW',
+                'nim' => '24993933',
+                'email' => 'eko.wijaya@gmail.com',
+            ],
+        ];
+
+        foreach ($mahasiswas as $mhs) {
+            $user = User::create([
+                'name' => $mhs['nama'],
+                'email' => $mhs['email'],
+                'password' => bcrypt('dokterbtkv'), 
+            ]);
+            $user->assignRole('dokter');
+
+            Mahasiswa::create([
+                'nama' => $mhs['nama'],
+                'inisial_residen' => $mhs['inisial_residen'],
+                'nim' => $mhs['nim'],
+                'user_id' => $user->id,
+                'status' => 'aktif',
+            ]);
+        }
+
     }
 }

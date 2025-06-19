@@ -10,6 +10,7 @@ class Mahasiswa extends Model
     use SoftDeletes;
     protected $fillable = [
         'nama',
+        'nim',
         'inisial_residen',
         'user_id',
     ];

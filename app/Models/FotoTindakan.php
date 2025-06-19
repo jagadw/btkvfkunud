@@ -9,12 +9,12 @@ class FotoTindakan extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'tindakan_id',
+        'log_book_id',
         'foto',
         'keterangan',
     ];
-    public function tindakan()
+    public function logBook()
     {
-        return $this->belongsTo(Tindakan::class);
+        return $this->belongsTo(LogBook::class);
     }
 }

@@ -40,10 +40,10 @@ class Tindakan extends Model
         return $this->belongsTo(User::class, 'on_loop_id','id')->withTrashed();
     }
 
-    public function fotoTindakan()
-    {
-        return $this->hasOne(FotoTindakan::class);
-    }
+    // public function fotoTindakan()
+    // {
+    //     return $this->hasOne(FotoTindakan::class);
+    // }
 
     public function conference()
     {
@@ -54,12 +54,12 @@ class Tindakan extends Model
     {
         parent::boot();
 
-        static::deleting(function ($tindakan) {
-            $tindakan->fotoTindakan()->delete();
+        static::deleting(function($tindakan){
+            $tindakan->conference()->delete();
         });
 
         static::restoring(function ($tindakan) {
-            $tindakan->fotoTindakan()->restore();
+            $tindakan->conference()->restore();
         });
     }
 }

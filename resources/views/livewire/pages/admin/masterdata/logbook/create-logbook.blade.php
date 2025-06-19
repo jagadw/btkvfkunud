@@ -1,11 +1,11 @@
 <div class="d-flex flex-column flex-column-fluid">
-    <x-slot:title>Manajemen LogBook</x-slot:title>
+    <x-slot:title>Tambah LogBook</x-slot:title>
 
     <!--begin::Toolbar-->
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Manajemen LogBook</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Tambah LogBook</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
@@ -17,7 +17,7 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <button class="btn btn-sm fw-bold btn-primary" href="{{ route('add-logbook') }}" wire:navigate>Tambah Logbook</button>
+                {{-- <button class="btn btn-sm fw-bold btn-primary" wire:click="create">Tambah Logbook</button> --}}
             </div>
         </div>
     </div>
@@ -25,78 +25,57 @@
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5" style="min-height: 500px">
-                <!-- Search -->
-                <div class="mb-5">
-                    <div class="d-flex align-items-center position-relative my-1">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5"></i>
-                        <input type="text" class="form-control form-control-solid w-250px ps-12" placeholder="Cari Kegiatan LogBook" wire:model.live.debounce.100ms="search" />
+            <div class="card m-5">
+                <div class="row g-9 mb-8">
+                    <div class="col-md-6">
+                        <div wire:ignore>
+                            <label class="required form-label">Mahasiswa</label>
+                            <select class="form-select" data-control="select2" onchange="@this.set('selectedMahasiswa',this.value)" wire:model="selectedMahasiswa" data-place-holder="Pilih Mahasiswa">
+                                @foreach($users as $dokter)
+                                <option></option>
+                                <option value="{{ $dokter->id }}">
+                                   {{ $dokter->email }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="required form-label">Tanggal</label>
+                        <input type="date" class="form-control" wire:model="tanggal">
+                    </div>
+                    <div class="col-md-12">
+                        <label class="required form-label">Aktivitas</label>
+                        <textarea class="form-control" wire:model="kegiatan" placeholder="Kegiatan" rows="1" style="resize:vertical; min-height:100px; overflow:auto;"></textarea>
+                    </div>
+                    <div class="col-md-12 mb-2" data-box="fotoTindakan" wire:ignore>
+                        <label for="">Foto Kegiatan</label>
+                        <input type="file" id="fotoInput" class="dropify form-control form-control-solid @error('foto') is-invalid @enderror" wire:model="foto" accept="image/jpeg,image/png" data-height="275" data-allowed-file-extensions="jpg jpeg png" data-max-file-size="4M" />
+                        @error('foto')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
-
-                <!-- Table -->
-                <div class="table-responsive">
-                    <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
-                        <thead>
-                            <tr class="fw-semibold fs-6">
-                                <th>No</th>
-                                <th>Aksi</th>
-                                <th>Nama</th>
-                                <th>Aktivitas</th>
-                                <th>Tanggal</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($logbooks as $index => $logbook)
-                            <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>
-                                    <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
-                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
-                                    </a>
-                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                        <div class="menu-item px-3">
-                                            <a wire:click="edit({{ $logbook->id }})" class="menu-link px-3 w-100">Edit</a>
-                                            <a wire:click="showFoto({{ $logbook->id }})" class="menu-link px-3 w-100">Lihat Foto</a>
-                                        </div>
-                                        <div class="menu-item px-3">
-                                            @if (Auth::user()->roles->pluck('name')->first() == 'operator'|| Auth::user()->roles->pluck('name')->first() == 'developer')
-                                            <a href="#" class="menu-link px-3 w-100 text-danger" wire:click="delete({{ $logbook->id }})">Hapus</a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>{{ $logbook->user->name }}</td>
-                                <td>{{ $logbook->kegiatan }}</td>
-                                <td>{{ \Carbon\Carbon::parse($logbook->tanggal)->translatedFormat('d F Y') }}</td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center">Data Tidak Ditemukan!</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                    {{-- <div class="mt-4 d-flex justify-content-center">
-                        {{ $logbooks->onEachSide(1)->links() }}
-                </div> --}}
             </div>
-
-            <!-- Modal Include -->
-            @include('livewire.pages.admin.masterdata.logbook.modal')
-            @include('livewire.pages.admin.masterdata.logbook.modal-foto')
-
         </div>
     </div>
-</div>
 </div>
 @push('script')
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugin/dropify/dropify.min.js') }}"></script>
 <script>
-
+    $(document).ready(function() {
+        $('.dropify').dropify({
+            messages: {
+                'default': 'Drag and drop a file here or click'
+                , 'replace': 'Drag and drop or click to replace'
+                , 'remove': 'Remove'
+                , 'error': 'Ooops, something wrong appended.'
+            }
+        });
+    });
     $(function() {
-      
+
         Livewire.on('show-modal', () => {
             // Pastikan fotoModal tidak sedang terbuka
             var fotoModalEl = document.getElementById('fotoModal');

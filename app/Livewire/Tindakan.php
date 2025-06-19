@@ -17,8 +17,9 @@ class Tindakan extends Component
 {
     use WithPagination;
 
-    public $selectedPasien, $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung, $diagnosa, $tanggal_conference, $hasil_conference, $pasien_id, $operator_id, $asisten1_id, $asisten2_id, $on_loop_id, $tanggal_operasi, $relealisasi_tindakan, $kesesuaian, $tindakan_id, $waktu_operasi, $isTambahFoto = false, $fotoPaths;
+    public $idToDelete, $selectedPasien, $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung, $diagnosa, $tanggal_conference, $hasil_conference, $pasien_id, $operator_id, $asisten1_id, $asisten2_id, $on_loop_id, $tanggal_operasi, $relealisasi_tindakan, $kesesuaian, $tindakan_id, $waktu_operasi, $isTambahFoto = false, $fotoPaths;
 
+    protected $listeners = ['deleteTindakanConfirmed'];
     // Foto Tindakan
     public  $fotoTindakanId, $foto, $deskripsi;
     public $isEdit = false;
@@ -30,16 +31,16 @@ class Tindakan extends Component
         abort_unless($userPermissions->contains('masterdata-tindakan'), 403);
     }
 
-    public $fotoPreview = '';
+    // public $fotoPreview = '';
 
-    public function tambahFoto($id)
-    {
-        $this->tindakan_id = $id;
-        $this->isTambahFoto = true;
-        $this->foto = null;
-        $this->fotoPreview = null;
-        return route('create-fototindakan', ['id' => $this->tindakan_id]);
-    }
+    // public function tambahFoto($id)
+    // {
+    //     $this->tindakan_id = $id;
+    //     $this->isTambahFoto = true;
+    //     $this->foto = null;
+    //     $this->fotoPreview = null;
+    //     return route('create-fototindakan', ['id' => $this->tindakan_id]);
+    // }
 
     public function showModal()
     {
@@ -49,13 +50,13 @@ class Tindakan extends Component
     {
         $this->dispatch('close-modal');
     }
-    public function showFotoTindakan($id)
-    {
+    // public function showFotoTindakan($id)
+    // {
 
-        $this->fotoTindakanId = $id;
-        $this->showModal();
-        $this->fotoPreview = FotoTindakan::where('tindakan_id', $id)->firstOrFail();
-    }
+    //     $this->fotoTindakanId = $id;
+    //     $this->showModal();
+    //     $this->fotoPreview = FotoTindakan::where('tindakan_id', $id)->firstOrFail();
+    // }
 
     // public function deleteFoto()
     // {
@@ -109,7 +110,8 @@ class Tindakan extends Component
                 })
                 ->when($this->search, function ($query) {
                     $query->whereHas('pasien', function ($q) {
-                        $q->where('nama', 'like', '%' . $this->search . '%');
+                        $q->where('nama', 'like', '%' . $this->search . '%')
+                            ->orWhere('nomor_rekam_medis', 'like', '%' . $this->search . '%');
                     });
                 })
                 ->latest()
@@ -218,55 +220,18 @@ class Tindakan extends Component
         }
     }
 
-    public function edit($id)
+
+    public function delete($id)
     {
-        $data = TindakanModel::findOrFail($id);
-        $this->fill($data->only([
-            'pasien_id',
-            'operator_id',
-            'asisten1_id',
-            'asisten2_id',
-            'on_loop_id',
-            'tanggal_operasi',
-            'relealisasi_tindakan',
-            'kesesuaian'
-        ]));
-        $this->selectedPasien = $data->pasien_id;
-        $this->tindakan_id = $id;
-        $this->isEdit = true;
+        $this->idToDelete = $id;
+        $this->dispatch('confirm-delete', 'Yakin ingin menghapus tindakan ini?');
     }
 
-    public function update()
+    public function deleteTindakanConfirmed()
     {
-        $this->validate([
-            'pasien_id' => 'required|exists:pasiens,id',
-            'operator_id' => 'required|exists:users,id',
-            'asisten1_id' => 'required|exists:users,id',
-            'asisten2_id' => 'required|exists:users,id',
-            'on_loop_id' => 'required|exists:users,id',
-            'tanggal_operasi' => 'required|date',
-            'relealisasi_tindakan' => 'required|string',
-            'kesesuaian' => 'required|string',
-        ]);
-
-        TindakanModel::where('id', $this->tindakan_id)->update([
-            'pasien_id' => $this->pasien_id,
-            'operator_id' => $this->operator_id,
-            'asisten1_id' => $this->asisten1_id,
-            'asisten2_id' => $this->asisten2_id,
-            'on_loop_id' => $this->on_loop_id,
-            'tanggal_operasi' => $this->tanggal_operasi,
-            'relealisasi_tindakan' => $this->relealisasi_tindakan,
-            'kesesuaian' => $this->kesesuaian,
-        ]);
-
-        $this->dispatch('success', 'Tindakan berhasil diperbarui.');
-        $this->resetForm();
-    }
-
-    public function deleteTindakan($id)
-    {
-        TindakanModel::findOrFail($id)->delete();
+        $deleteTindakan = TindakanModel::findOrFail($this->idToDelete);
+        $deleteTindakan->delete();
+        
         $this->dispatch('delete-success', 'Tindakan berhasil dihapus.');
     }
 }

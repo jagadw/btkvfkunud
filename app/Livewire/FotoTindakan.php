@@ -60,7 +60,7 @@ class FotoTindakan extends Component
         } catch (\Illuminate\Validation\ValidationException $e) {
             $this->dispatch('error', collect($e->errors())->flatten()->first());
             return;
-        }
+        }   
 
         $fotoPath = $this->foto->store('foto_tindakans', 'public');
 

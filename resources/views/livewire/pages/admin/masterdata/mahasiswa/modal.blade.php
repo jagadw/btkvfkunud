@@ -10,11 +10,16 @@
 
             <div class="modal-body">
                 <div class="row g-9 mb-8">
-                    <div class="col-md-12">
+                    <div class="col-md-4">
+                        <label class="required form-label">NIM</label>
+                        <textarea class="form-control form-control-solid @error('nim') is-invalid @enderror" wire:model="nim" placeholder="Nama" style="resize: vertical; min-height: 38px; overflow-y: auto; word-break: break-word;"></textarea>
+                    </div>
+                    <div class="col-md-4">
                         <label class="required form-label">Nama</label>
                         <textarea class="form-control form-control-solid @error('nama') is-invalid @enderror" wire:model="nama" placeholder="Nama" style="resize: vertical; min-height: 38px; overflow-y: auto; word-break: break-word;"></textarea>
                     </div>
-                    <div class="col-md-12">
+                   
+                    <div class="col-md-4">
                         <label class="required form-label">Inisial Residen</label>
                         <input type="text" class="form-control form-control-solid @error('inisial_residen') is-invalid @enderror" wire:model="inisial_residen" placeholder="Inisial Residen">
                     </div>

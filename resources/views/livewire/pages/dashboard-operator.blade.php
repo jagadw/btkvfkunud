@@ -17,13 +17,13 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl" style="min-height: 100vh">
             <div class="row g-5 g-xl-10 mb-5 mb-xl-10">
-                <div class="col-xl-6">
+                <div class="col-xl-3">
                     <!--begin::Card widget 3-->
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100" style="background-color: #F1416C;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
+                    <div class="bg-danger card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100" style="background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
                         <!--begin::Header-->
                         <div class="card-header pt-5 mb-3">
                             <!--begin::Icon-->
-                            <div class="d-flex flex-center rounded-circle h-80px w-80px" style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #F1416C">
+                            <div class="d-flex flex-center rounded-circle h-80px w-80px" style="border: 1px dashed rgba(255, 255, 255, 0.4);">
                                 <i class="ki-duotone ki-user text-white fs-2qx lh-0"></i>
                             </div>
                             <!--end::Icon-->
@@ -50,13 +50,13 @@
                     </div>
                     <!--end::Card widget 3-->
                 </div>
-                <div class="col-xl-6">
+                <div class="col-xl-3">
                     <!--begin::Card widget 3-->
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100" style="background-color: #F1416C;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
+                    <div class="bg-success card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100" style="background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
                         <!--begin::Header-->
                         <div class="card-header pt-5 mb-3">
                             <!--begin::Icon-->
-                            <div class="d-flex flex-center rounded-circle h-80px w-80px" style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #F1416C">
+                            <div class="d-flex flex-center rounded-circle h-80px w-80px" style="border: 1px dashed rgba(255, 255, 255, 0.4);">
                                 <i class="ki-duotone ki-user text-white fs-2qx lh-0"></i>
                             </div>
                             <!--end::Icon-->
@@ -83,13 +83,13 @@
                     </div>
                     <!--end::Card widget 3-->
                 </div>
-                <div class="col-xl-6">
+                <div class="col-xl-3">
                     <!--begin::Card widget 3-->
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100" style="background-color: #F1416C;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
+                    <div class="bg-primary card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100" style="background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
                         <!--begin::Header-->
                         <div class="card-header pt-5 mb-3">
                             <!--begin::Icon-->
-                            <div class="d-flex flex-center rounded-circle h-80px w-80px" style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #F1416C">
+                            <div class="d-flex flex-center rounded-circle h-80px w-80px" style="border: 1px dashed rgba(255, 255, 255, 0.4);">
                                 <i class="ki-duotone ki-user text-white fs-2qx lh-0"></i>
                             </div>
                             <!--end::Icon-->
@@ -116,13 +116,13 @@
                     </div>
                     <!--end::Card widget 3-->
                 </div>
-                <div class="col-xl-6">
+                <div class="col-xl-3">
                     <!--begin::Card widget 3-->
-                    <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100" style="background-color: #F1416C;background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
+                    <div class="bg-info card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end h-xl-100" style="background-image:url('assets/media/svg/shapes/wave-bg-red.svg')">
                         <!--begin::Header-->
                         <div class="card-header pt-5 mb-3">
                             <!--begin::Icon-->
-                            <div class="d-flex flex-center rounded-circle h-80px w-80px" style="border: 1px dashed rgba(255, 255, 255, 0.4);background-color: #F1416C">
+                            <div class="d-flex flex-center rounded-circle h-80px w-80px" style="border: 1px dashed rgba(255, 255, 255, 0.4);">
                                 <i class="ki-duotone ki-user text-white fs-2qx lh-0"></i>
                             </div>
                             <!--end::Icon-->

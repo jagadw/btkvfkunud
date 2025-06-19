@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('foto_tindakans', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tindakan_id')->references('id')->on('tindakans')->onDelete('cascade');
+            $table->unsignedBigInteger('log_book_id')->references('id')->on('logbooks')->onDelete('cascade');
             $table->string('foto');
             $table->text('deskripsi')->nullable();
             $table->timestamps();

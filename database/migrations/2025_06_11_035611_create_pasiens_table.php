@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('pasiens', function (Blueprint $table) {
             $table->id();
             $table->text('nama');
-            $table->integer('usia');
+            $table->string('usia');
             $table->string('nomor_rekam_medis')->unique();
             $table->date('tanggal_lahir');
             $table->text('jenis_kelamin');

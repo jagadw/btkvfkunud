@@ -8,8 +8,10 @@ $menus = Menu::with('submenus')->get();
     <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
         <a href="{{ route('dashboard') }}">
             <div class="d-flex app-sidebar-logo-default align-items-center">
-                <img alt="Logo" src="{{ asset('assets/media/logos/android-chrome-192x192.png') }}" class="h-25px app-sidebar-logo-default" />
-            <p class="app-sidebar-logo-default text-white fw-bold fs-2"></p>
+                <div class="d-flex align-items-center">
+                    <img alt="Logo" src="{{ asset('assets/media/logos/android-chrome-192x192.png') }}" class="h-25px app-sidebar-logo-default me-2" />
+                    <p class="app-sidebar-logo-default text-white fw-bold fs-2 mb-0">BTKV SYSTEM</p>
+                </div>
             </div>
             <img alt="Logo" src="{{ asset('assets/media/logos/android-chrome-192x192.png') }}" class="h-20px app-sidebar-logo-minimize" />
         </a>
@@ -30,16 +32,21 @@ $menus = Menu::with('submenus')->get();
                     @php
                     // Filter submenus based on the user's permissions through roles
                     $filteredSubmenus = $menu->submenus->filter(function ($submenu) {
-                        $userPermissions = auth()->user()->roles->flatMap(function ($role) {
-                            return $role->permissions->pluck('id');
-                        });
-                        return $userPermissions->contains($submenu->permission_id);
+                    $userPermissions = auth()->user()->roles->flatMap(function ($role) {
+                    return $role->permissions->pluck('id');
+                    });
+                    return $userPermissions->contains($submenu->permission_id);
                     });
 
                     // Tambahkan pengecekan khusus untuk route tindakan dan create-tindakan
                     $submenuRoutes = $filteredSubmenus->pluck('route')->toArray();
-                    if (in_array('tindakan', $submenuRoutes) && !in_array('create-tindakan', $submenuRoutes)) {
-                        $submenuRoutes[] = 'create-tindakan';
+                    if (in_array('tindakan', $submenuRoutes)) {
+                    if (!in_array('create-tindakan', $submenuRoutes)) {
+                    $submenuRoutes[] = 'create-tindakan';
+                    }
+                    if (!in_array('edit-tindakan', $submenuRoutes)) {
+                    $submenuRoutes[] = 'edit-tindakan';
+                    }
                     }
                     @endphp
 
@@ -74,5 +81,5 @@ $menus = Menu::with('submenus')->get();
             </div>
         </div>
     </div>
-   
+
 </div>

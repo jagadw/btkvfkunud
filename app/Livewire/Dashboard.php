@@ -66,7 +66,7 @@ class Dashboard extends Component
             $JumlahTindakan = Tindakan::count();
 
             return view('livewire.pages.dashboard-admin', compact('JumlahPasien', 'JumlahDokter', 'JumlahTindakan'));
-        } elseif ($this->userRole === 'operator') {
+        } elseif ($this->userRole === 'operator' || $this->userRole === 'developer') {
             $JumlahUser = User::count();
             $JumlahDokter = Mahasiswa::count();
             $JumlahPasien = Pasien::count();

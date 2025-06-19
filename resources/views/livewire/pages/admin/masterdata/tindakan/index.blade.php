@@ -25,18 +25,18 @@
             <div class="card p-5">
                 <div class="row mb-5 align-items-center">
                     <div class="col-md-auto mb-2 mb-md-0">
-                        <label class="mb-1">Cari Nama Pasien</label>
+                        <label class="mb-1">Cari Pasien</label>
                         <div class="d-flex align-items-center position-relative my-1">
                             <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
-                            <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Cari Nama Pasien" wire:model.live.debounce.100ms="search" />
+                            <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Cari Nama / No Rekam Medis" wire:model.live.debounce.100ms="search" />
                         </div>
                     </div>
                     <div class="col-md-auto mb-2 mb-md-0">
                         <label class="mb-1">Waktu Operasi</label>
-                        <input type="month" id="waktu_operasi" class="form-control" wire:model="waktu_operasi" onchange="@this.set('waktu_operasi', this.value)">
+                        <input type="month" id="tanggal_operasi" class="form-control" wire:model="tanggal_operasi" onchange="@this.set('tanggal_operasi', this.value)">
                     </div>
                     <div class="col-md-auto mb-2 mb-md-0 d-flex align-items-center gap-2">
                         <button class="btn btn-sm fw-bold btn-danger" onclick="exportToPDF()">Export To PDF</button>
@@ -52,6 +52,7 @@
                                 <tr class="fw-semibold fs-6">
                                     <th>No</th>
                                     <th>Aksi</th>
+                                    <th>No Rekam Medis</th>
                                     <th>Pasien</th>
                                     <th>Operator</th>
                                     <th>Asisten 1</th>
@@ -73,7 +74,14 @@
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li>
-                                                    @if($t->fotoTindakan && $t->fotoTindakan->foto)
+                                                    <a class="dropdown-item" href="{{ route('edit-tindakan', ['id' => encrypt($t->id)]) }}">
+                                                        Edit
+                                                    </a>
+                                                    
+                                                     <button class="dropdown-item text-danger" wire:click="delete({{ $t->id }})" wire:navigate>
+                                                        Hapus
+                                                    </button>
+                                                    {{-- @if($t->fotoTindakan && $t->fotoTindakan->foto)
                                                     <button class="dropdown-item" wire:click="showFotoTindakan({{ $t->id }})">
                                                         Lihat Foto
                                                     </button>
@@ -82,17 +90,18 @@
                                                     <a class="dropdown-item" href="{{ route('create-fototindakan', ['id' => encrypt($t->id)]) }}" wire:navigate>
                                                         Tambah Foto
                                                     </a>
-                                                    @endif
+                                                    @endif --}}
 
-                                                    @if(Auth::user()->roles->pluck('name')->first() == 'operator' || Auth::user()->roles->pluck('name')->first() == 'developer')
+                                                    {{-- @if(Auth::user()->roles->pluck('name')->first() == 'operator' || Auth::user()->roles->pluck('name')->first() == 'developer')
                                                     <button class="dropdown-item text-danger" wire:click="showFotoTindakan({{ $t->id }})">
                                                         Hapus Foto
                                                     </button>
-                                                    @endif
+                                                    @endif --}}
                                                 </li>
                                             </ul>
                                         </div>
                                     </td>
+                                    <td>{{ $t->pasien->nomor_rekam_medis ?? '-' }}</td>
                                     <td>{{ $t->pasien->nama ?? '-' }}</td>
                                     <td>{{ $t->operator->name ?? '-' }}</td>
                                     <td>{{ $t->asisten1->name ?? '-' }}</td>
@@ -165,8 +174,8 @@
             }
         }
 
-        var waktu_operasi = document.getElementById("waktu_operasi").value || "";
-        XLSX.writeFile(wb, `Data Tindakan Pasien - ${waktu_operasi}.xlsx`);
+        var tanggal_operasi = document.getElementById("tanggal_operasi").value || "";
+        XLSX.writeFile(wb, `Data Tindakan Pasien - ${tanggal_operasi}.xlsx`);
     }
 
     function exportToPDF() {
@@ -217,7 +226,7 @@
                 , icon: "warning"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Livewire.dispatch('deleteMahasiswaConfirmed');
+                    Livewire.dispatch('deleteTindakanConfirmed');
                 } else {
                     Swal.fire("DiBatalkan", "Aksi DiBatalkan.", "info");
                 }

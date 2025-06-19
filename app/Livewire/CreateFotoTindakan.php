@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Tindakan;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -23,6 +24,7 @@ class CreateFotoTindakan extends Component
     public function mount($id)
     {
         $this->id_tindakan = decrypt(value: $id);
+        $dataTindakan = Tindakan::where('id', $this->idTindakan);
     }
 
     public function updatedFoto()
@@ -38,9 +40,9 @@ class CreateFotoTindakan extends Component
             $path = $this->foto->store('foto_tindakans', 'public');
 
             \App\Models\FotoTindakan::create([
-            'tindakan_id' => $this->id_tindakan,
-            'foto' => $path,
-            'deskripsi' => $this->deskripsi,
+                'tindakan_id' => $this->id_tindakan,
+                'foto' => $path,
+                'deskripsi' => $this->deskripsi,
             ]);
 
             $this->dispatch('success', 'Foto berhasil diunggah.');
