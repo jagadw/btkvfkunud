@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
             'masterdata-pasien',
             'masterdata-conference',
             'masterdata-tindakan',
-            'masterdata-fototindakan',
+            // 'masterdata-fototindakan',
             'masterdata-logbook',
 
         ]);
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
             'masterdata-pasien',
             'masterdata-conference',
             'masterdata-tindakan',
-            'masterdata-fototindakan',
+            // 'masterdata-fototindakan',
             'masterdata-logbook',
         ]);
 
@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
             'masterdata-pasien',
             'masterdata-conference',
             'masterdata-tindakan',
-            'masterdata-fototindakan',
+            // 'masterdata-fototindakan',
             'masterdata-logbook',
         ]);
 

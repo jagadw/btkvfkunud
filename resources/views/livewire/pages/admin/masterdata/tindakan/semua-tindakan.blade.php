@@ -12,12 +12,12 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Tindakan</li>
+                    <li class="breadcrumb-item text-muted">Semua Tindakan</li>
                 </ul>
             </div>
-            <div class="d-flex align-items-center gap-2 gap-lg-3">
+            {{-- <div class="d-flex align-items-center gap-2 gap-lg-3">
                 <a class="btn btn-sm fw-bold btn-primary" href="{{route('create-tindakan')}}" wire:navigate.prevent>Tambah Tindakan</a>
-            </div>
+            </div> --}}
         </div>
     </div>
     <div id="kt_app_content" class="app-content flex-column-fluid">
@@ -46,78 +46,43 @@
                 </div>
 
                 <div class="main m-5">
-                    
-                        <table id="table-responsive" class="table table-row-bordered table-striped gy-5">
-                            <thead>
-                                <tr class="fw-semibold fs-6">
-                                    <th>No</th>
-                                    <th class="aksi">Aksi</th>
-                                    <th>No Rekam Medis</th>
-                                    <th>Pasien</th>
-                                    <th>Operator</th>
-                                    <th>Asisten 1</th>
-                                    <th>Asisten 2</th>
-                                    <th>On Loop</th>
-                                    <th>Tanggal Operasi</th>
-                                    <th>Realisasi</th>
-                                    <th>Kesesuaian</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($tindakans as $index => $t)
-                                <tr>
-                                    <td>{{ $index + 1}}</td>
-                                    <td class="aksi">
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                                Aksi
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="{{ route('edit-tindakan', ['id' => encrypt($t->id)]) }}">
-                                                        Edit
-                                                    </a>
-                                                    
-                                                     <button class="dropdown-item text-danger" wire:click="delete({{ $t->id }})" wire:navigate>
-                                                        Hapus
-                                                    </button>
-                                                    {{-- @if($t->fotoTindakan && $t->fotoTindakan->foto)
-                                                    <button class="dropdown-item" wire:click="showFotoTindakan({{ $t->id }})">
-                                                        Lihat Foto
-                                                    </button>
 
-                                                    @else
-                                                    <a class="dropdown-item" href="{{ route('create-fototindakan', ['id' => encrypt($t->id)]) }}" wire:navigate>
-                                                        Tambah Foto
-                                                    </a>
-                                                    @endif --}}
-
-                                                    {{-- @if(Auth::user()->roles->pluck('name')->first() == 'operator' || Auth::user()->roles->pluck('name')->first() == 'developer')
-                                                    <button class="dropdown-item text-danger" wire:click="showFotoTindakan({{ $t->id }})">
-                                                        Hapus Foto
-                                                    </button>
-                                                    @endif --}}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td>{{ $t->pasien->nomor_rekam_medis ?? '-' }}</td>
-                                    <td>{{ $t->pasien->nama ?? '-' }}</td>
-                                    <td>{{ $t->operator->name ?? '-' }}</td>
-                                    <td>{{ $t->asisten1->name ?? '-' }}</td>
-                                    <td>{{ $t->asisten2->name ?? '-' }}</td>
-                                    <td>{{ $t->onLoop->name ?? '-' }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($t->tanggal_operasi)->format('d M Y') }}</td>
-                                    <td>{{ $t->relealisasi_tindakan }}</td>
-                                    <td>{{ $t->kesesuaian }}</td>
-                                </tr>
-                                @empty
-                                <tr>
-                                    <td colspan="10" class="text-center">Data Tidak Ditemukan</td>
-                                </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                    <table id="table-responsive" class="table table-row-bordered table-striped gy-5">
+                        <thead>
+                            <tr class="fw-semibold fs-6">
+                                <th>No</th>
+                                <th>No Rekam Medis</th>
+                                <th>Pasien</th>
+                                <th>Operator</th>
+                                <th>Asisten 1</th>
+                                <th>Asisten 2</th>
+                                <th>On Loop</th>
+                                <th>Tanggal Operasi</th>
+                                <th>Realisasi</th>
+                                <th>Kesesuaian</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($tindakans as $index => $t)
+                            <tr>
+                                <td>{{ $index + 1}}</td>
+                                <td>{{ $t->pasien->nomor_rekam_medis ?? '-' }}</td>
+                                <td>{{ $t->pasien->nama ?? '-' }}</td>
+                                <td>{{ $t->operator->name ?? '-' }}</td>
+                                <td>{{ $t->asisten1->name ?? '-' }}</td>
+                                <td>{{ $t->asisten2->name ?? '-' }}</td>
+                                <td>{{ $t->onLoop->name ?? '-' }}</td>
+                                <td>{{ \Carbon\Carbon::parse($t->tanggal_operasi)->format('d M Y') }}</td>
+                                <td>{{ $t->relealisasi_tindakan }}</td>
+                                <td>{{ $t->kesesuaian }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="10" class="text-center">Data Tidak Ditemukan</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
 
                 </div>
 
@@ -133,6 +98,7 @@
 <script>
     function exportToExcel() {
         document.querySelectorAll('.aksi').forEach(el => el.style.display = 'none');
+
         var table = document.getElementById("table-responsive");
         var wb = XLSX.utils.table_to_book(table, {
             sheet: "Data Tindakan Pasien"

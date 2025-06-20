@@ -47,7 +47,7 @@
 
             <div class="main m-5">
                 <div class="table-responsive">
-                    <table id="table-responsive" class="table table-row-bordered gy-5">
+                    <table id="table-responsive" class="table table-row-bordered table-striped gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
                                 <th>No</th>

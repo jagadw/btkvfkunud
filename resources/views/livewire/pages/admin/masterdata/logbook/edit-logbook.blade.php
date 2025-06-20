@@ -57,8 +57,8 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <button class="btn btn-primary" wire:click="update">Simpan</button>
-                    <button class="btn btn-secondary ms-2" wire:click="resetForm">Batal</button>
+                    <a class="btn btn-light me-2" href="{{ route('tindakan') }}" wire:navigate>Batal</a>
+                    <button class="btn btn-primary" wire:click="update">Update</button>
                 </div>
             </div>
         </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\SemuaTindakan;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Dashboard;
 use App\Livewire\MenuManagement;
@@ -24,6 +25,7 @@ Route::get('/', function () {
         Route::get('/pasien', \App\Livewire\Pasien::class)->name('pasien');
 
         Route::get('/tindakan', \App\Livewire\Tindakan::class)->name('tindakan');
+        Route::get('/semua-tindakan', SemuaTindakan::class)->name('semua-tindakan');
         Route::get('/tindakan/add', \App\Livewire\CreateTindakan::class)->name('create-tindakan');
         Route::get('/tindakan/edit/{id}', \App\Livewire\CreateTindakan::class)->name('edit-tindakan');
         Route::get('/tindakan/{id}/foto-tindakan', action: CreateFotoTindakan::class)->name('create-fototindakan');

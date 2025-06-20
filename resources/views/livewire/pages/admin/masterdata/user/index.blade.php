@@ -163,7 +163,7 @@
 
                 </div>
                 <div class="table-responsive">
-                    <table id="kt_datatable_zero_configuration" class="table table-row-bordered gy-5">
+                    <table id="kt_datatable_zero_configuration" class="table table-row-bordered table-striped gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
                                 <th>No</th>

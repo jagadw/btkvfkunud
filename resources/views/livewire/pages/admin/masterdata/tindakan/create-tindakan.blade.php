@@ -56,7 +56,7 @@
                             </div>
                             <div class="col-md-3">
                                 <label>Tanggal Lahir</label>
-                                <input type="date" class="form-control" wire:model="tanggal_lahir" onchange="Livewire.dispatch('updateUsia')">
+                                <input type="date" id="tanggal_lahir" class="form-control" wire:model="tanggal_lahir" onchange="Livewire.dispatch('updateUsia')">
                             </div>
                             <div class="col-md-3">
                                 <label>Usia</label>
@@ -192,6 +192,7 @@
     //     });
     // });
     $(function() {
+        
         Livewire.on('confirm-delete', (message) => {
             Swal.fire({
                 title: message

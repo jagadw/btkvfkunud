@@ -38,20 +38,28 @@ $menus = Menu::with('submenus')->get();
                     return $userPermissions->contains($submenu->permission_id);
                     });
 
-                    // Tambahkan pengecekan khusus untuk route tindakan dan create-tindakan
+                    
                     $submenuRoutes = $filteredSubmenus->pluck('route')->toArray();
                     if (in_array('tindakan', $submenuRoutes)) {
-                    if (!in_array('create-tindakan', $submenuRoutes)) {
-                    $submenuRoutes[] = 'create-tindakan';
+                        if (!in_array('create-tindakan', $submenuRoutes)) {
+                            $submenuRoutes[] = 'create-tindakan';
+                        }
+                        if (!in_array('edit-tindakan', $submenuRoutes)) {
+                            $submenuRoutes[] = 'edit-tindakan';
+                        }
                     }
-                    if (!in_array('edit-tindakan', $submenuRoutes)) {
-                    $submenuRoutes[] = 'edit-tindakan';
-                    }
+                    if (in_array('logbook', $submenuRoutes)) {
+                        if (!in_array('add-logbook', $submenuRoutes)) {
+                            $submenuRoutes[] = 'add-logbook';
+                        }
+                        if (!in_array('edit-logbook', $submenuRoutes)) {
+                            $submenuRoutes[] = 'edit-logbook';
+                        }
                     }
                     @endphp
 
                     @if ($filteredSubmenus->isNotEmpty())
-                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ request()->routeIs($submenuRoutes) ? 'show' : '' }}">
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion {{ (request()->routeIs($submenuRoutes) || (request()->routeIs('semua-tindakan') && $menu->name == 'Master Data')) ? 'show' : '' }}">
                         <span class="menu-link {{ request()->routeIs($submenuRoutes) ? 'active' : '' }}">
                             <span class="menu-icon">
                                 <i class="{{ $menu->icon }} fs-2"></i>
@@ -63,7 +71,18 @@ $menus = Menu::with('submenus')->get();
                         <div class="menu-sub menu-sub-accordion">
                             @foreach ($filteredSubmenus as $submenu)
                             <div class="menu-item">
-                                <a class="menu-link {{ request()->routeIs([$submenu->route, $submenu->route == 'tindakan' ? 'create-tindakan' : null]) ? 'active' : '' }}" href="{{ route($submenu->route) }}" wire:navigate>
+                                @php
+                                    $submenuRouteArray = [$submenu->route];
+                                    if ($submenu->route == 'tindakan') {
+                                        $submenuRouteArray[] = 'create-tindakan';
+                                        $submenuRouteArray[] = 'edit-tindakan';
+                                    }
+                                    if ($submenu->route == 'logbook') {
+                                        $submenuRouteArray[] = 'add-logbook';
+                                        $submenuRouteArray[] = 'edit-logbook';
+                                    }
+                                @endphp
+                                <a class="menu-link {{ request()->routeIs($submenuRouteArray) ? 'active' : '' }}" href="{{ route($submenu->route) }}" wire:navigate>
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
@@ -71,6 +90,20 @@ $menus = Menu::with('submenus')->get();
                                 </a>
                             </div>
                             @endforeach
+
+                            @if ($menu->name == 'Master Data' && Auth::user()->roles->pluck('name')->contains('dokter') && Auth::user()->akses_semua == 1)
+                            <div class="menu-item">
+                                @php
+                                    $semuaTindakanRoutes = ['semua-tindakan', 'semua-tindakan.*'];
+                                @endphp
+                                <a class="menu-link {{ request()->routeIs($semuaTindakanRoutes) ? 'active' : '' }}" href="{{ route('semua-tindakan') }}" wire:navigate>
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Semua Tindakan</span>
+                                </a>
+                            </div>
+                            @endif
                         </div>
                     </div>
                     @endif

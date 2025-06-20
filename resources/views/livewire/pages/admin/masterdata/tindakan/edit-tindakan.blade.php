@@ -16,7 +16,7 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Tambah Tindakan</li>
+                    <li class="breadcrumb-item text-muted">Edit Tindakan</li>
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
@@ -86,7 +86,7 @@
                 {{-- KONFERENSI --}}
                 <div class="mb-4">
                     <button class="btn btn-secondary w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseConference">
-                        Tambah Data Conference (Opsional)
+                        Data Conference
                     </button>
                     <div class="collapse" id="collapseConference" >
                         <div class="row g-3">
@@ -170,7 +170,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end">
-                    <button class="btn btn-light me-2" wire:click="resetForm">Batal</button>
+                    <a class="btn btn-light me-2" href="{{ route('tindakan') }}" wire:navigate>Batal</a>
                     <button class="btn btn-primary" wire:click="update">{{ $idTindakan ? 'Update' : 'Simpan' }}</button>
                 </div>
             </div>

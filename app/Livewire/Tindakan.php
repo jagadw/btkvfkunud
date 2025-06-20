@@ -30,18 +30,6 @@ class Tindakan extends Component
         $userPermissions = Auth::user()->roles->flatMap(fn($role) => $role->permissions->pluck('name'));
         abort_unless($userPermissions->contains('masterdata-tindakan'), 403);
     }
-
-    // public $fotoPreview = '';
-
-    // public function tambahFoto($id)
-    // {
-    //     $this->tindakan_id = $id;
-    //     $this->isTambahFoto = true;
-    //     $this->foto = null;
-    //     $this->fotoPreview = null;
-    //     return route('create-fototindakan', ['id' => $this->tindakan_id]);
-    // }
-
     public function showModal()
     {
         $this->dispatch('show-modal');
@@ -50,44 +38,6 @@ class Tindakan extends Component
     {
         $this->dispatch('close-modal');
     }
-    // public function showFotoTindakan($id)
-    // {
-
-    //     $this->fotoTindakanId = $id;
-    //     $this->showModal();
-    //     $this->fotoPreview = FotoTindakan::where('tindakan_id', $id)->firstOrFail();
-    // }
-
-    // public function deleteFoto()
-    // {
-    //     $this->foto = null;
-    //     $this->fotoPreview = null;
-    // }
-
-    // public function storeFoto()
-    // {
-    //     try {
-    //         $this->validate([
-    //             'tindakan_id' => 'required|exists:tindakans,id',
-    //             'foto' => 'required|image|max:2048',
-    //             'deskripsi' => 'nullable|string',
-    //         ]);
-    //     } catch (\Illuminate\Validation\ValidationException $e) {
-    //         $this->dispatch('error', collect($e->errors())->flatten()->first());
-    //         return;
-    //     }
-
-    //     $fotoPath = $this->foto->store('foto_tindakans', 'public');
-
-    //     FotoTindakan::create([
-    //         'tindakan_id' => $this->tindakan_id,
-    //         'foto' => $fotoPath,
-    //         'deskripsi' => $this->deskripsi,
-    //     ]);
-
-    //     $this->dispatch('success', 'Foto tindakan created successfully.');
-    //     $this->closeModal();
-    // }
 
     public function render()
     {
@@ -97,7 +47,7 @@ class Tindakan extends Component
                 ->where(function ($query) {
                     $user = Auth::user();
                     $userId = $user->id;
-                    if ($user->roles->pluck('name')->first() === 'dokter' && $user->akses_semua == 0) {
+                    if ($user->roles->pluck('name')->first() === 'dokter') {
                         $query->where('operator_id', $userId)
                             ->orWhere('asisten1_id', $userId)
                             ->orWhere('asisten2_id', $userId)
@@ -114,8 +64,7 @@ class Tindakan extends Component
                             ->orWhere('nomor_rekam_medis', 'like', '%' . $this->search . '%');
                     });
                 })
-                ->latest()
-                ->paginate(10),
+                ->get(),
             'pasiens' => Pasien::all(),
             'dokters' => User::with('mahasiswa')->whereHas('roles', fn($q) => $q->where('name', 'dokter'))->get(),
             'users' => User::all(),
@@ -231,7 +180,7 @@ class Tindakan extends Component
     {
         $deleteTindakan = TindakanModel::findOrFail($this->idToDelete);
         $deleteTindakan->delete();
-        
+
         $this->dispatch('delete-success', 'Tindakan berhasil dihapus.');
     }
 }
