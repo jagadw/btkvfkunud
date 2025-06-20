@@ -19,7 +19,7 @@ class LogBook extends Component
     use WithPagination, WithFileUploads;
     protected $paginationTheme = 'bootstrap';
 
-    public $showForm, $logbookId, $user_id, $kegiatan, $tanggal, $idToDelete, $search = '';
+    public $selectedMahasiswa, $showForm, $logbookId, $user_id, $kegiatan, $tanggal, $idToDelete, $search = '';
 
     public $foto, $fotoPath;
     protected $listeners = ['deleteLogBookConfirmed'];
@@ -68,28 +68,27 @@ class LogBook extends Component
                 'tanggal' => 'required|date',
                 'foto' => 'required|image|mimes:jpg,jpeg,png|max:4096',
             ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            $this->dispatch('error', collect($e->errors())->flatten()->first());
-            return;
-        }
 
-        $logBookData = LogBookModel::create([
-            'user_id' => Auth::user()->id,
-            'kegiatan' => $this->kegiatan,
-            'tanggal' => $this->tanggal,
-        ]);
-
-        if ($logBookData && $this->foto) {
+            $idUser = $this->selectedMahasiswa ?: Auth::user()->id;
+            $logBookData = LogBookModel::create([
+                'user_id' => $idUser,
+                'kegiatan' => $this->kegiatan,
+                'tanggal' => $this->tanggal,
+            ]);
             $path = $this->foto->store('foto_tindakans', 'public');
             FotoTindakan::create([
                 'log_book_id' => $logBookData->id,
                 'foto' => $path,
                 'deskripsi' => $this->kegiatan,
             ]);
-        }
 
-        $this->dispatch('success', 'LogBook Berhasil Di Simpan.');
-        $this->closeModal();
+
+            $this->dispatch('success', 'LogBook Berhasil Di Simpan.');
+            $this->closeModal();
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $this->dispatch('error', collect($e->errors())->flatten()->first());
+            return;
+        }
     }
 
 
@@ -175,9 +174,9 @@ class LogBook extends Component
     public function deleteLogBookConfirmed()
     {
         $fotoKegiatan = FotoTindakan::where('log_book_id', $this->idToDelete)->first();
-        if ($fotoKegiatan) {
-            Storage::disk('public')->delete($fotoKegiatan->foto);
-        }
+        // if ($fotoKegiatan) {
+        //     Storage::disk('public')->delete($fotoKegiatan->foto);
+        // }
         LogBookModel::destroy($this->idToDelete);
         $this->dispatch('delete-success', 'LogBook berhasil dihapus.');
     }

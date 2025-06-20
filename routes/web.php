@@ -30,6 +30,7 @@ Route::get('/', function () {
 
         Route::get('/logbook', \App\Livewire\LogBook::class)->name('logbook');
         Route::get('/logbook/add', \App\Livewire\CreateLogBook::class)->name(name: 'add-logbook');
+        Route::get('/logbook/edit/{id}', \App\Livewire\CreateLogBook::class)->name(name: 'edit-logbook');
 
         Route::get('/fototindakan',FotoTindakan::class)->name('fototindakan');
         Route::get('/conference', \App\Livewire\Conference::class)->name('conference');

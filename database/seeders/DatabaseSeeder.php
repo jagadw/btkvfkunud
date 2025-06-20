@@ -118,19 +118,43 @@ class DatabaseSeeder extends Seeder
         ]);
         $admin->assignRole('admin');
 
-        $operator = User::factory()->create([
+        Mahasiswa::create([
+            'nama' => 'Resident BTKV',
+            'inisial_residen' => 'RB',
+            'nim' => '24993934',
+            'user_id' => $admin->id,
+            'status' => 'aktif',
+        ]);
+
+        $operator1 = User::factory()->create([
             'name' => 'Gede Juliarta',
             'email' => 'gdejuliaarta@gmail.com',
             'password' => bcrypt('Acmilan22!')
         ]);
-        $operator->assignRole('operator');
+        $operator1->assignRole('operator');
 
-        $operator = User::factory()->create([
+        Mahasiswa::create([
+            'nama' => 'Gede Juliarta',
+            'inisial_residen' => 'GJ',
+            'nim' => '24993935',
+            'user_id' => $operator1->id,
+            'status' => 'aktif',
+        ]);
+
+        $operator2 = User::factory()->create([
             'name' => 'Bhaskara Satria',
             'email' => 'bhaskara.satria78@gmail.com',
             'password' => bcrypt('btkvoperator2!')
         ]);
-        $operator->assignRole('operator');
+        $operator2->assignRole('operator');
+
+        Mahasiswa::create([
+            'nama' => 'Bhaskara Satria',
+            'inisial_residen' => 'BS',
+            'nim' => '24993936',
+            'user_id' => $operator2->id,
+            'status' => 'aktif',
+        ]);
         
 
 

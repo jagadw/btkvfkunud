@@ -1,11 +1,11 @@
 <div class="d-flex flex-column flex-column-fluid">
-    <x-slot:title>Tambah LogBook</x-slot:title>
+    <x-slot:title>Edit LogBook</x-slot:title>
 
     <!--begin::Toolbar-->
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Tambah LogBook</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Edit LogBook</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
@@ -17,7 +17,7 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Tambah LogBook</li>
+                    <li class="breadcrumb-item text-muted">Edit LogBook</li>
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
@@ -31,17 +31,15 @@
         <div id="kt_app_content_container" class="app-container container-xxl">
             <div class="card p-5">
                 <div class="row g-9 mb-8">
-                    @if(!Auth::user()->roles->pluck('name')->contains('dokter'))
                     <div class="col-md-6" wire:ignore>
                         <label class="required form-label">Mahasiswa</label>
-                        <select class="form-select" data-control="select2" onchange="@this.set('selectedMahasiswa',this.value)" wire:model="selectedMahasiswa">
+                        <select class="form-select" disabled data-control="select2" onchange="@this.set('selectedMahasiswa',this.value)" wire:model="selectedMahasiswa">
                             <option value="">Pilih Mahasiswa</option>
                             @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer')) as $dokter)
                             <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}</option>
                             @endforeach
                         </select>
                     </div>
-                    @endif
                     <div class="col-md-6">
                         <label class="required form-label">Tanggal</label>
                         <input type="date" class="form-control" wire:model="tanggal">
@@ -59,7 +57,7 @@
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
-                    <button class="btn btn-primary" wire:click="store">Simpan</button>
+                    <button class="btn btn-primary" wire:click="update">Simpan</button>
                     <button class="btn btn-secondary ms-2" wire:click="resetForm">Batal</button>
                 </div>
             </div>
