@@ -4,8 +4,8 @@
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Manajemen Pasien</h1>
-                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                <h1 class="page-heading d-flex text-dark fw-bold fs-1 flex-column justify-content-center my-0">Manajemen Pasien</h1>
+                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-5 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
                     </li>
@@ -16,7 +16,7 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <button class="btn btn-sm fw-bold btn-primary" wire:click="create">Tambah Pasien</button>
+                <button class="btn btn-sm fs-5 fw-bold btn-primary" wire:click="create">Tambah Pasien</button>
             </div>
         </div>
     </div>
@@ -32,11 +32,11 @@
                     <table class="table-responsive table table-row-bordered gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
+                                <th>No Rekam Medis</th>
                                 <th>No</th>
                                 <th>Aksi</th>
                                 <th>Nama</th>
                                 <th>Usia</th>
-                                <th>No Rekam Medis</th>
                                 <th>Tanggal Lahir</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Tipe Jantung</th>
@@ -45,10 +45,11 @@
                         <tbody>
                             @forelse ($pasiens as $index => $p)
                             <tr>
+                                <td>{{ $p->nomor_rekam_medis }}</td>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
                                     <div class="dropdown">
-                                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        <button class="bg-warning text-light fs-5 btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
                                             Aksi
                                         </button>
                                         <ul class="dropdown-menu">
@@ -69,7 +70,6 @@
                                 </td>
                                 <td>{{ $p->nama }}</td>
                                 <td>{{ $p->usia }}</td>
-                                <td>{{ $p->nomor_rekam_medis }}</td>
                                 <td>{{ \Carbon\Carbon::parse($p->tanggal_lahir)->format('d M Y') }}</td>
                                 <td>{{ ucfirst($p->jenis_kelamin) }}</td>
                                 <td>{{ $p->tipe_jantung }}</td>
