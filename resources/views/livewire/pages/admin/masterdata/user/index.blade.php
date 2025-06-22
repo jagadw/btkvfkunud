@@ -7,10 +7,10 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <!--begin::Title-->
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Manajemen User</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-1 flex-column justify-content-center my-0">Manajemen User</h1>
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
-                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-5 my-0 pt-1">
                     <!--begin::Item-->
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
@@ -37,7 +37,7 @@
                 {{-- <a href="#" class="btn btn-sm fw-bold btn-secondary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_app">Rollover</a> --}}
                 <!--end::Secondary button-->
                 <!--begin::Primary button-->
-                <button class="btn btn-sm fw-bold btn-primary" wire:click="create()">Tambah User</button>
+                <button class="btn btn-sm fs-5 fw-bold btn-primary" wire:click="create()">Tambah User</button>
                 <!--end::Primary button-->
             </div>
             <!--end::Actions-->
@@ -158,7 +158,7 @@
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
-                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Search User" wire:model.live.debounce.100ms="search" />
+                        <input type="text" data-kt-customer-table-filter="search" class="bg-warning text-light form-control form-control-solid w-250px ps-12" placeholder="Search User" wire:model.live.debounce.100ms="search" />
                     </div>
 
                 </div>
@@ -189,7 +189,7 @@
                                         <tr wire:key="user-{{ $user->id }}">
                                             <td>{{ $rowNumber++ }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
+                                                <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary bg-warning text-light fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
                                                     <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                                 <!--begin::Menu-->
                                                 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
