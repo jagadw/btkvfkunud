@@ -5,8 +5,8 @@
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Manajemen Mahasiswa</h1>
-                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                <h1 class="page-heading d-flex text-dark fw-bold fs-1 flex-column justify-content-center my-0">Manajemen Mahasiswa</h1>
+                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-5 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
                     </li>
@@ -17,7 +17,7 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <button class="btn btn-sm fw-bold btn-primary" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#mahasiswaModal">Tambah Mahasiswa</button>
+                <button class="btn btn-sm fw-bold btn-primary fs-5" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#mahasiswaModal">Tambah Mahasiswa</button>
             </div>
         </div>
     </div>
@@ -57,10 +57,10 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
+                                        <a href="#" class="bg-warning text-light btn btn-sm btn-light btn-flex btn-center btn-active-light-primary fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
                                             <i class="ki-duotone ki-down fs-5 ms-1"></i>
                                         </a>
-                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-5 w-125px py-4" data-kt-menu="true">
                                             <div class="menu-item px-3">
                                                 <a wire:click="edit({{ $student->id }})" class="menu-link px-3 w-100">Edit</a>
                                             </div>
