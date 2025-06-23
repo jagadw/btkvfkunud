@@ -23,18 +23,18 @@
 
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5">
+            <div class="card p-5 shadow-lg">
                 <div class="mb-5">
-                    <input type="text" wire:model.debounce.500ms="search" class="form-control form-control-solid w-250px" placeholder="Cari Nama Pasien">
+                    <input type="text" wire:model.debounce.500ms="search" class="form-control form-control-solid w-250px border-primary border-3 text-primary" placeholder="Cari Nama Pasien">
                 </div>
 
                 <div class="main m-5">
                     <table class="table-responsive table table-row-bordered gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
-                                <th>No Rekam Medis</th>
                                 <th>No</th>
                                 <th>Aksi</th>
+                                <th>No Rekam Medis</th>
                                 <th>Nama</th>
                                 <th>Usia</th>
                                 <th>Tanggal Lahir</th>
@@ -45,29 +45,29 @@
                         <tbody>
                             @forelse ($pasiens as $index => $p)
                             <tr>
-                                <td>{{ $p->nomor_rekam_medis }}</td>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    <div class="dropdown">
-                                        <button class="bg-warning text-light fs-5 btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                            Aksi
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="#" wire:click.prevent="edit({{ $p->id }})">
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                @if(Auth::user()->roles->pluck('name')->first() == 'operator' || Auth::user()->roles->pluck('name')->first() == 'developer')
-                                                <a class="dropdown-item text-danger" href="#" wire:click.prevent="delete({{ $p->id }})">
-                                                    Hapus Pasien
-                                                </a>
-                                                @endif
-                                            </li>
-                                        </ul>
+                                    <a href="#" class="btn-primary btn btn-sm btn-light btn-flex btn-center btn-primary fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                        Aksi
+                                        <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                    </a>
+                                    <!--begin::Menu-->
+                                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-3">
+                                            <a wire:click.prevent="edit({{ $p->id }})" class="menu-link bg-warning text-dark px-3 w-100">Edit</a>
+                                        </div>
+                                        <!--end::Menu item-->
+                                        <!--begin::Menu item-->
+                                        @if(Auth::user()->roles->pluck('name')->first() == 'operator' || Auth::user()->roles->pluck('name')->first() == 'developer')
+                                        <div class="menu-item px-3">
+                                            <a href="#" class="menu-link bg-danger text-white px-3 w-100" wire:click.prevent="delete({{ $p->id }})">Hapus</a>
+                                        </div>
+                                        @endif
+                                        <!--end::Menu item-->
                                     </div>
                                 </td>
+                                <td>{{ $p->nomor_rekam_medis }}</td>
                                 <td>{{ $p->nama }}</td>
                                 <td>{{ $p->usia }}</td>
                                 <td>{{ \Carbon\Carbon::parse($p->tanggal_lahir)->format('d M Y') }}</td>

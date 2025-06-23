@@ -46,7 +46,7 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5">
+            <div class="card p-5 shadow-lg">
                 <div class="table-responsive">
                     <table id="kt_datatable_zero_configuration" class="table table-row-bordered table-striped gy-5">
                         <thead>
@@ -65,7 +65,7 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Menu
+                                    <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Menu
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                     <!--begin::Menu-->
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
@@ -99,7 +99,7 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">SubMenu
+                                    <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">SubMenu
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                     <!--begin::Menu-->
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">

@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">{{ $logbookId ? 'Edit' : 'Add' }} Logbook</h3>
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" wire:click="resetForm">
+                <div class="btn btn-icon btn-sm btn-primary ms-2" data-bs-dismiss="modal" wire:click="resetForm">
                     <i class="ki-duotone ki-cross fs-1"></i>
                 </div>
             </div>

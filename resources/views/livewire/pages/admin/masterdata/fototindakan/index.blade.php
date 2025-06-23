@@ -13,7 +13,7 @@
     </div>
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5">
+            <div class="card p-5 shadow-lg">
                 <div class="table-responsive">
                     <table class="table table-row-bordered table-striped gy-5">
                         <thead>

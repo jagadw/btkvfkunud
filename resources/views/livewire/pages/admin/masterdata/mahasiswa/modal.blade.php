@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">{{ $mahasiswaId ? 'Edit' : 'Add' }} Student</h3>
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" wire:click="resetForm">
+                <div class="btn btn-icon btn-sm btn-primary ms-2" data-bs-dismiss="modal" wire:click="resetForm">
                     <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
                 </div>
             </div>

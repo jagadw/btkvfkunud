@@ -27,7 +27,7 @@
     </div>
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5">
+            <div class="card p-5 shadow-lg">
                 <div class="row g-9 mb-8">
                     <div class="col-md-6">
                         <div class="row">

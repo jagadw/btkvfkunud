@@ -59,7 +59,7 @@ class CreateLogBook extends Component
             $rules = [
                 'kegiatan' => 'required|string',
                 'tanggal' => 'required|date',
-                'foto' => 'required|image|mimes:jpg,jpeg,png|max:4096',
+                // 'foto' => 'required|image|mimes:jpg,jpeg,png|max:4096',
             ];
 
             if ($userRole !== 'dokter') {
@@ -74,12 +74,14 @@ class CreateLogBook extends Component
                 'kegiatan' => $this->kegiatan,
                 'tanggal' => $this->tanggal,
             ]);
-            $path = $this->foto->store('foto_tindakans', 'public');
-            FotoTindakan::create([
-                'log_book_id' => $logBookData->id,
-                'foto' => $path,
-                'deskripsi' => $this->kegiatan,
-            ]);
+            if ($this->foto) {
+                $path = $this->foto->store('foto_tindakans', 'public');
+                FotoTindakan::create([
+                    'log_book_id' => $logBookData->id,
+                    'foto' => $path,
+                    'deskripsi' => $this->kegiatan,
+                ]);
+            }
 
 
             $this->dispatch('success', 'LogBook Berhasil Di Simpan.');

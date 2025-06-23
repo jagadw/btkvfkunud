@@ -66,7 +66,7 @@
                                     <span class="path2"></span>
                                 </i>
                             </button>
-                            <button wire:click="createAsign({{ $role->id }})" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                            <button wire:click="createAsign({{ $role->id }})" class="btn btn-sm btn-icon btn-color-primary btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                 <i class="ki-duotone ki-category fs-6">
                                     <span class="path1"></span>
                                     <span class="path2"></span>
@@ -123,7 +123,7 @@
 
         </div>
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5">
+            <div class="card p-5 shadow-lg">
                 <div class="flex w-full">
                     <div class="d-flex align-items-center position-relative my-1">
                         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
@@ -160,7 +160,7 @@
                                 <tr wire:key="permission-{{ $permission->id }}">
                                     <td>{{ $index + 1 }}</td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
+                                        <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
                                             <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                         <!--begin::Menu-->
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">

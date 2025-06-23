@@ -151,14 +151,14 @@
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5">
+            <div class="card p-5 shadow-lg">
                 <div class="flex w-full">
                     <div class="d-flex align-items-center position-relative my-1">
                         <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
-                        <input type="text" data-kt-customer-table-filter="search" class="bg-warning text-light form-control form-control-solid w-250px ps-12" placeholder="Search User" wire:model.live.debounce.100ms="search" />
+                        <input type="text" data-kt-customer-table-filter="search" class=" form-control form-control-solid w-250px ps-12  border-primary border-3 text-primary" placeholder="Search User" wire:model.live.debounce.100ms="search" />
                     </div>
 
                 </div>
@@ -189,22 +189,22 @@
                                         <tr wire:key="user-{{ $user->id }}">
                                             <td>{{ $rowNumber++ }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-active-light-primary bg-warning text-light fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
+                                                <a href="#" class="btn-primary btn btn-sm btn-light btn-flex btn-center btn-primary  fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
                                                     <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                                 <!--begin::Menu-->
                                                 <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a wire:click="edit({{ $user->id }})" class="menu-link px-3 w-100">Edit</a>
+                                                        <a wire:click="edit({{ $user->id }})" class="menu-link bg-warning text-dark px-3 w-100">Edit</a>
                                                     </div>
                                                     <!--end::Menu item-->
                                                     <!--begin::Menu item-->
                                                     <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $user->id }})">Hapus</a>
+                                                        <a href="#" class="menu-link bg-danger text-white px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $user->id }})">Hapus</a>
                                                     </div>
                                                     @if($userRole === 'dokter')
                                                     <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="aksesSemua({{ $user->id }})">{{ $user->akses_semua == 1 ? 'Tarik Akses' : 'Berikan Akses' }}</a>
+                                                        <a href="#" class="menu-link px-3 w-100 bg-info text-white" data-kt-ecommerce-product-filter="delete_row" wire:click="aksesSemua({{ $user->id }})">{{ $user->akses_semua == 1 ? 'Tarik Akses' : 'Berikan Akses' }}</a>
                                                     </div>
                                                     @endif
                                                     <!--end::Menu item-->
@@ -212,7 +212,19 @@
                                             </td>
                                             <td>{{ $user->name }}</td>
                                             <td>{{ $user->email }}</td>
-                                            <td>{{ $userRole }}</td>
+                                            <td>
+                                                @if(strtolower($userRole) === 'operator')
+                                                    <span class="badge badge-success">{{ strtoupper($userRole) }}</span>
+                                                @elseif(strtolower($userRole) === 'admin')
+                                                    <span class="badge badge-primary">{{ strtoupper($userRole) }}</span>
+                                                @elseif(strtolower($userRole) === 'dokter')
+                                                    <span class="badge badge-info">{{ strtoupper($userRole) }}</span>
+                                                @elseif(strtolower($userRole) === 'developer')
+                                                    <span class="badge badge-warning">{{ strtoupper($userRole) }}</span>
+                                                @else
+                                                    <span class="badge badge-secondary">{{ strtoupper($userRole) }}</span>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @endif
                                 @endforeach
@@ -221,9 +233,9 @@
 
 
                     </table>
-                    <div class="mt-4 d-flex justify-content-center">
+                    {{-- <div class="mt-4 d-flex justify-content-center">
                         {{ $data->onEachSide(1)->links() }}
-                    </div>
+                    </div> --}}
                 </div>
 
                 @include('livewire.pages.admin.masterdata.user.modal')

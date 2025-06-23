@@ -26,7 +26,7 @@
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5" style="min-height: 500px">
+            <div class="card shadow-lg p-5" style="min-height: 500px">
                 <!-- Search -->
                 <div class="mb-5">
                     <div class="d-flex align-items-center position-relative my-1">
@@ -34,7 +34,7 @@
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
-                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Cari Nama / NIM" wire:model.live.debounce.100ms="search" />
+                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12  border-primary border-3 text-primary" placeholder="Cari Nama / NIM" wire:model.live.debounce.100ms="search" />
                     </div>
                 </div>
 
@@ -57,15 +57,15 @@
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>
-                                        <a href="#" class="bg-warning text-light btn btn-sm btn-light btn-flex btn-center btn-active-light-primary fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
+                                        <a href="#" class="btn-primary text-light btn btn-sm btn-light btn-flex btn-center btn-active-primary fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
                                             <i class="ki-duotone ki-down fs-5 ms-1"></i>
                                         </a>
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-5 w-125px py-4" data-kt-menu="true">
-                                            <div class="menu-item px-3">
-                                                <a wire:click="edit({{ $student->id }})" class="menu-link px-3 w-100">Edit</a>
+                                            <div class="menu-item px-3 ">
+                                                <a wire:click="edit({{ $student->id }})" class=" bg-warning text-dark menu-link px-3 w-100">Edit</a>
                                             </div>
                                             <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3 w-100 text-danger" wire:click="delete({{ $student->id }})">Non Aktifkan</a>
+                                                <a href="#" class="menu-link px-3 w-100 text-white bg-danger" wire:click="delete({{ $student->id }})">Non Aktifkan</a>
                                             </div>
                                         </div>
                                     </td>

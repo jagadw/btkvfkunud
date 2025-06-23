@@ -173,7 +173,20 @@ class User extends Component
         return view('livewire.pages.admin.masterdata.user.index', data: [
             'data' => ModelsUser::when($this->search, function ($query) {
                 $query->where('name', 'like', '%' . $this->search . '%');
-            })->paginate(10),
+            })
+            ->get()
+            ->sortBy(function ($user) {
+                $order = [
+                    'developer' => 0,
+                    'operator' => 1,
+                    'admin' => 2,
+                    'dokter' => 3,
+                ];
+                $roleName = $user->roles->pluck('name')->first();
+                return $order[$roleName] ?? 99;
+            })
+            ->values()
+            ->all(),
             'roles' => Role::all(),
             'mahasiswas' => Mahasiswa::where('user_id', null)->get(), // Get Mahasiswa without user_id
         ]);

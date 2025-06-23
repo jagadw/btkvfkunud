@@ -4,8 +4,8 @@
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Manajemen Tindakan</h1>
-                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                <h1 class="page-heading d-flex text-dark fw-bold fs-1 flex-column justify-content-center my-0">Manajemen Tindakan</h1>
+                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-5  my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
                     </li>
@@ -16,13 +16,13 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <a class="btn btn-sm fw-bold btn-primary" href="{{route('create-tindakan')}}" wire:navigate.prevent>Tambah Tindakan</a>
+                <a class="btn btn-sm fs-5 fw-bold btn-primary" href="{{route('create-tindakan')}}" wire:navigate.prevent>Tambah Tindakan</a>
             </div>
         </div>
     </div>
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5">
+            <div class="card p-5 shadow-lg">
                 <div class="row mb-5 align-items-center">
                     <div class="col-md-auto mb-2 mb-md-0">
                         <label class="mb-1">Cari Pasien</label>
@@ -31,7 +31,7 @@
                                 <span class="path1"></span>
                                 <span class="path2"></span>
                             </i>
-                            <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Cari Nama / No Rekam Medis" wire:model.live.debounce.100ms="search" />
+                            <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12  border-primary border-3 text-primary" placeholder="Cari Nama / No Rekam Medis" wire:model.live.debounce.100ms="search" />
                         </div>
                     </div>
                     <div class="col-md-auto mb-2 mb-md-0">
@@ -66,39 +66,27 @@
                             <tbody>
                                 @forelse ($tindakans as $index => $t)
                                 <tr>
-                                    <td>{{ $index + 1}}</td>
+                                      <td>{{ $index + 1}}</td>
                                     <td class="aksi">
                                         <div class="dropdown">
-                                            <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                            <a href="#" class="btn-primary btn btn-sm btn-light btn-flex btn-center btn-primary fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                                 Aksi
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="{{ route('edit-tindakan', ['id' => encrypt($t->id)]) }}">
-                                                        Edit
-                                                    </a>
-                                                    
-                                                     <button class="dropdown-item text-danger" wire:click="delete({{ $t->id }})" wire:navigate>
-                                                        Hapus
-                                                    </button>
-                                                    {{-- @if($t->fotoTindakan && $t->fotoTindakan->foto)
-                                                    <button class="dropdown-item" wire:click="showFotoTindakan({{ $t->id }})">
-                                                        Lihat Foto
-                                                    </button>
-
-                                                    @else
-                                                    <a class="dropdown-item" href="{{ route('create-fototindakan', ['id' => encrypt($t->id)]) }}" wire:navigate>
-                                                        Tambah Foto
-                                                    </a>
-                                                    @endif --}}
-
-                                                    {{-- @if(Auth::user()->roles->pluck('name')->first() == 'operator' || Auth::user()->roles->pluck('name')->first() == 'developer')
-                                                    <button class="dropdown-item text-danger" wire:click="showFotoTindakan({{ $t->id }})">
-                                                        Hapus Foto
-                                                    </button>
-                                                    @endif --}}
-                                                </li>
-                                            </ul>
+                                                <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                            </a>
+                                            <!--begin::Menu-->
+                                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    <a href="{{ route('edit-tindakan', ['id' => encrypt($t->id)]) }}" class="menu-link bg-warning text-dark px-3 w-100">Edit</a>
+                                                </div>
+                                                <!--end::Menu item-->
+                                                <!--begin::Menu item-->
+                                                <div class="menu-item px-3">
+                                                    <a href="#" class="menu-link bg-danger text-white px-3 w-100" wire:click="delete({{ $t->id }})">Hapus</a>
+                                                </div>
+                                                <!--end::Menu item-->
+                                            </div>
+                                            <!--end::Menu-->
                                         </div>
                                     </td>
                                     <td>{{ $t->pasien->nomor_rekam_medis ?? '-' }}</td>

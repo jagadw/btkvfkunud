@@ -153,7 +153,7 @@
                                     <span class="path1"></span>
                                     <span class="path2"></span>
                                 </i>
-                                <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12" placeholder="Cari Nama Pasien" wire:model.live.debounce.100ms="search" />
+                                <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12  border-primary border-3 text-primary" placeholder="Cari Nama Pasien" wire:model.live.debounce.100ms="search" />
                             </div>
                         </div>
                         <div class="col-md-auto mb-2 mb-md-0">
