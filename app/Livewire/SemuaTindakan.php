@@ -17,7 +17,15 @@ class SemuaTindakan extends Component
     public function mount()
     {
         $user = Auth::user();
-        if (!$user || $user->akses_semua != 1) {
+        if (
+            !$user ||
+            (
+            $user->akses_semua != 1 &&
+            !$user->roles->contains('name', 'admin') &&
+            !$user->roles->contains('name', 'operator') &&
+            !$user->roles->contains('name', 'developer')
+            )
+        ) {
             abort(403, 'Unauthorized action.');
         }
     }

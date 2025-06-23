@@ -81,7 +81,7 @@
                             <!--begin::Progress-->
                             <div class="fw-bold text-white py-2">
                                 <span class="fs-1 d-block">Pasien Di Tangani</span>
-                                {{-- <span class="opacity-50">Income</span> --}}
+                                <span class="fs-3 opacity-80">Keseluruhan</span>
                             </div>
                             <!--end::Progress-->
                         </div>
@@ -116,7 +116,7 @@
                         <div class="card-body d-flex align-items-end mb-3">
                             <!--begin::Info-->
                             <div class="d-flex align-items-center">
-                                <span class="fs-3hx text-white fw-bold me-6">{{ $dataPasienDitanganiFilter->count() }}</span>
+                                <span class="fs-3hx text-white fw-bold me-6">{{ $totalPasienDitanganiBulanIni }}</span>
                                 {{-- <div class="fw-bold fs-6 text-white">
 									<span class="d-block">Outbound</span>
 									<span class="">Calls</span>
@@ -130,7 +130,7 @@
                             <!--begin::Progress-->
                             <div class="fw-bold text-white py-2">
                                 <span class="fs-1 d-block">Pasien Di Tangani</span>
-                                <span class="opacity-50">Bulanan</span>
+                                <span class="fs-3 opacity-80">Bulan Ini</span>
                             </div>
                             <!--end::Progress-->
                         </div>

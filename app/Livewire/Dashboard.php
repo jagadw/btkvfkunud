@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 #[Layout('layouts.admin')]
 class Dashboard extends Component
 {
-    public $userRole, $tanggal_operasi, $dataJumlahPasienDitangani, $dataPasienDitanganiFilter, $JumlahDokter, $JumlahPasien, $JumlahTindakan, $JumlahUser, $search = '';
+    public $userRole, $tanggal_operasi, $dataJumlahPasienDitangani, $dataPasienDitanganiFilter, $JumlahDokter, $JumlahPasien, $JumlahTindakan, $JumlahUser, $search = '', $totalPasienDitanganiBulanIni;
 
     protected $listerners = [
         'loadDashboardDokter',
@@ -47,9 +47,9 @@ class Dashboard extends Component
         }
 
         if ($this->userRole === 'admin') {
-        $this->JumlahPasien = Pasien::count();
-        $this->JumlahDokter = Mahasiswa::count();
-        $this->JumlahTindakan = Tindakan::count();
+            $this->JumlahPasien = Pasien::count();
+            $this->JumlahDokter = Mahasiswa::count();
+            $this->JumlahTindakan = Tindakan::count();
         } elseif ($this->userRole === 'operator') {
             $this->JumlahUser = User::count();
             $this->JumlahDokter = Mahasiswa::count();
@@ -93,7 +93,7 @@ class Dashboard extends Component
             })
                 ->when($this->tanggal_operasi, function ($query) {
                     $query->whereYear('tanggal_operasi', substr($this->tanggal_operasi, 0, 4))
-                          ->whereMonth('tanggal_operasi', substr($this->tanggal_operasi, 5, 2));
+                        ->whereMonth('tanggal_operasi', substr($this->tanggal_operasi, 5, 2));
                 })
                 ->when($this->search, function ($query) {
                     $query->whereHas('pasien', function ($q) {
@@ -102,13 +102,24 @@ class Dashboard extends Component
                 })
                 ->get();
 
-                // if($this->tanggal_operasi){
-                //     dd($this->tanggal_operasi);
-                // }
-                
+            $this->totalPasienDitanganiBulanIni = Tindakan::where(function ($query) use ($userId) {
+                $query->where('operator_id', $userId)
+                    ->orWhere('asisten1_id', $userId)
+                    ->orWhere('asisten2_id', $userId)
+                    ->orWhere('on_loop_id', $userId);
+            })
+                ->whereMonth('tanggal_operasi', Carbon::now()->month)
+                ->whereYear('tanggal_operasi', Carbon::now()->year)
+                ->count();
+
+            // if($this->tanggal_operasi){
+            //     dd($this->tanggal_operasi);
+            // }
+
             return view('livewire.pages.dashboard-dokter', [
                 'dataJumlahPasienDitangani' => $this->dataJumlahPasienDitangani,
                 'dataPasienDitanganiFilter' => $this->dataPasienDitanganiFilter,
+                'totalPasienDitanganiBulanIni' => $this->totalPasienDitanganiBulanIni,
             ]);
         } elseif ($this->userRole === 'developer') {
             return view('livewire.pages.admin.dashboard');

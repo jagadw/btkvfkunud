@@ -47,12 +47,11 @@ class Tindakan extends Component
                 ->where(function ($query) {
                     $user = Auth::user();
                     $userId = $user->id;
-                    if ($user->roles->pluck('name')->first() === 'dokter') {
                         $query->where('operator_id', $userId)
                             ->orWhere('asisten1_id', $userId)
                             ->orWhere('asisten2_id', $userId)
                             ->orWhere('on_loop_id', $userId);
-                    }
+                   
                 })
                 ->when($this->tanggal_operasi, function ($query) {
                     $query->whereYear('tanggal_operasi', substr($this->tanggal_operasi, 0, 4))

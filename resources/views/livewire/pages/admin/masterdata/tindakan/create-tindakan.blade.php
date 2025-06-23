@@ -120,7 +120,7 @@
                             <label class="required">Operator</label>
                             <select class="form-select" data-control="select2" onchange="@this.set('operator_id',this.value)" wire:model="operator_id">
                                 <option value="">Pilih Operator</option>
-                                @foreach($dokters as $dokter)
+                                  @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer') && $user->mahasiswa != null) as $dokter)
                                 <option value="{{ $dokter->id }}">
                                     @if($dokter->mahasiswa)
                                     {{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}
@@ -133,7 +133,7 @@
                             <label class="required">Asisten 1</label>
                             <select class="form-select" data-control="select2" onchange="@this.set('asisten1_id', this.value)" wire:model="asisten1_id">
                                 <option value="">Pilih Asisten 1</option>
-                                @foreach($dokters as $dokter)
+                                  @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer') && $user->mahasiswa != null) as $dokter)
                                 <option value="{{ $dokter->id }}">
                                     @if($dokter->mahasiswa)
                                     {{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}
@@ -146,7 +146,7 @@
                             <label class="required">Asisten 2</label>
                             <select class="form-select" data-control="select2" onchange="@this.set('asisten2_id', this.value)" wire:model="asisten2_id">
                                 <option value="">Pilih Asisten 2</option>
-                                @foreach($dokters as $dokter)
+                                  @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer') && $user->mahasiswa != null) as $dokter)
                                 <option value="{{ $dokter->id }}">
                                     @if($dokter->mahasiswa)
                                     {{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}
@@ -159,7 +159,7 @@
                             <label class="required">On Loop</label>
                             <select class="form-select" data-control="select2" onchange="@this.set('on_loop_id', this.value)" wire:model="on_loop_id">
                                 <option value="">Pilih On Loop</option>
-                                @foreach($dokters as $dokter)
+                                  @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer') && $user->mahasiswa != null) as $dokter)
                                 <option value="{{ $dokter->id }}">
                                     @if($dokter->mahasiswa)
                                     {{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}

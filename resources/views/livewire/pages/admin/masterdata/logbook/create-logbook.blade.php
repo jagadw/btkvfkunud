@@ -36,7 +36,7 @@
                         <label class="required form-label">Mahasiswa</label>
                         <select class="form-select" data-control="select2" onchange="@this.set('selectedMahasiswa',this.value)" wire:model="selectedMahasiswa">
                             <option value="">Pilih Mahasiswa</option>
-                            @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer')) as $dokter)
+                            @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer') && $user->mahasiswa != null) as $dokter)
                             @if($dokter->mahasiswa)
                             <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}</option>
                             @endif
