@@ -165,7 +165,16 @@
                             <button class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export To EXCEL</button>
                         </div>
                         <div class="col-md-auto d-flex align-items-center">
-                            <a class="btn btn-sm fw-bold btn-primary" href="{{route('create-tindakan')}}" wire:navigate>Tambah Tindakan</a>
+                        @php
+                            $disabled = !Auth::user()->mahasiswa || Auth::user()->mahasiswa->trashed() || Auth::user()->mahasiswa->status == 'nonaktif';
+                        @endphp
+                        <a 
+                            class="btn btn-sm fw-bold btn-primary{{ $disabled ? ' disabled' : '' }}" 
+                            href="{{ $disabled ? '#' : route('create-tindakan') }}" 
+                            @if($disabled) tabindex="-1" aria-disabled="true" @endif
+                        >
+                            Tambah Tindakan
+                        </a>
                         </div>
                     </div>
                 </div>

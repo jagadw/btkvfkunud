@@ -121,7 +121,11 @@
                             <select class="form-select" data-control="select2" disabled onchange="@this.set('operator_id',this.value)" wire:model="operator_id">
                                 <option value="">Pilih Operator</option>
                                 @foreach($dokters as $dokter)
-                                <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}</option>
+                                <option value="{{ $dokter->id }}">
+                                    @if($dokter->mahasiswa)
+                                    {{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}
+                                    @endif
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -130,7 +134,11 @@
                             <select class="form-select" data-control="select2" disabled onchange="@this.set('asisten1_id', this.value)" wire:model="asisten1_id">
                                 <option value="">Pilih Asisten 1</option>
                                 @foreach($dokters as $dokter)
-                                <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}</option>
+                                <option value="{{ $dokter->id }}">
+                                    @if($dokter->mahasiswa)
+                                    {{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}
+                                    @endif
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -139,7 +147,11 @@
                             <select class="form-select" data-control="select2" disabled onchange="@this.set('asisten2_id', this.value)" wire:model="asisten2_id">
                                 <option value="">Pilih Asisten 2</option>
                                 @foreach($dokters as $dokter)
-                                <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}</option>
+                                <option value="{{ $dokter->id }}">
+                                    @if($dokter->mahasiswa)
+                                    {{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}
+                                    @endif
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -148,7 +160,11 @@
                             <select class="form-select" data-control="select2" disabled onchange="@this.set('on_loop_id', this.value)" wire:model="on_loop_id">
                                 <option value="">Pilih On Loop</option>
                                 @foreach($dokters as $dokter)
-                                <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}</option>
+                                <option value="{{ $dokter->id }}">
+                                    @if($dokter->mahasiswa)
+                                    {{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}
+                                    @endif
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -170,7 +186,7 @@
                 <hr class="my-4">
 
                 <div class="d-flex justify-content-end">
-                    <a class="btn btn-danger me-2" href="{{ route('tindakan') }}" wire:navigate >Batal</a>
+                    <a class="btn btn-danger me-2" href="{{ route('tindakan') }}" wire:navigate>Batal</a>
                     <button class="btn btn-primary" wire:click="update">{{ $idTindakan ? 'Update' : 'Simpan' }}</button>
                 </div>
 

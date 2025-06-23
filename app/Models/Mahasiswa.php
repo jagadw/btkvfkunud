@@ -20,17 +20,17 @@ class Mahasiswa extends Model
         return $this->belongsTo(User::class);
     }
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::deleting(function ($mahasiswa) {
-            $mahasiswa->user()->delete();
-        });
+    //     static::deleting(function ($mahasiswa) {
+    //         $mahasiswa->user()->delete();
+    //     });
 
-        static::restoring(function ($mahasiswa) {
-            $mahasiswa->user()->restore();
-        });
+    //     static::restoring(function ($mahasiswa) {
+    //         $mahasiswa->user()->restore();
+    //     });
         
-    }
+    // }
 }

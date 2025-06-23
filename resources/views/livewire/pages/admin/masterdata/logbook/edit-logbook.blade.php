@@ -31,15 +31,19 @@
         <div id="kt_app_content_container" class="app-container container-xxl">
             <div class="card p-5 shadow-lg">
                 <div class="row g-9 mb-8">
+                    @if(!Auth::user()->roles->pluck('name')->contains('dokter'))
                     <div class="col-md-6" wire:ignore>
                         <label class="required form-label">Mahasiswa</label>
-                        <select class="form-select" disabled data-control="select2" onchange="@this.set('selectedMahasiswa',this.value)" wire:model="selectedMahasiswa">
+                        <select class="form-select" data-control="select2" onchange="@this.set('selectedMahasiswa',this.value)" wire:model="selectedMahasiswa">
                             <option value="">Pilih Mahasiswa</option>
                             @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer')) as $dokter)
+                            @if($dokter->mahasiswa)
                             <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}</option>
+                            @endif
                             @endforeach
                         </select>
                     </div>
+                    @endif
                     <div class="col-md-6">
                         <label class="required form-label">Tanggal</label>
                         <input type="date" class="form-control" wire:model="tanggal">

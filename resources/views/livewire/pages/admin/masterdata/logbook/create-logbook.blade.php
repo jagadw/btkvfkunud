@@ -37,7 +37,9 @@
                         <select class="form-select" data-control="select2" onchange="@this.set('selectedMahasiswa',this.value)" wire:model="selectedMahasiswa">
                             <option value="">Pilih Mahasiswa</option>
                             @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer')) as $dokter)
+                            @if($dokter->mahasiswa)
                             <option value="{{ $dokter->id }}">{{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}</option>
+                            @endif
                             @endforeach
                         </select>
                     </div>
@@ -60,7 +62,7 @@
                 </div>
                 <div class="card-footer d-flex justify-content-end">
                     <button class="btn btn-primary" wire:click="store">Simpan</button>
-                    <button class="btn btn-secondary ms-2" wire:click="resetForm">Batal</button>
+                    <a class="btn btn-danger ms-2" href="{{ route('logbook') }}" wire:navigate>Batal</a>
                 </div>
             </div>
         </div>

@@ -23,26 +23,25 @@
 <div id="kt_app_content" class="app-content flex-column-fluid">
     <div id="kt_app_content_container" class="app-container container-xxl">
         <div class="card p-5 shadow-lg">
-            <div class="row mb-5 align-items-center">
-                <div class="col-md-auto mb-2 mb-md-0">
+            <div class="row mb-4 align-items-end g-2">
+                <div class="col-md-4">
                     <label class="mb-1">Cari Nama Pasien</label>
-                    <div class="d-flex align-items-center position-relative my-1">
-                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
+                    <div class="position-relative">
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-3 mt-2">
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
-                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12  border-primary border-3 text-primary" placeholder="Cari Nama Pasien" wire:model.live.debounce.100ms="search" />
+                        <input type="text" class="form-control form-control-solid ps-10 border-primary border-2 text-primary" placeholder="Cari Nama Pasien" wire:model.live.debounce.100ms="search" style="min-width: 180px;" />
                     </div>
                 </div>
-                <div class="col-md-auto mb-2 mb-md-0">
+                <div class="col-md-3">
                     <label class="mb-1">Tanggal Conference</label>
                     <input type="month" id="tanggal_conference" class="form-control" wire:model="tanggal_conference" onchange="@this.set('tanggal_conference', this.value)">
                 </div>
-                <div class="col-md-auto mb-2 mb-md-0 d-flex align-items-center gap-2">
+                <div class="col-md-5 d-flex align-items-end justify-content-end gap-2">
                     <button class="btn btn-sm fw-bold btn-danger" onclick="exportToPDF()">Export To PDF</button>
                     <button class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export To EXCEL</button>
                 </div>
-
             </div>
 
             <div class="main m-5">

@@ -17,7 +17,13 @@
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <a class="btn btn-sm fs-5 fw-bold btn-primary" href="{{ route('add-logbook') }}" wire:navigate.prevent>Tambah Logbook</a>
+                @php
+                $mahasiswa = Auth::user()->mahasiswa()->withTrashed()->first();
+                $disabled = !$mahasiswa || ($mahasiswa && ($mahasiswa->deleted_at || $mahasiswa->status == 'nonaktif'));
+                @endphp
+                <a class="btn btn-sm fs-5 fw-bold btn-primary {{ $disabled ? 'disabled' : '' }}" href="{{ $disabled ? '#' : route('add-logbook') }}" @if($disabled) aria-disabled="true" @endif wire:navigate.prevent>
+                    Tambah Logbook
+                </a>
             </div>
         </div>
     </div>
@@ -56,8 +62,17 @@
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i>
                                     </a>
                                     <!--begin::Menu-->
+                                    <!--begin::Menu item-->
+                                    @php
+                                    if(Auth::user()->roles->pluck('name')->first() == 'dokter') {
+                                    $mahasiswa = Auth::user()->mahasiswa()->withTrashed()->first();
+                                    $disabled = !$mahasiswa || ($mahasiswa && ($mahasiswa->deleted_at || $mahasiswa->status == 'nonaktif'));
+                                    } else {
+                                    $disabled = false;
+                                    }
+                                    @endphp
+                                    @if(!$disabled)
                                     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                        <!--begin::Menu item-->
                                         <div class="menu-item px-3">
                                             <a href="{{ route('edit-logbook', encrypt($logbook->id)) }}" class="menu-link bg-warning text-dark px-3 w-100">Edit</a>
                                         </div>
@@ -77,6 +92,7 @@
                                         </div>
                                         <!--end::Menu item-->
                                     </div>
+                                    @endif
                                 </td>
                                 <td>{{ $logbook->user->name }}</td>
                                 <td>{{ $logbook->kegiatan }}</td>
@@ -106,9 +122,8 @@
 <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugin/dropify/dropify.min.js') }}"></script>
 <script>
-
     $(function() {
-      
+
         Livewire.on('show-modal', () => {
             // Pastikan fotoModal tidak sedang terbuka
             var fotoModalEl = document.getElementById('fotoModal');

@@ -17,79 +17,75 @@
             </div>
             {{-- <div class="d-flex align-items-center gap-2 gap-lg-3">
                 <a class="btn btn-sm fw-bold btn-primary" href="{{route('create-tindakan')}}" wire:navigate.prevent>Tambah Tindakan</a>
-            </div> --}}
-        </div>
+        </div> --}}
     </div>
-    <div id="kt_app_content" class="app-content flex-column-fluid">
-        <div id="kt_app_content_container" class="app-container container-xxl">
-            <div class="card p-5 shadow-lg">
-                <div class="row mb-5 align-items-center">
-                    <div class="col-md-auto mb-2 mb-md-0">
-                        <label class="mb-1">Cari Pasien</label>
-                        <div class="d-flex align-items-center position-relative my-1">
-                            <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-5">
-                                <span class="path1"></span>
-                                <span class="path2"></span>
-                            </i>
-                            <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12  border-primary border-3 text-primary" placeholder="Cari Nama / No Rekam Medis" wire:model.live.debounce.100ms="search" />
-                        </div>
+</div>
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    <div id="kt_app_content_container" class="app-container container-xxl">
+        <div class="card p-5 shadow-lg">
+            <div class="row mb-3 align-items-end g-2">
+                <div class="col-md-4">
+                    <label class="mb-1">Cari Pasien</label>
+                    <div class="position-relative">
+                        <i class="ki-duotone ki-magnifier fs-3 position-absolute ms-3 mt-2"></i>
+                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid ps-10 border-primary border-3 text-primary" placeholder="Cari Nama / No Rekam Medis" wire:model.live.debounce.100ms="search" />
                     </div>
-                    <div class="col-md-auto mb-2 mb-md-0">
-                        <label class="mb-1">Waktu Operasi</label>
-                        <input type="month" id="tanggal_operasi" class="form-control" wire:model="tanggal_operasi" onchange="@this.set('tanggal_operasi', this.value)">
-                    </div>
-                    <div class="col-md-auto mb-2 mb-md-0 d-flex align-items-center gap-2">
-                        <button class="btn btn-sm fw-bold btn-danger" onclick="exportToPDF()">Export To PDF</button>
-                        <button class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export To EXCEL</button>
-                    </div>
-
                 </div>
-
-                <div class="main m-5">
-
-                    <table id="table-responsive" class="table table-row-bordered table-striped gy-5">
-                        <thead>
-                            <tr class="fw-semibold fs-6">
-                                <th>No</th>
-                                <th>No Rekam Medis</th>
-                                <th>Pasien</th>
-                                <th>Operator</th>
-                                <th>Asisten 1</th>
-                                <th>Asisten 2</th>
-                                <th>On Loop</th>
-                                <th>Tanggal Operasi</th>
-                                <th>Realisasi</th>
-                                <th>Kesesuaian</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($tindakans as $index => $t)
-                            <tr>
-                                <td>{{ $index + 1}}</td>
-                                <td>{{ $t->pasien->nomor_rekam_medis ?? '-' }}</td>
-                                <td>{{ $t->pasien->nama ?? '-' }}</td>
-                                <td>{{ $t->operator->name ?? '-' }}</td>
-                                <td>{{ $t->asisten1->name ?? '-' }}</td>
-                                <td>{{ $t->asisten2->name ?? '-' }}</td>
-                                <td>{{ $t->onLoop->name ?? '-' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($t->tanggal_operasi)->format('d M Y') }}</td>
-                                <td>{{ $t->relealisasi_tindakan }}</td>
-                                <td>{{ $t->kesesuaian }}</td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="10" class="text-center">Data Tidak Ditemukan</td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-
+                <div class="col-md-3">
+                    <label class="mb-1">Waktu Operasi</label>
+                    <input type="month" id="tanggal_operasi" class="form-control" wire:model="tanggal_operasi" onchange="@this.set('tanggal_operasi', this.value)">
                 </div>
-
-                @include('livewire.pages.admin.masterdata.tindakan.modal')
+                <div class="col-md-5 d-flex align-items-end gap-2">
+                    <button class="btn btn-sm fw-bold btn-danger" onclick="exportToPDF()">Export PDF</button>
+                    <button class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export EXCEL</button>
+                </div>
             </div>
+
+            <div class="main m-5">
+
+                <table id="table-responsive" class="table table-row-bordered table-striped gy-5">
+                    <thead>
+                        <tr class="fw-semibold fs-6">
+                            <th>No</th>
+                            <th>No Rekam Medis</th>
+                            <th>Pasien</th>
+                            <th>Operator</th>
+                            <th>Asisten 1</th>
+                            <th>Asisten 2</th>
+                            <th>On Loop</th>
+                            <th>Tanggal Operasi</th>
+                            <th>Realisasi</th>
+                            <th>Kesesuaian</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($tindakans as $index => $t)
+                        <tr>
+                            <td>{{ $index + 1}}</td>
+                            <td>{{ $t->pasien->nomor_rekam_medis ?? '-' }}</td>
+                            <td>{{ $t->pasien->nama ?? '-' }}</td>
+                            <td>{{ $t->operator->name ?? '-' }}</td>
+                            <td>{{ $t->asisten1->name ?? '-' }}</td>
+                            <td>{{ $t->asisten2->name ?? '-' }}</td>
+                            <td>{{ $t->onLoop->name ?? '-' }}</td>
+                            <td>{{ \Carbon\Carbon::parse($t->tanggal_operasi)->format('d M Y') }}</td>
+                            <td>{{ $t->relealisasi_tindakan }}</td>
+                            <td>{{ $t->kesesuaian }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="10" class="text-center">Data Tidak Ditemukan</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+
+            </div>
+
+            @include('livewire.pages.admin.masterdata.tindakan.modal')
         </div>
     </div>
+</div>
 </div>
 
 @push('script')
