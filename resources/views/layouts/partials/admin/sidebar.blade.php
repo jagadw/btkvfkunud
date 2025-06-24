@@ -91,7 +91,15 @@ $menus = Menu::with('submenus')->get();
                             </div>
                             @endforeach
 
-                            @if ($menu->name == 'Master Data' && Auth::user()->roles->pluck('name')->contains('dokter') && Auth::user()->akses_semua == 1 || Auth::user()->roles->pluck('name')->contains('admin') || Auth::user()->roles->pluck('name')->contains('operator') || Auth::user()->roles->pluck('name')->contains('developer'))
+                            @if (
+                                $menu->name == 'Master Data' &&
+                                (
+                                    (Auth::user()->roles->pluck('name')->contains('dokter') && Auth::user()->akses_semua == 1)
+                                    || Auth::user()->roles->pluck('name')->contains('admin')
+                                    || Auth::user()->roles->pluck('name')->contains('operator')
+                                    || Auth::user()->roles->pluck('name')->contains('developer')
+                                )
+                            )
                             <div class="menu-item">
                                 @php
                                 $semuaTindakanRoutes = ['semua-tindakan', 'semua-tindakan.*'];

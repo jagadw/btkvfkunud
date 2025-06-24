@@ -107,9 +107,9 @@ class DatabaseSeeder extends Seeder
         $developerUser = User::factory()->create([
             'name' => 'Harrys',
             'email' => 'harrysputra46@gmail.com',
-            'password' => bcrypt('guarajadisini')
+            'password' => bcrypt('developerbtkv')
         ]);
-        $developerUser->assignRole('developer');
+        $developerUser->assignRole('operator');
 
         $admin =  User::factory()->create([
             'name' => 'Resident BTKV',
