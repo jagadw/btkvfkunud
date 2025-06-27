@@ -10,7 +10,7 @@ $menus = Menu::with('submenus')->get();
             <div class="d-flex app-sidebar-logo-default align-items-center">
                 <div class="d-flex align-items-center">
                     <img alt="Logo" src="{{ asset('assets/media/logos/android-chrome-192x192.png') }}" class="h-25px app-sidebar-logo-default me-2" />
-                    <p class="app-sidebar-logo-default text-white fw-bold fs-2 mb-0">BTKV SYSTEM</p>
+                    <p class="app-sidebar-logo-default text-white fw-bold fs-2 mb-0">BTKV E-LOGBOOK</p>
                 </div>
             </div>
             <img alt="Logo" src="{{ asset('assets/media/logos/android-chrome-192x192.png') }}" class="h-20px app-sidebar-logo-minimize" />
