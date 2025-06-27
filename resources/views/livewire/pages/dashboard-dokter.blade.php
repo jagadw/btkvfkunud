@@ -161,8 +161,8 @@
                             <input type="month" class="form-control" wire:model="tanggal_operasi" onchange="@this.set('tanggal_operasi', this.value)">
                         </div>
                         <div class="col-md-auto mb-2 mb-md-0 d-flex align-items-center gap-2">
-                            <button class="btn btn-sm fw-bold btn-danger" onclick="printToPDF()">Export To PDF</button>
-                            <button class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export To EXCEL</button>
+                            <button @if(empty($dataPasienDitanganiFilter)) disabled @endif class="btn btn-sm fw-bold btn-danger" onclick="printToPDF()">Export To PDF</button>
+                            <button @if(empty($dataPasienDitanganiFilter)) disabled @endif class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export To EXCEL</button>
                         </div>
                         <div class="col-md-auto d-flex align-items-center">
                         @php

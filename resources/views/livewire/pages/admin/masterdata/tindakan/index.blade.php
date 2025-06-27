@@ -142,12 +142,23 @@
 
 <script>
     function exportToExcel() {
-        document.querySelectorAll('.aksi').forEach(el => el.style.display = 'none');
-        var table = document.getElementById("table-responsive");
+        var table = document.getElementById("table-responsive").cloneNode(true);
+
+        var aksiIndexes = [];
+        var ths = table.querySelectorAll('thead th');
+        ths.forEach((th, idx) => {
+            if (th.classList.contains('aksi')) aksiIndexes.push(idx);
+        });
+
+        table.querySelectorAll('tr').forEach(tr => {
+            aksiIndexes.slice().reverse().forEach(idx => {
+                if (tr.children[idx]) tr.removeChild(tr.children[idx]);
+            });
+        });
+
         var wb = XLSX.utils.table_to_book(table, {
             sheet: "Data Tindakan Pasien"
         });
-
 
         var ws = wb.Sheets["Data Tindakan Pasien"];
         var cols = [];
@@ -155,32 +166,23 @@
         for (var C = range.s.c; C <= range.e.c; ++C) {
             var maxWidth = 10;
             for (var R = range.s.r; R <= range.e.r; ++R) {
-                var cell = ws[XLSX.utils.encode_cell({
-                    r: R
-                    , c: C
-                })];
+                var cell = ws[XLSX.utils.encode_cell({ r: R, c: C })];
                 if (cell && cell.v) {
                     maxWidth = Math.max(maxWidth, cell.v.toString().length);
                 }
             }
-            cols.push({
-                wch: maxWidth
-            });
+            cols.push({ wch: maxWidth });
         }
         ws["!cols"] = cols;
 
-
         for (var R = range.s.r; R <= range.e.r; ++R) {
             for (var C = range.s.c; C <= range.e.c; ++C) {
-                var cellAddress = XLSX.utils.encode_cell({
-                    r: R
-                    , c: C
-                });
+                var cellAddress = XLSX.utils.encode_cell({ r: R, c: C });
                 if (!ws[cellAddress]) continue;
                 if (!ws[cellAddress].s) ws[cellAddress].s = {};
                 ws[cellAddress].s.alignment = {
-                    horizontal: "center"
-                    , vertical: "center"
+                    horizontal: "center",
+                    vertical: "center"
                 };
             }
         }
@@ -194,7 +196,7 @@
         var originalContents = document.body.innerHTML;
 
 
-        printContents.querySelectorAll('.action').forEach(el => el.remove());
+        printContents.querySelectorAll('.aksi').forEach(el => el.remove());
 
         document.body.innerHTML = printContents.innerHTML;
         document.title = "Data Tindakan Pasien";

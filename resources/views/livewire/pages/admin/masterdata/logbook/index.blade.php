@@ -79,9 +79,9 @@
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->
                                         <div class="menu-item px-3">
-                                            @if (Auth::user()->roles->pluck('name')->first() == 'operator'|| Auth::user()->roles->pluck('name')->first() == 'developer')
+                                            {{-- @if (Auth::user()->roles->pluck('name')->first() == 'operator'|| Auth::user()->roles->pluck('name')->first() == 'developer') --}}
                                             <a href="#" class="menu-link bg-danger text-white px-3 w-100" wire:click="delete({{ $logbook->id }})">Hapus</a>
-                                            @endif
+                                            {{-- @endif --}}
                                         </div>
                                         <!--end::Menu item-->
                                         <!--begin::Menu item-->

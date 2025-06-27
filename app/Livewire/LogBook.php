@@ -174,9 +174,9 @@ class LogBook extends Component
     public function deleteLogBookConfirmed()
     {
         $fotoKegiatan = FotoTindakan::where('log_book_id', $this->idToDelete)->first();
-        // if ($fotoKegiatan) {
-        //     Storage::disk('public')->delete($fotoKegiatan->foto);
-        // }
+        if ($fotoKegiatan) {
+            Storage::disk('public')->delete($fotoKegiatan->foto);
+        }
         LogBookModel::destroy($this->idToDelete);
         $this->dispatch('delete-success', 'LogBook berhasil dihapus.');
     }
