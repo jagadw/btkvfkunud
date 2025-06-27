@@ -76,7 +76,7 @@
                                 <select class="form-select" wire:model="tipe_jantung">
                                     <option value="">Pilih Tipe Jantung</option>
                                     <option value="Jantung Dewasa">Jantung Dewasa</option>
-                                    <option value="Jantung Pediatri & Kongenital">Jantung Pediatri & Kongenital</option>
+                                    <option value="Jantung Pediatri & Kongengital">Jantung Pediatri & Kongengital</option>
                                 </select>
                             </div>
                         </div>

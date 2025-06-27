@@ -42,7 +42,7 @@
                         <select class="form-select" wire:model="tipe_jantung">
                         <option value="">Pilih Tipe Jantung</option>
                             <option value="Jantung Dewasa" {{ $tipe_jantung == 'Jantung Dewasa' ? 'selected' : '' }}>Jantung Dewasa</option>
-                            <option value="Jantung Pediatri & Kongenital" {{ $tipe_jantung == 'Jantung Pediatri & Kongenital' ? 'selected' : '' }}>Jantung Pediatri & Kongenital</option>
+                            <option value="Jantung Pediatri & Kongengital" {{ $tipe_jantung == 'Jantung Pediatri & Kongengital' ? 'selected' : '' }}>Jantung Pediatri & Kongengital</option>
                         </select>
                     </div>
                 </div>
