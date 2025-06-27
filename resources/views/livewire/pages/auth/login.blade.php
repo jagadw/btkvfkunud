@@ -68,4 +68,9 @@ new #[Layout('layouts.guest')] class extends Component
             </x-primary-button>
         </div>
     </form>
+    <div class="flex justify-center mt-6">
+        <a href="https://btkvfkudayana.com"  rel="noopener" style="background: #3b82f6; color: #fff; padding: 8px 16px; border-radius: 4px; text-decoration: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.2s;">
+            Back To Website
+        </a>
+    </div>
 </div>
