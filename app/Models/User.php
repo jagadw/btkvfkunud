@@ -53,33 +53,15 @@ class User extends Authenticatable
     {
         return $this->hasOne(Mahasiswa::class);
     }
-    public function tindakans()
+    
+    public function asistens()
     {
-        return $this->hasMany(Tindakan::class);
+        return $this->hasMany(TindakanAsisten::class);
     }
     
-    public function tindakanSebagaiOperator()
-    {
-        return $this->hasMany(Tindakan::class, 'operator_id');
-    }
-
-    
-    public function tindakanSebagaiAsisten1()
-    {
-        return $this->hasMany(Tindakan::class, 'asisten1_id');
-    }
-
-    
-    public function tindakanSebagaiAsisten2()
-    {
-        return $this->hasMany(Tindakan::class, 'asisten2_id');
-    }
-
-    
-    public function tindakanSebagaiOnLoop()
-    {
-        return $this->hasMany(Tindakan::class, 'on_loop_id');
-    }
+   public function dpjp(){
+        return $this->hasOne(Dpjp::class);
+   }
 
     public function logBook()
     {

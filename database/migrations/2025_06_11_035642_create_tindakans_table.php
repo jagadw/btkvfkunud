@@ -14,13 +14,19 @@ return new class extends Migration
         Schema::create('tindakans', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('pasien_id')->references('id')->on('pasiens')->onDelete('cascade');
-            $table->unsignedBigInteger('operator_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('asisten1_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('asisten2_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('on_loop_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('dpjp_id')->references('id')->on('users')->onDelete('cascade');
+            $table->text('nama_tindakan');
+            $table->enum('divisi', [
+                'Jantung Dewasa',
+                'Jantung Pediatri & Kongengital',
+                'Toraks',
+                'Vaskular',
+                'Endovaskular'
+            ]);
+            $table->string('diagnosa');
             $table->timestamp('tanggal_operasi');
-            $table->text('relealisasi_tindakan');
-            $table->text('kesesuaian');
+            $table->text('laporan_tindakan');
+            $table->text('foto_tindakan')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

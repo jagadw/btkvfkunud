@@ -10,40 +10,28 @@ class Tindakan extends Model
     use SoftDeletes;
     protected $fillable = [
         'pasien_id',
-        'operator_id',
-        'asisten1_id',
-        'asisten2_id',
+        'dpjp_id',
         'on_loop_id',
+        'nama_tindakan',
+        'divisi',
+        'diagnosa',
         'tanggal_operasi',
-        'relealisasi_tindakan',
-        'kesesuaian'
+        'laporan_tindakan',
+        'foto_tindakan',
     ];
 
     public function pasien()
     {
         return $this->belongsTo(Pasien::class)->withTrashed();
     }
-    public function operator()
+    public function dpjp()
     {
-        return $this->belongsTo(User::class, 'operator_id', 'id')->withTrashed();
+        return $this->belongsTo(User::class, 'dpjp_id', 'id')->withTrashed();
     }
-    public function asisten1()
+    public function asistens()
     {
-        return $this->belongsTo(User::class, 'asisten1_id','id')->withTrashed();
+        return $this->hasMany(TindakanAsisten::class);
     }
-    public function asisten2()
-    {
-    return $this->belongsTo(User::class, 'asisten2_id', 'id')->withTrashed();
-    }
-    public function onLoop()
-    {
-        return $this->belongsTo(User::class, 'on_loop_id','id')->withTrashed();
-    }
-
-    // public function fotoTindakan()
-    // {
-    //     return $this->hasOne(FotoTindakan::class);
-    // }
 
     public function conference()
     {

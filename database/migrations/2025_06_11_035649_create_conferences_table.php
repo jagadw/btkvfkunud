@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('pasien_id')->references('id')->on('pasiens')->onDelete('cascade');
             $table->unsignedBigInteger('tindakan_id')->references('id')->on('tindakans')->onDelete('cascade');
-            $table->text('diagnosa');
             $table->timestamp('tanggal_conference');
             $table->text('hasil_conference');
+            $table->boolean('kesesuaian')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

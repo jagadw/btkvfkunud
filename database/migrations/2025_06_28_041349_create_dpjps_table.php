@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pasiens', function (Blueprint $table) {
+        Schema::create('dpjps', function (Blueprint $table) {
             $table->id();
-            $table->text('nama');
-            $table->string('usia');
-            $table->string('nomor_rekam_medis')->unique();
+            $table->unsignedBigInteger('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
+            $table->string('nama');
+            $table->string('inisial_residen');
+            $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
-            $table->text('jenis_kelamin');
-            $table->string('asal_rumah_sakit');
+            $table->string('status');
+            $table->string('alamat');
             $table->timestamps();
+            $table->enum('status_aktif', ['aktif', 'nonaktif'])->default('aktif');
             $table->softDeletes();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pasiens');
+        Schema::dropIfExists('dpjps');
     }
 };

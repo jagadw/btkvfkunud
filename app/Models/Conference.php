@@ -9,11 +9,11 @@ class Conference extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'tindakan_id',
         'pasien_id',
-        'diagnosa',
+        'tindakan_id',
         'tanggal_conference',
-        'hasil_conference'
+        'hasil_conference',
+        'kesesuaian'
     ];
 
     public function pasien()

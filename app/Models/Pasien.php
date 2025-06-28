@@ -16,7 +16,7 @@ class Pasien extends Model
         'nomor_rekam_medis',
         'tanggal_lahir',
         'jenis_kelamin',
-        'tipe_jantung'
+        'asal_rumah_sakit',
     ];
 
     public function conferences()

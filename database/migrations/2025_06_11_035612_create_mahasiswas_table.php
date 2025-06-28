@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('mahasiswas', function (Blueprint $table) {
             $table->id();
-            $table->string('nim')->unique();
-            $table->text('nama');
-            $table->text('inisial_residen');
-            $table->timestamps();
             $table->unsignedBigInteger('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
-            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif');
+            $table->string('nim')->unique();
+            $table->string('nama');
+            $table->string('inisial_residen');
+            $table->string('tempat_lahir');
+            $table->date('tanggal_lahir');
+            $table->string('status');
+            $table->string('alamat');
+            $table->timestamps();
+            $table->enum('status_aktif', ['aktif', 'nonaktif'])->default('aktif');
             $table->softDeletes();
-
         });
     }
 
