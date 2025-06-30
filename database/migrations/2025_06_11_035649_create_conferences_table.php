@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('tanggal_conference');
             $table->text('hasil_conference');
             $table->boolean('kesesuaian')->default(false);
+            $table->text('realisasi_tindakan');
             $table->timestamps();
             $table->softDeletes();
         });

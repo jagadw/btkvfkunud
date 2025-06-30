@@ -73,7 +73,7 @@ class User extends Component
 
         $getUserId = ModelsUser::where('email', $this->email)->first();
         $mahasiswa = Mahasiswa::where('id', $this->selectedMahasiswa)->first();
-
+        
 
         if ($mahasiswa && $mahasiswa instanceof Mahasiswa) {
             $mahasiswa->user_id = $getUserId->id;
@@ -180,7 +180,8 @@ class User extends Component
                     'developer' => 0,
                     'operator' => 1,
                     'admin' => 2,
-                    'dokter' => 3,
+                    'dpjp' => 3,
+                    'dokter' => 4,
                 ];
                 $roleName = $user->roles->pluck('name')->first();
                 return $order[$roleName] ?? 99;

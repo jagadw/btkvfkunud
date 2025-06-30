@@ -43,42 +43,134 @@
 
             <div class="main m-5">
 
-                <table id="table-responsive" class="table table-row-bordered table-striped gy-5">
-                    <thead>
-                        <tr class="fw-semibold fs-6">
-                            <th>No</th>
-                            <th>No Rekam Medis</th>
-                            <th>Pasien</th>
-                            <th>Operator</th>
-                            <th>Asisten 1</th>
-                            <th>Asisten 2</th>
-                            <th>On Loop</th>
-                            <th>Tanggal Operasi</th>
-                            <th>Realisasi</th>
-                            <th>Kesesuaian</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($tindakans as $index => $t)
-                        <tr>
-                            <td>{{ $index + 1}}</td>
-                            <td>{{ $t->pasien->nomor_rekam_medis ?? '-' }}</td>
-                            <td>{{ $t->pasien->nama ?? '-' }}</td>
-                            <td>{{ $t->operator->name ?? '-' }}</td>
-                            <td>{{ $t->asisten1->name ?? '-' }}</td>
-                            <td>{{ $t->asisten2->name ?? '-' }}</td>
-                            <td>{{ $t->onLoop->name ?? '-' }}</td>
-                            <td>{{ \Carbon\Carbon::parse($t->tanggal_operasi)->format('d M Y') }}</td>
-                            <td>{{ $t->relealisasi_tindakan }}</td>
-                            <td>{{ $t->kesesuaian }}</td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="10" class="text-center">Data Tidak Ditemukan</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+               @php
+                    $maxAsisten = $tindakans->map(function($t) {
+                    return $t->tindakanAsistens->where('tipe', 'asisten')->count();
+                    })->max();
+                    @endphp
+
+                    <table id="table-responsive" class="table table-row-bordered table-striped gy-5">
+                        <thead>
+                            <tr class="fw-semibold fs-6">
+                                <th>No</th>
+                                {{-- <th class="aksi">Aksi</th> --}}
+                                <th>No Rekam Medis</th>
+                                <th>Pasien</th>
+                                <th>DPJP</th>
+                                <th>Tanggal Operasi</th>
+                                {{-- <th>Realisasi</th>
+                                <th>Kesesuaian</th> --}}
+                                @for ($i = 1; $i <= $maxAsisten; $i++) <th>Asisten {{ $i }}</th>
+                                    @endfor
+                                    <th>On Loop</th>
+                                <th>Tanggal Conference</th>
+                                <th>Hasil Conference</th>
+                                <th>Kesesuaian</th>
+                                <th>Realisasi Tindakan</th>
+                                <th>Foto Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($tindakans as $index => $t)
+                            @php
+                            $asistens = $t->tindakanAsistens->where('tipe', 'asisten')->values();
+                            $onloop = $t->tindakanAsistens->where('tipe', 'onloop')->first();
+                            @endphp
+                            <tr>
+                                <td>{{ $index + 1 }}</td>
+                                {{-- <td class="aksi">
+                                    <div class="dropdown">
+                                        <a href="#" class="btn-primary btn btn-sm btn-light btn-flex btn-center btn-primary fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                            Aksi
+                                            <i class="ki-duotone ki-down fs-5 ms-1"></i>
+                                        </a>
+                                        @php
+                                        if(Auth::user()->roles->pluck('name')->first() == 'dokter') {
+                                        $mahasiswa = Auth::user()->mahasiswa()->withTrashed()->first();
+                                        $disabled = !$mahasiswa || ($mahasiswa && ($mahasiswa->deleted_at || $mahasiswa->status == 'nonaktif'));
+                                        } else {
+                                        $disabled = false;
+                                        }
+                                        @endphp
+                                        @if(!$disabled)
+                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                            <div class="menu-item px-3">
+                                                <a href="{{ route('edit-tindakan', ['id' => encrypt($t->id)]) }}" class="menu-link bg-warning text-dark px-3 w-100">Edit</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="#" class="menu-link bg-danger text-white px-3 w-100" wire:click="delete({{ $t->id }})">Hapus</a>
+                                            </div>
+                                        </div>
+                                        @else
+                                        <div class="menu-item px-3"></div>
+                                        @endif
+                                    </div>
+                                </td> --}}
+                                <td>{{ $t->pasien->nomor_rekam_medis ?? '-' }}</td>
+                                <td>{{ $t->pasien->nama ?? '-' }}</td>
+                                <td>{{ $t->dpjp->name ?? '-' }}</td>
+                                <td>{{ \Carbon\Carbon::parse($t->tanggal_operasi)->format('d M Y') }}</td>
+                                {{-- <td>{{ $t->relealisasi_tindakan }}</td>
+                                <td>{{ $t->kesesuaian }}</td> --}}
+
+                                {{-- Kolom Asisten --}}
+                                @foreach ($asistens as $as)
+                                <td>
+                                    {{ $as->user->name ?? '-' }}<br>
+                                    <small>({{ $as->role }})</small>
+                                    @if ($as->deskripsi)
+                                    <div><small>{{ $as->deskripsi }}</small></div>
+                                    @endif
+                                </td>
+                                @endforeach
+
+                                {{-- Jika asisten kurang, tambah kolom kosong --}}
+                                @for ($i = $asistens->count(); $i < $maxAsisten; $i++) <td>-</td>
+                                    @endfor
+
+                                    {{-- Kolom On Loop --}}
+                                    <td>
+                                        @if ($onloop)
+                                        {{ $onloop->user->name ?? '-' }}<br>
+                                        <small>({{ $onloop->role }})</small>
+                                        @if ($onloop->deskripsi)
+                                        <div><small>{{ $onloop->deskripsi }}</small></div>
+                                        @endif
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
+                                <td>{{ $t->conference?->tanggal_conference ? \Carbon\Carbon::parse($t->conference?->tanggal_conference)->format('d M Y') : '-' }}</td>
+                                <td>{{ $t->conference?->hasil_conference ?? '-' }}</td>
+                                <td>
+                                    @if ($t->conference)
+                                        @if ($t->conference?->kesesuaian)
+                                            <span class="badge bg-success text-white">Ya</span>
+                                        @else
+                                            <span class="badge bg-danger text-white">Tidak</span>
+                                        @endif
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    {{ $t->conference?->realisasi_tindakan ?? '-' }}
+                                </td>
+                                <td>
+                                    @if ($t->foto_tindakan)
+                                    <button class="btn btn-sm btn-primary" wire:click="showFoto('{{ $t->foto_tindakan }}')">Lihat Foto</button>
+                                    @else
+                                    -
+                                    @endif
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="{{ 9 + $maxAsisten }}" class="text-center">Data Tidak Ditemukan</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
 
             </div>
 

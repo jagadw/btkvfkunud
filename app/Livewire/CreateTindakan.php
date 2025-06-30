@@ -9,17 +9,34 @@ use App\Models\User;
 use Illuminate\Support\Carbon;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use App\Models\TindakanAsisten;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 #[Layout('layouts.admin')]
 class CreateTindakan extends Component
 {
+    use WithFileUploads;
     public $selectedPasien;
-    public $idTindakan, $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung;
+    public $idTindakan, $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung, $asal_rumah_sakit;
     public $diagnosa, $tanggal_conference, $hasil_conference;
-    public $pasien_id, $operator_id, $asisten1_id, $asisten2_id, $on_loop_id;
-    public $tanggal_operasi, $relealisasi_tindakan, $kesesuaian, $tindakan_id;
+    public $pasien_id, $operator_id, $asisten1_id, $asisten2_id, $dpjp_id;
+    public $tanggal_operasi, $realisasi_tindakan, $kesesuaian, $tindakan_id, $divisi, $on,
+        $asistens = [
+            [
+                'user_id' => '',
+                'role' => '',
+                'deskripsi' => '',
+            ]
+        ];
+    public $on_loop = [
+        'user_id' => '',
+        'role' => 'Observer',
+        'deskripsi' => '',
+    ];
+    public $nama_tindakan, $laporan_tindakan, $foto_tindakan;
     public $isEdit = false;
-    protected $listeners = ['updateUsia','deleteTindakanConfirmed'];
+    protected $listeners = ['updateUsia', 'deleteTindakanConfirmed', 'divisiChanged'];
 
     public function mount($id = null)
     {
@@ -31,15 +48,18 @@ class CreateTindakan extends Component
                 $pasien = Pasien::find($dataTindakan->pasien_id);
                 $this->selectedPasien = $dataTindakan->pasien_id;
                 $this->pasien_id = $dataTindakan->pasien_id;
-                $this->operator_id = $dataTindakan->operator_id;
-                $this->asisten1_id = $dataTindakan->asisten1_id;
-                $this->asisten2_id = $dataTindakan->asisten2_id;
-                $this->on_loop_id = $dataTindakan->on_loop_id;
-                $this->tanggal_operasi = Carbon::parse($dataTindakan->tanggal_operasi)->format('Y-m-d');
-
-                $this->relealisasi_tindakan = $dataTindakan->relealisasi_tindakan;
-                $this->kesesuaian = $dataTindakan->kesesuaian;
+                $this->operator_id = $dataTindakan->operator_id ?? null;
+                $this->asisten1_id = $dataTindakan->asisten1_id ?? null;
+                $this->asisten2_id = $dataTindakan->asisten2_id ?? null;
+                $this->tanggal_operasi = $dataTindakan->tanggal_operasi ? Carbon::parse($dataTindakan->tanggal_operasi)->format('Y-m-d') : null;
+                $this->realisasi_tindakan = $dataTindakan->realisasi_tindakan ?? null;
+                $this->kesesuaian = $dataTindakan->kesesuaian ?? null;
                 $this->tindakan_id = $this->idTindakan;
+                $this->nama_tindakan = $dataTindakan->nama_tindakan ?? null;
+                $this->divisi = $dataTindakan->divisi ?? null;
+                $this->laporan_tindakan = $dataTindakan->laporan_tindakan ?? null;
+                $this->foto_tindakan = $dataTindakan->foto_tindakan ?? null;
+                $this->dpjp_id = $dataTindakan->dpjp_id ?? null;
 
                 if ($pasien) {
                     $this->nama = $pasien->nama;
@@ -48,18 +68,61 @@ class CreateTindakan extends Component
                     $this->tanggal_lahir = $pasien->tanggal_lahir;
                     $this->jenis_kelamin = $pasien->jenis_kelamin;
                     $this->tipe_jantung = $pasien->tipe_jantung;
+                    $this->asal_rumah_sakit = $pasien->asal_rumah_sakit;
                 }
 
                 // Ambil data conference jika ada
                 $conference = Conference::where('tindakan_id', $dataTindakan->id)->first();
                 if ($conference) {
                     $this->diagnosa = $conference->diagnosa;
-                    $this->tanggal_conference = Carbon::parse($conference->tanggal_conference)->format('Y-m-d');
+                    $this->tanggal_conference = $conference->tanggal_conference ? Carbon::parse($conference->tanggal_conference)->format('Y-m-d') : null;
                     $this->hasil_conference = $conference->hasil_conference;
                 } else {
-                    $this->diagnosa = null;
+                    $this->diagnosa = $dataTindakan->diagnosa ?? null;
                     $this->tanggal_conference = null;
                     $this->hasil_conference = null;
+                }
+
+                // Ambil data asistens
+                $asistens = TindakanAsisten::where('tindakan_id', $dataTindakan->id)
+                    ->where('tipe', 'asisten')
+                    ->orderBy('urutan')
+                    ->get();
+                if ($asistens->count()) {
+                    $this->asistens = [];
+                    foreach ($asistens as $asisten) {
+                        $this->asistens[] = [
+                            'user_id' => $asisten->user_id,
+                            'role' => $asisten->role,
+                            'deskripsi' => $asisten->deskripsi,
+                        ];
+                    }
+                } else {
+                    $this->asistens = [
+                        [
+                            'user_id' => '',
+                            'role' => '',
+                            'deskripsi' => '',
+                        ]
+                    ];
+                }
+
+                // Ambil data on loop jika ada
+                $onLoop = TindakanAsisten::where('tindakan_id', $dataTindakan->id)
+                    ->where('tipe', 'onloop')
+                    ->first();
+                if ($onLoop) {
+                    $this->on_loop = [
+                        'user_id' => $onLoop->user_id,
+                        'role' => $onLoop->role ?? 'Observer',
+                        'deskripsi' => $onLoop->deskripsi ?? '',
+                    ];
+                } else {
+                    $this->on_loop = [
+                        'user_id' => '',
+                        'role' => 'Observer',
+                        'deskripsi' => '',
+                    ];
                 }
 
                 $this->isEdit = true;
@@ -68,6 +131,7 @@ class CreateTindakan extends Component
             $this->idTindakan = null;
         }
     }
+
     public function updateUsia()
     {
         if ($this->tanggal_lahir) {
@@ -79,6 +143,7 @@ class CreateTindakan extends Component
             $this->usia = null;
         }
     }
+
 
     public function resetForm()
     {
@@ -97,82 +162,195 @@ class CreateTindakan extends Component
             'operator_id',
             'asisten1_id',
             'asisten2_id',
-            'on_loop_id',
+            'on_loop',
             'tanggal_operasi',
-            'relealisasi_tindakan',
+            'realisasi_tindakan',
             'kesesuaian',
             'tindakan_id',
             'isEdit'
         ]);
     }
 
+    public function addAsisten()
+    {
+        $this->asistens[] = [
+            'user_id' => '',
+            'role' => '',
+            'deskripsi' => '',
+        ];
+    }
+
+
+    public function removeAsisten($index)
+    {
+        if (count($this->asistens) > 1) {
+            array_splice($this->asistens, $index, 1);
+            $this->asistens = array_values($this->asistens); // reindex
+        }
+    }
+    public function removeFoto()
+    {
+        $this->foto_tindakan = null;
+    }
+
+
+    public function updatedFotoTindakan()
+    {
+        $this->dispatch('success', 'Foto berhasil di-load.');
+    }
+
     public function store()
     {
         try {
+            // Gabungkan semua rules validasi di awal
+            $rules = [
+                'selectedPasien' => 'required',
+                'dpjp_id' => 'required|exists:users,id',
+                'nama_tindakan' => 'required|string',
+                'divisi' => 'required|in:Jantung Dewasa,Jantung Pediatri & Kongengital,Toraks,Vaskular,Endovaskular',
+                'diagnosa' => 'required|string',
+                'tanggal_operasi' => 'required|date',
+                'laporan_tindakan' => 'required|string',
+                'foto_tindakan' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            ];
+
             if ($this->selectedPasien === 'manual') {
-                $this->validate([
+                $rules = array_merge($rules, [
                     'nama' => 'required|string',
-                    'usia' => 'required|string',
-                    'nomor_rekam_medis' => 'required|string|unique:pasiens,nomor_rekam_medis',
+                    'nomor_rekam_medis' => 'required|numeric|digits:8|unique:pasiens,nomor_rekam_medis',
                     'tanggal_lahir' => 'required|date',
                     'jenis_kelamin' => 'required|in:L,P',
+                    'asal_rumah_sakit' => 'required|string',
                 ]);
+            }
 
-                $pasien = Pasien::create([
-                    'nama' => $this->nama,
-                    'usia' => $this->usia,
-                    'nomor_rekam_medis' => $this->nomor_rekam_medis,
-                    'tanggal_lahir' => $this->tanggal_lahir,
-                    'jenis_kelamin' => $this->jenis_kelamin,
-                    'tipe_jantung' => $this->tipe_jantung,
+            if (in_array($this->divisi, ['Jantung Dewasa', 'Jantung Pediatri & Kongengital'])) {
+                $rules = array_merge($rules, [
+                    'tanggal_conference' => 'required|date',
+                    'hasil_conference' => 'required|string',
+                    'realisasi_tindakan' => 'required|string',
+                    'kesesuaian' => 'required|boolean',
                 ]);
+            }
+
+            // Validasi asisten: minimal satu asisten diisi dan semua field wajib diisi jika user_id ada
+            if (empty($this->asistens) || !collect($this->asistens)->filter(fn($a) => !empty($a['user_id']))->count()) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'asistens' => ['Minimal satu asisten harus diisi.'],
+                ]);
+            }
+
+            if (is_array($this->asistens)) {
+                foreach ($this->asistens as $idx => $asisten) {
+                    if (!empty($asisten['user_id'])) {
+                        $rules["asistens.$idx.user_id"] = 'required|exists:users,id';
+                        $rules["asistens.$idx.role"] = 'required|string|max:50';
+                        $rules["asistens.$idx.deskripsi"] = 'required|string|max:255';
+                    }
+                }
+            }
+
+            // Validasi on_loop: semua field wajib diisi jika user_id ada
+            if (empty($this->on_loop['user_id'])) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'on_loop.user_id' => ['Data on loop wajib diisi.'],
+                ]);
+            } else {
+                $rules['on_loop.user_id'] = 'required|exists:users,id';
+                $rules['on_loop.role'] = 'required|string|max:50';
+                $rules['on_loop.deskripsi'] = 'required|string|max:255';
+            }
+
+            // Validasi semua inputan sebelum insert
+            $validated = $this->validate($rules);
+
+            // Insert pasien jika manual dan belum ada
+            if ($this->selectedPasien === 'manual') {
+                $pasien = Pasien::where('nomor_rekam_medis', $this->nomor_rekam_medis)->first();
+                if (!$pasien) {
+                    $pasien = Pasien::create([
+                        'nama' => $this->nama,
+                        'nomor_rekam_medis' => $this->nomor_rekam_medis,
+                        'tanggal_lahir' => $this->tanggal_lahir,
+                        'jenis_kelamin' => $this->jenis_kelamin,
+                        'asal_rumah_sakit' => $this->asal_rumah_sakit,
+                    ]);
+                }
                 $this->pasien_id = $pasien->id;
             } else {
                 $this->pasien_id = $this->selectedPasien;
             }
 
-            $this->validate([
-                'pasien_id' => 'required|exists:pasiens,id',
-                'operator_id' => 'required|exists:users,id',
-                'asisten1_id' => 'required|exists:users,id',
-                'asisten2_id' => 'required|exists:users,id',
-                'on_loop_id' => 'required|exists:users,id',
-                'tanggal_operasi' => 'required|date',
-                'relealisasi_tindakan' => 'required|string',
-                'kesesuaian' => 'required|string',
-            ]);
+            $fotoPath = null;
+            if ($this->foto_tindakan) {
+                $fotoPath = Storage::disk('public')->putFile('foto-tindakan', $this->foto_tindakan);
+            }
 
             $tindakan = Tindakan::create([
                 'pasien_id' => $this->pasien_id,
-                'operator_id' => $this->operator_id,
-                'asisten1_id' => $this->asisten1_id,
-                'asisten2_id' => $this->asisten2_id,
-                'on_loop_id' => $this->on_loop_id,
+                'dpjp_id' => $this->dpjp_id,
+                'nama_tindakan' => $this->nama_tindakan,
+                'divisi' => $this->divisi,
+                'diagnosa' => $this->diagnosa,
                 'tanggal_operasi' => $this->tanggal_operasi,
-                'relealisasi_tindakan' => $this->relealisasi_tindakan,
-                'kesesuaian' => $this->kesesuaian,
+                'laporan_tindakan' => $this->laporan_tindakan,
+                'foto_tindakan' => $fotoPath ?? null,
             ]);
-
             $this->tindakan_id = $tindakan->id;
 
-            if ($this->diagnosa && $this->tanggal_conference && $this->hasil_conference) {
+            if (in_array($this->divisi, ['Jantung Dewasa', 'Jantung Pediatri & Kongengital'])) {
                 Conference::create([
-                    'tindakan_id' => $this->tindakan_id,
+                    'tindakan_id' => $tindakan->id,
                     'pasien_id' => $this->pasien_id,
                     'diagnosa' => $this->diagnosa,
                     'tanggal_conference' => $this->tanggal_conference,
                     'hasil_conference' => $this->hasil_conference,
+                    'realisasi_tindakan' => $this->realisasi_tindakan,
+                    'kesesuaian' => (bool) $this->kesesuaian,
+                ]);
+            }
+
+            // Simpan asisten
+            if (is_array($this->asistens)) {
+                foreach ($this->asistens as $idx => $asisten) {
+                    if (!empty($asisten['user_id'])) {
+                        TindakanAsisten::create([
+                            'tindakan_id' => $tindakan->id,
+                            'user_id' => $asisten['user_id'],
+                            'tipe' => 'asisten',
+                            'urutan' => $idx + 1,
+                            'role' => isset($asisten['role']) && strlen($asisten['role']) <= 50 ? $asisten['role'] : null,
+                            'deskripsi' => isset($asisten['deskripsi']) && strlen($asisten['deskripsi']) <= 255 ? $asisten['deskripsi'] : null,
+                        ]);
+                    }
+                }
+            }
+
+            // Simpan on loop
+            if (!empty($this->on_loop['user_id'])) {
+                TindakanAsisten::create([
+                    'tindakan_id' => $tindakan->id,
+                    'user_id' => $this->on_loop['user_id'],
+                    'tipe' => 'onloop',
+                    'urutan' => null,
+                    'role' => isset($this->on_loop['role']) && strlen($this->on_loop['role']) <= 50 ? $this->on_loop['role'] : 'Observer',
+                    'deskripsi' => isset($this->on_loop['deskripsi']) && strlen($this->on_loop['deskripsi']) <= 255 ? $this->on_loop['deskripsi'] : null,
                 ]);
             }
 
             $this->dispatch('success', 'Tindakan berhasil disimpan.');
             $this->resetForm();
             return redirect()->route('tindakan');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            $messages = $e->validator->errors()->all();
+            $this->dispatch('error', implode(' ', $messages));
+            return;
         } catch (\Throwable $e) {
-            $this->dispatch('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            $this->dispatch('error', 'Terjadi kesalahan sistem. Silakan coba lagi atau hubungi admin.');
             return;
         }
     }
+
 
     public function update()
     {
@@ -182,10 +360,10 @@ class CreateTindakan extends Component
                 'operator_id' => 'required|exists:users,id',
                 'asisten1_id' => 'required|exists:users,id',
                 'asisten2_id' => 'required|exists:users,id',
-                'on_loop_id' => 'required|exists:users,id',
+                'on_loop' => 'required|exists:users,id',
                 'tanggal_operasi' => 'required|date',
-                'relealisasi_tindakan' => 'required|string',
-                'kesesuaian' => 'required|string',
+                'realisasi_tindakan' => 'required|string',
+                'kesesuaian' => 'required|boolean',
             ]);
 
             Tindakan::where('id', $this->tindakan_id)->update([
@@ -193,9 +371,9 @@ class CreateTindakan extends Component
                 'operator_id' => $this->operator_id,
                 'asisten1_id' => $this->asisten1_id,
                 'asisten2_id' => $this->asisten2_id,
-                'on_loop_id' => $this->on_loop_id,
+                'on_loop' => $this->on_loop,
                 'tanggal_operasi' => $this->tanggal_operasi,
-                'relealisasi_tindakan' => $this->relealisasi_tindakan,
+                'realisasi_tindakan' => $this->realisasi_tindakan,
                 'kesesuaian' => $this->kesesuaian,
             ]);
 
@@ -232,12 +410,18 @@ class CreateTindakan extends Component
                 'pasiens' => Pasien::all(),
                 'dokters' => User::with('mahasiswa')->whereHas('roles', fn($q) => $q->where('name', 'dokter'))->get(),
                 'users' => User::all(),
+                'dpjp' => User::whereHas('roles', function ($q) {
+                    $q->where('name', 'dpjp');
+                })->get(),
             ]);
         } else {
             return view('livewire.pages.admin.masterdata.tindakan.create-tindakan', [
                 'pasiens' => Pasien::all(),
                 'dokters' => User::with('mahasiswa')->whereHas('roles', fn($q) => $q->where('name', 'dokter'))->get(),
                 'users' => User::all(),
+                'dpjp' => User::whereHas('roles', function ($q) {
+                    $q->where('name', 'dpjp');
+                })->get(),
             ]);
         }
     }

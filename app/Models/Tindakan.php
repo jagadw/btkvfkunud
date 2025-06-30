@@ -18,6 +18,7 @@ class Tindakan extends Model
         'tanggal_operasi',
         'laporan_tindakan',
         'foto_tindakan',
+        'verifikasi',
     ];
 
     public function pasien()
@@ -28,9 +29,15 @@ class Tindakan extends Model
     {
         return $this->belongsTo(User::class, 'dpjp_id', 'id')->withTrashed();
     }
-    public function asistens()
+    public function tindakanAsistens()
     {
-        return $this->hasMany(TindakanAsisten::class);
+        return $this->hasMany(TindakanAsisten::class, 'tindakan_id');
+    }
+
+    public function onLoop()
+    {
+        return $this->hasOne(TindakanAsisten::class, 'tindakan_id')
+            ->where('tipe', 'onloop');
     }
 
     public function conference()
@@ -42,7 +49,7 @@ class Tindakan extends Model
     {
         parent::boot();
 
-        static::deleting(function($tindakan){
+        static::deleting(function ($tindakan) {
             $tindakan->conference()->delete();
         });
 

@@ -12,16 +12,15 @@ class Pasien extends Component
 {
     use WithPagination;
 
-    public $idToDelete, $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $tipe_jantung;
+    public $idToDelete, $nama, $usia, $nomor_rekam_medis, $tanggal_lahir, $jenis_kelamin, $asal_rumah_sakit;
     public $pasien_id, $isEdit = false, $search = '';
     protected $listeners = ['deletePasienConfirmed','updateUsia'];
     protected $rules = [
         'nama' => 'required|string',
-        'usia' => 'required|string',
-        'nomor_rekam_medis' => 'required|string|unique:pasiens,nomor_rekam_medis',
+        'nomor_rekam_medis' => 'required|numeric|digits:8|unique:pasiens,nomor_rekam_medis',
         'tanggal_lahir' => 'required|date',
         'jenis_kelamin' => 'required|string',
-        'tipe_jantung' => 'required|string',
+        'asal_rumah_sakit' => 'required|string',
     ];
 
     public function updateUsia()
@@ -58,7 +57,7 @@ class Pasien extends Component
         $this->reset([
             'nama', 'usia', 'nomor_rekam_medis',
             'tanggal_lahir', 'jenis_kelamin',
-            'tipe_jantung', 'pasien_id', 'isEdit'
+            'asal_rumah_sakit', 'pasien_id', 'isEdit'
         ]);
         $this->dispatch('close-modal');
     }
@@ -73,11 +72,11 @@ class Pasien extends Component
 
         PasienModel::create([
             'nama' => $this->nama,
-            'usia' => $this->usia,
+                
             'nomor_rekam_medis' => $this->nomor_rekam_medis,
             'tanggal_lahir' => $this->tanggal_lahir,
             'jenis_kelamin' => $this->jenis_kelamin,
-            'tipe_jantung' => $this->tipe_jantung,
+            'asal_rumah_sakit' => $this->asal_rumah_sakit,
         ]);
 
         $this->dispatch('success', message: 'Data has been added.');
@@ -90,7 +89,7 @@ class Pasien extends Component
         $this->fill($data->only([
             'nama', 'usia', 'nomor_rekam_medis',
             'tanggal_lahir', 'jenis_kelamin',
-            'tipe_jantung'
+            'asal_rumah_sakit'
         ]));
         $this->pasien_id = $id;
         $this->showModal();
@@ -100,20 +99,20 @@ class Pasien extends Component
     {
         $this->validate([
             'nama' => 'required|string',
-            'usia' => 'required|string',
-            'nomor_rekam_medis' => 'required|string|unique:pasiens,nomor_rekam_medis,' . $this->pasien_id,
+
+            'nomor_rekam_medis' => 'required|numeric|digits:8|unique:pasiens,nomor_rekam_medis,' . $this->pasien_id,
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|string',
-            'tipe_jantung' => 'required|string',
+            'asal_rumah_sakit' => 'required|string',
         ]);
 
         PasienModel::where('id', $this->pasien_id)->update([
             'nama' => $this->nama,
-            'usia' => $this->usia,
+                
             'nomor_rekam_medis' => $this->nomor_rekam_medis,
             'tanggal_lahir' => $this->tanggal_lahir,
             'jenis_kelamin' => $this->jenis_kelamin,
-            'tipe_jantung' => $this->tipe_jantung,
+            'asal_rumah_sakit' => $this->asal_rumah_sakit,
         ]);
 
         $this->dispatch('success', message: 'Data has been updated.');

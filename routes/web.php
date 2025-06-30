@@ -22,6 +22,9 @@ Route::get('/', function () {
         Route::get('/menu', MenuManagement::class)->name('menu');
         Route::get('/roles', RolesPermissions::class)->name('role');
         Route::get('/mahasiswa', \App\Livewire\Mahasiswa::class)->name('mahasiswa');
+        Route::get('/dpjp', \App\Livewire\Dpjp::class)->name('dpjp');
+        Route::get('/verifikasi-tindakan', \App\Livewire\VerifikasiTindakan::class)->name('verifikasi-tindakan');
+        Route::get('/sudah-verifikasi', \App\Livewire\DataVerifikasi::class)->name('sudah-verifikasi');
         Route::get('/pasien', \App\Livewire\Pasien::class)->name('pasien');
 
         Route::get('/tindakan', \App\Livewire\Tindakan::class)->name('tindakan');

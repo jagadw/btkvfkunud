@@ -1,11 +1,11 @@
 <div class="d-flex flex-column flex-column-fluid">
-    <x-slot:title>Manajemen Mahasiswa</x-slot:title>
+    <x-slot:title>Manajemen Dpjp</x-slot:title>
 
     <!--begin::Toolbar-->
     <div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
         <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
-                <h1 class="page-heading d-flex text-dark fw-bold fs-1 flex-column justify-content-center my-0">Manajemen Mahasiswa</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-1 flex-column justify-content-center my-0">Manajemen Dpjp</h1>
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-5 my-0 pt-1">
                     <li class="breadcrumb-item text-muted">
                         <a href="{{ route('dashboard') }}" class="text-muted text-hover-primary">Home</a>
@@ -13,11 +13,11 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Mahasiswa</li>
+                    <li class="breadcrumb-item text-muted">Dpjp</li>
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <button class="btn btn-sm fw-bold btn-primary fs-5" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#mahasiswaModal">Tambah Mahasiswa</button>
+                <button class="btn btn-sm fw-bold btn-primary fs-5" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#dpjpModal">Tambah Dpjp</button>
             </div>
         </div>
     </div>
@@ -34,7 +34,7 @@
                             <span class="path1"></span>
                             <span class="path2"></span>
                         </i>
-                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12  border-primary border-3 text-primary" placeholder="Cari Nama / NIM" wire:model.live.debounce.100ms="search" />
+                        <input type="text" data-kt-customer-table-filter="search" class="form-control form-control-solid w-250px ps-12  border-primary border-3 text-primary" placeholder="Cari Nama / Inisial" wire:model.live.debounce.100ms="search" />
                     </div>
                 </div>
 
@@ -56,7 +56,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($mahasiswas as $index => $mahasiswa)
+                                @forelse ($dpjps as $index => $dpjp)
                                 <tr>
                                     <td>{{ $index + 1 }}</td>
                                     <td>
@@ -65,22 +65,22 @@
                                         </a>
                                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-5 w-125px py-4" data-kt-menu="true">
                                             <div class="menu-item px-3 ">
-                                                <a wire:click="edit({{ $mahasiswa->id }})" class=" bg-warning text-dark menu-link px-3 w-100">Edit</a>
+                                                <a wire:click="edit({{ $dpjp->id }})" class=" bg-warning text-dark menu-link px-3 w-100">Edit</a>
                                             </div>
                                             <div class="menu-item px-3">
-                                                <a href="#" class="menu-link px-3 w-100 text-white bg-danger" wire:click="delete({{ $mahasiswa->id }})">Non Aktifkan</a>
+                                                <a href="#" class="menu-link px-3 w-100 text-white bg-danger" wire:click="delete({{ $dpjp->id }})">Non Aktifkan</a>
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ $mahasiswa->nim }}</td>
-                                    <td>{{ $mahasiswa->nama }}</td>
-                                    <td>{{ $mahasiswa->inisial_residen }}</td>
-                                    <td>{{ $mahasiswa->tempat_lahir }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($mahasiswa->tanggal_lahir)->format('d-m-Y') }}</td>
+                                    <td>{{ $dpjp->nim }}</td>
+                                    <td>{{ $dpjp->nama }}</td>
+                                    <td>{{ $dpjp->inisial_residen }}</td>
+                                    <td>{{ $dpjp->tempat_lahir }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($dpjp->tanggal_lahir)->format('d-m-Y') }}</td>
                                     <td>
-                                       {{ $mahasiswa->status }}
+                                       {{ $dpjp->status }}
                                     </td>
-                                    <td>{{ $mahasiswa->alamat }}</td>
+                                    <td>{{ $dpjp->alamat }}</td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -97,7 +97,7 @@
                 </div>
 
                 <!-- Modal Include -->
-                @include('livewire.pages.admin.masterdata.mahasiswa.modal')
+                @include('livewire.pages.admin.masterdata.dpjp.modal')
 
             </div>
         </div>
@@ -107,7 +107,7 @@
 <script>
     $(function() {
         Livewire.on('show-modal', () => {
-            var modalEl = document.getElementById('mahasiswaModal');
+            var modalEl = document.getElementById('dpjpModal');
             var existingModal = bootstrap.Modal.getInstance(modalEl);
             if (existingModal) {
                 existingModal.dispose();
@@ -116,7 +116,7 @@
             myModal.show();
         });
         Livewire.on('hide-modal', () => {
-            var modalEl = document.getElementById('mahasiswaModal');
+            var modalEl = document.getElementById('dpjpModal');
             var modal = bootstrap.Modal.getInstance(modalEl);
             if (modal) {
                 modal.hide();
@@ -140,7 +140,7 @@
                 , icon: "warning"
             }).then((result) => {
                 if (result.isConfirmed) {
-                    Livewire.dispatch('deleteMahasiswaConfirmed');
+                    Livewire.dispatch('deleteDpjpConfirmed');
                 } else {
                     Swal.fire("DiBatalkan", "Aksi DiBatalkan.", "info");
                 }

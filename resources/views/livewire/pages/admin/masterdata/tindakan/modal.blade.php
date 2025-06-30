@@ -16,8 +16,7 @@
                 <div class="row g-9 mb-8">
                     <div class="col-md-12 mb-2 d-flex justify-content-center" data-box="fotoTindakan">
                         
-                        <img src="{{ asset('storage/' . ($fotoPreview->foto ?? 'default.jpg')) }}" alt="Preview Foto" class="img-fluid rounded" style="max-height: 400px;">
-                        
+                        <img src="{{ asset('storage/' . ($fotoPreview ?? 'default.jpg')) }}" alt="Preview Foto" class="img-fluid rounded" style="max-height: 400px;">
                     </div>
                 </div>
 

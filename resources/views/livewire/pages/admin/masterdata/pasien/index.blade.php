@@ -39,7 +39,7 @@
                                 <th>Usia</th>
                                 <th>Tanggal Lahir</th>
                                 <th>Jenis Kelamin</th>
-                                <th>Tipe Jantung</th>
+                                <th>Asal Rumah Sakit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,7 +72,7 @@
                                 <td>{{ $p->usia }}</td>
                                 <td>{{ \Carbon\Carbon::parse($p->tanggal_lahir)->format('d M Y') }}</td>
                                 <td>{{ ucfirst($p->jenis_kelamin) }}</td>
-                                <td>{{ $p->tipe_jantung }}</td>
+                                <td>{{ $p->asal_rumah_sakit }}</td>
                             </tr>
                             @empty
                             <tr>

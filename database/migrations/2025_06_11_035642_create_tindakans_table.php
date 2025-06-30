@@ -27,6 +27,7 @@ return new class extends Migration
             $table->timestamp('tanggal_operasi');
             $table->text('laporan_tindakan');
             $table->text('foto_tindakan')->nullable();
+            $table->boolean('verifikasi')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

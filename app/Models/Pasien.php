@@ -12,7 +12,6 @@ class Pasien extends Model
 
     protected $fillable = [
         'nama',
-        'usia',
         'nomor_rekam_medis',
         'tanggal_lahir',
         'jenis_kelamin',

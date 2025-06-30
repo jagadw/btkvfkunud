@@ -13,7 +13,8 @@ class Conference extends Model
         'tindakan_id',
         'tanggal_conference',
         'hasil_conference',
-        'kesesuaian'
+        'kesesuaian',
+        'realisasi_tindakan',
     ];
 
     public function pasien()

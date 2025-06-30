@@ -2,7 +2,7 @@
 
 namespace App\Livewire;
 
-use App\Models\Mahasiswa as MahasiswaModel;
+use App\Models\Dpjp as DpjpModel;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
@@ -10,13 +10,13 @@ use Livewire\Component;
 use Livewire\WithPagination;
 
 #[Layout('layouts.admin')]
-class Mahasiswa extends Component
+class Dpjp extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public $mahasiswaId, $nim, $nama, $inisial_residen, $tempat_lahir, $tanggal_lahir, $status, $alamat, $idToDelete, $search = '';
-    protected $listeners = ['deleteMahasiswaConfirmed'];
+    public $dpjpId, $user_id, $nama, $inisial_residen, $tempat_lahir, $tanggal_lahir, $status, $alamat, $idToDelete, $search = '';
+    protected $listeners = ['deleteDpjpConfirmed'];
 
     public function mount()
     {
@@ -24,7 +24,7 @@ class Mahasiswa extends Component
             return $role->permissions->pluck('name');
         });
 
-        if (!$userPermissions->contains('masterdata-mahasiswa')) {
+        if (!$userPermissions->contains('masterdata-dpjp')) {
             abort(403, 'Unauthorized action.');
         }
     }
@@ -42,7 +42,7 @@ class Mahasiswa extends Component
 
     public function resetForm()
     {
-        $this->reset(['mahasiswaId', 'nim', 'nama', 'inisial_residen', 'status']);
+        $this->reset(['dpjpId', 'user_id', 'nama', 'inisial_residen', 'tempat_lahir', 'tanggal_lahir', 'status', 'alamat']);
     }
 
     public function create()
@@ -54,7 +54,7 @@ class Mahasiswa extends Component
     {
         try {
             $this->validate([
-                'nim' => 'required|string|unique:mahasiswas,nim',
+                'user_id' => 'nullable|exists:users,id',
                 'nama' => 'required|string',
                 'inisial_residen' => 'required|string',
                 'tempat_lahir' => 'required|string',
@@ -67,8 +67,8 @@ class Mahasiswa extends Component
             return;
         }
 
-        MahasiswaModel::create([
-            'nim' => $this->nim,
+        DpjpModel::create([
+            'user_id' => $this->user_id,
             'nama' => $this->nama,
             'inisial_residen' => $this->inisial_residen,
             'tempat_lahir' => $this->tempat_lahir,
@@ -77,25 +77,26 @@ class Mahasiswa extends Component
             'alamat' => $this->alamat,
         ]);
 
-        $this->dispatch('success', 'Student created successfully.');
+        $this->dispatch('success', 'DPJP created successfully.');
         $this->closeModal();
     }
 
     public function edit($id)
     {
-        $data = MahasiswaModel::findOrFail($id);
+        $data = DpjpModel::findOrFail($id);
         $this->fill($data->only([
-            'nim', 'nama', 'inisial_residen',
+            'user_id', 'nama', 'inisial_residen',
             'tempat_lahir', 'tanggal_lahir', 'status', 'alamat'
         ]));
-        $this->mahasiswaId = $id;
+        $this->dpjpId = $id;
         $this->openModal();
     }
+
     public function update()
     {
         try {
             $this->validate([
-                'nim' => 'required|string|unique:mahasiswas,nim,' . $this->mahasiswaId,
+                'user_id' => 'nullable|exists:users,id',
                 'nama' => 'required|string',
                 'inisial_residen' => 'required|string',
                 'tempat_lahir' => 'required|string',
@@ -108,8 +109,8 @@ class Mahasiswa extends Component
             return;
         }
 
-        MahasiswaModel::where('id', $this->mahasiswaId)->update([
-            'nim' => $this->nim,
+        DpjpModel::where('id', $this->dpjpId)->update([
+            'user_id' => $this->user_id,
             'nama' => $this->nama,
             'inisial_residen' => $this->inisial_residen,
             'tempat_lahir' => $this->tempat_lahir,
@@ -118,46 +119,34 @@ class Mahasiswa extends Component
             'alamat' => $this->alamat,
         ]);
 
-        $this->dispatch('success', 'Student updated successfully.');
+        $this->dispatch('success', 'DPJP updated successfully.');
         $this->closeModal();
     }
 
     public function delete($id)
     {
         $this->idToDelete = $id;
-        $this->dispatch('confirm-delete', 'Yakin ingin menonaktifkan mahasiswa ini?');
+        $this->dispatch('confirm-delete', 'Yakin ingin menonaktifkan DPJP ini?');
     }
-    
 
-    public function deleteMahasiswaConfirmed()
+    public function deleteDpjpConfirmed()
     {
-        $mahasiswaData = MahasiswaModel::where('id', $this->idToDelete)->first();
-        // if ($mahasiswaData) {
-        //     // Hapus user terkait jika ada
-        //     if ($mahasiswaData->user) {
-        //     $mahasiswaData->user->delete();
-        //     }
-        // }
-        // Hapus data mahasiswa
-        $mahasiswaData->delete();
+        $dpjpData = DpjpModel::where('id', $this->idToDelete)->first();
+        $dpjpData?->delete();
 
-
-        $this->dispatch('delete-success', 'Mahasiswa Berhasil di Non Aktifkan!.');
+        $this->dispatch('delete-success', 'DPJP Berhasil di Non Aktifkan!.');
     }
 
     public function render()
     {
-        return view('livewire.pages.admin.masterdata.mahasiswa.index', [
-            'mahasiswas' => MahasiswaModel::with('user')
+        return view('livewire.pages.admin.masterdata.dpjp.index', [
+            'dpjps' => DpjpModel::with('user')
                 ->when($this->search, function ($q) {
                     $q->where('nama', 'like', '%' . $this->search . '%')
                         ->orWhere('inisial_residen', 'like', '%' . $this->search . '%')
-                        ->orWhere('nim', 'like', '%' . $this->search . '%')
                         ->orWhereHas('user', function ($u) {
                             $u->where('name', 'like', '%' . $this->search . '%');
-                        })
-                      
-                        ;
+                        });
                 })
                 ->get(),
             'users' => User::all(),
