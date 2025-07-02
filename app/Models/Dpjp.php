@@ -14,6 +14,7 @@ class Dpjp extends Model
         'tanggal_lahir',
         'status',
         'alamat',
+        'ttd',
     ];
 
     public function user()

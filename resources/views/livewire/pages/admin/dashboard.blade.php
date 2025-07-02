@@ -588,7 +588,7 @@
                                             <!--begin::Table body-->
                                             <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">2:30 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -599,7 +599,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">3:10 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -610,7 +610,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">3:55 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -649,7 +649,7 @@
                                             <!--begin::Table body-->
                                             <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">2:30 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -660,7 +660,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">2:30 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -671,7 +671,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">2:30 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -710,7 +710,7 @@
                                             <!--begin::Table body-->
                                             <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">12:40 AM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -721,7 +721,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">11:30 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -732,7 +732,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">4:25 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -771,7 +771,7 @@
                                             <!--begin::Table body-->
                                             <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">3:20 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -782,7 +782,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">10:30 AM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -793,7 +793,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">1:30 AM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -832,7 +832,7 @@
                                             <!--begin::Table body-->
                                             <tbody>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">3:30 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -843,7 +843,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">2:30 PM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -854,7 +854,7 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>
+                                                    <td class="text-center align-items-center">
                                                         <a href="#" class="text-gray-600 fw-bold fs-6">12:30 AM</a>
                                                     </td>
                                                     <td class="pe-0 text-end">
@@ -934,7 +934,7 @@
                                     <!--begin::Table body-->
                                     <tbody>
                                         <tr>
-                                            <td>
+                                            <td class="text-center align-items-center">
                                                 <div class="d-flex align-items-center">
                                                     <div class="symbol symbol-50px me-3">
                                                         <img src="assets/media/avatars/300-3.jpg" class="" alt="" />
@@ -970,7 +970,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td class="text-center align-items-center">
                                                 <div class="d-flex align-items-center">
                                                     <div class="symbol symbol-50px me-3">
                                                         <img src="assets/media/avatars/300-10.jpg" class="" alt="" />
@@ -1006,7 +1006,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td class="text-center align-items-center">
                                                 <div class="d-flex align-items-center">
                                                     <div class="symbol symbol-50px me-3">
                                                         <img src="assets/media/avatars/300-9.jpg" class="" alt="" />
@@ -1042,7 +1042,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td class="text-center align-items-center">
                                                 <div class="d-flex align-items-center">
                                                     <div class="symbol symbol-50px me-3">
                                                         <img src="assets/media/avatars/300-2.jpg" class="" alt="" />
@@ -1078,7 +1078,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td class="text-center align-items-center">
                                                 <div class="d-flex align-items-center">
                                                     <div class="symbol symbol-50px me-3">
                                                         <img src="assets/media/avatars/300-1.jpg" class="" alt="" />

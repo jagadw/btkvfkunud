@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tindakan extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
     protected $fillable = [
         'pasien_id',
         'dpjp_id',
@@ -51,10 +51,16 @@ class Tindakan extends Model
 
         static::deleting(function ($tindakan) {
             $tindakan->conference()->delete();
+            $tindakan->tindakanAsistens()->each(function ($asisten) {
+                $asisten->delete();
+            });
         });
 
-        static::restoring(function ($tindakan) {
-            $tindakan->conference()->restore();
-        });
+        // static::restoring(function ($tindakan) {
+        //     $tindakan->conference()->restore();
+        //     $tindakan->tindakanAsistens()->each(function ($asisten) {
+        //         $asisten->restore();
+        //     });
+        // });
     }
 }

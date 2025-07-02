@@ -49,21 +49,33 @@
                     <table id="table-responsive" class="table table-row-bordered table-striped gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
-                                <th>No</th>
-                                <th>Nama Pasien</th>
-                                <th>Diagnosa</th>
-                                <th>Tanggal Conference</th>
-                                <th>Hasil Conference</th>
+                                <th class="text-center align-items-center">No</th>
+                                <th class="text-center align-items-center">No Rekam Medis</th>
+                                <th class="text-center align-items-center">Nama Pasien</th>
+                                <th class="text-center align-items-center">Diagnosa</th>
+                                <th class="text-center align-items-center">Hasil Conference</th>
+                                <th class="text-center align-items-center">Realisasi Tindakan</th>
+                                <th class="text-center align-items-center">Kesesuaian</th>
+                                <th class="text-center align-items-center">Tanggal Conference</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($conference as $index => $c)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $c->pasien->nama ?? '-' }}</td>
-                                <td>{{ $c->diagnosa ?? '-' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($c->tanggal_conference)->format('d M Y H:i') }}</td>
-                                <td>{{ $c->hasil_conference }}</td>
+                                <td class="text-center align-items-center">{{ $index + 1 }}</td>
+                                <td class="text-center align-items-center">{{ $c->pasien->nomor_rekam_medis ?? '-' }}</td>
+                                <td class="text-center align-items-center">{{ $c->pasien->nama ?? '-' }}</td>
+                                <td class="text-center align-items-center">{{ $c->diagnosa ?? '-' }}</td>
+                                <td class="text-center align-items-center">{{ $c->hasil_conference }}</td>
+                                <td class="text-center align-items-center">{{ $c->realisasi_tindakan }}</td>
+                                <td class="text-center align-items-center">
+                                    @if($c->kesesuaian == 1)
+                                        <span class="badge text-white bg-success">Sesuai</span>
+                                    @else
+                                        <span class="badge text-white bg-danger">Tidak Sesuai</span>
+                                    @endif
+                                </td>
+                                <td class="text-center align-items-center">{{ \Carbon\Carbon::parse($c->tanggal_conference)->format('d M Y ') }}</td>
                             </tr>
                             @empty
                             <tr>

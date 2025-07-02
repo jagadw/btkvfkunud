@@ -7,7 +7,7 @@
             <!--begin::Page title-->
             <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
                 <!--begin::Title-->
-                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Dashboard Dokter</h1>
+                <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Dashboard DPJP</h1>
                 <!--end::Title-->
                 <!--begin::Breadcrumb-->
                 <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
@@ -67,7 +67,7 @@
                         <div class="card-body d-flex align-items-end mb-3">
                             <!--begin::Info-->
                             <div class="d-flex justify-content-center flex-column">
-                                <span class="fs-3hx text-white fw-bold me-6">{{ $dataJumlahPasienDitangani->count() }}</span>
+                                <span class="fs-3hx text-white fw-bold me-6">{{ $dataJumlahSudahVerifikasi }}</span>
                                 {{-- <div class="fw-bold fs-6 text-white">
 									<span class="d-block">This Month</span>
 									<span class="">Income</span>
@@ -80,8 +80,8 @@
                         <div class="card-footer" style="border-top: 1px solid rgba(255, 255, 255, 0.3);background: rgba(0, 0, 0, 0.15);">
                             <!--begin::Progress-->
                             <div class="fw-bold text-white py-2">
-                                <span class="fs-1 d-block">Pasien Di Tangani</span>
-                                <span class="fs-3 opacity-80">Keseluruhan</span>
+                                <span class="fs-1 d-block">Tindakan Sudah DiVerifikasi</span>
+                                <!-- <span class="fs-3 opacity-80">Keseluruhan</span> -->
                             </div>
                             <!--end::Progress-->
                         </div>
@@ -116,7 +116,7 @@
                         <div class="card-body d-flex align-items-end mb-3">
                             <!--begin::Info-->
                             <div class="d-flex align-items-center">
-                                <span class="fs-3hx text-white fw-bold me-6">{{ $totalPasienDitanganiBulanIni }}</span>
+                                <span class="fs-3hx text-white fw-bold me-6">{{ $dataJumlahBelumVerifikasi }}</span>
                                 {{-- <div class="fw-bold fs-6 text-white">
 									<span class="d-block">Outbound</span>
 									<span class="">Calls</span>
@@ -129,8 +129,8 @@
                         <div class="card-footer" style="border-top: 1px solid rgba(255, 255, 255, 0.3);background: rgba(0, 0, 0, 0.15);">
                             <!--begin::Progress-->
                             <div class="fw-bold text-white py-2">
-                                <span class="fs-1 d-block">Pasien Di Tangani</span>
-                                <span class="fs-3 opacity-80">Bulan Ini</span>
+                                <span class="fs-1 d-block">Tindakan Belum DiVerifikasi</span>
+                                <!-- <span class="fs-3 opacity-80">Bulan Ini</span> -->
                             </div>
                             <!--end::Progress-->
                         </div>

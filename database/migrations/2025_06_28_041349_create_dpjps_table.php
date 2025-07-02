@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->string('status');
             $table->string('alamat');
+            $table->string('ttd')->nullable();
             $table->timestamps();
             $table->enum('status_aktif', ['aktif', 'nonaktif'])->default('aktif');
             $table->softDeletes();

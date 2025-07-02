@@ -144,9 +144,9 @@
                     <table id="kt_datatable_zero_configuration" class="table table-row-bordered table-striped gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
-                                <th>No</th>
-                                <th>Action</th>
-                                <th>Name</th>
+                                <th class="text-center align-items-center">No</th>
+                                <th class="text-center align-items-center">Action</th>
+                                <th class="text-center align-items-center">Name</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -158,8 +158,8 @@
                                 @foreach ( $permissionData as $index => $permission)
         
                                 <tr wire:key="permission-{{ $permission->id }}">
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>
+                                    <td class="text-center align-items-center">{{ $index + 1 }}</td>
+                                    <td class="text-center align-items-center">
                                         <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Actions
                                             <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                         <!--begin::Menu-->
@@ -175,7 +175,7 @@
                                             </div>
                                             <!--end::Menu item-->
                                     </td>
-                                    <td>{{ $permission->name }}</td>
+                                    <td class="text-center align-items-center">{{ $permission->name }}</td>
         
                                 </tr>
                                 @endforeach

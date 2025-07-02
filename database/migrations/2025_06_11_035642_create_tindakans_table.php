@@ -23,7 +23,7 @@ return new class extends Migration
                 'Vaskular',
                 'Endovaskular'
             ]);
-            $table->string('diagnosa');
+            $table->text('diagnosa');
             $table->timestamp('tanggal_operasi');
             $table->text('laporan_tindakan');
             $table->text('foto_tindakan')->nullable();

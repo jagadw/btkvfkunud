@@ -44,22 +44,22 @@
                         <table id="kt_datatable_zero_configuration" class="table table-row-bordered table-striped gy-5">
                             <thead>
                                 <tr class="fw-semibold fs-6">
-                                    <th>No</th>
-                                    <th>Aksi</th>
-                                    <th>NIM</th>
-                                    <th>Nama</th>
-                                    <th>Inisial Residen</th>
-                                    <th>Tempat Lahir</th>
-                                    <th>Tanggal Lahir</th>
-                                    <th>Status</th>
-                                    <th>Alamat</th>
+                                    <th class="text-center align-items-center">No</th>
+                                    <th class="text-center align-items-center">Aksi</th>
+                                    <th class="text-center align-items-center">TTD</th>
+                                    <th class="text-center align-items-center">Nama</th>
+                                    <th class="text-center align-items-center">Inisial Residen</th>
+                                    <th class="text-center align-items-center">Tempat Lahir</th>
+                                    <th class="text-center align-items-center">Tanggal Lahir</th>
+                                    <th class="text-center align-items-center">Status</th>
+                                    <th class="text-center align-items-center">Alamat</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse ($dpjps as $index => $dpjp)
                                 <tr>
-                                    <td>{{ $index + 1 }}</td>
-                                    <td>
+                                    <td class="text-center align-items-center">{{ $index + 1 }}</td>
+                                    <td class="text-center align-items-center">
                                         <a href="#" class="btn-primary text-light btn btn-sm btn-light btn-flex btn-center btn-active-primary fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
                                             <i class="ki-duotone ki-down fs-5 ms-1"></i>
                                         </a>
@@ -72,15 +72,21 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ $dpjp->nim }}</td>
-                                    <td>{{ $dpjp->nama }}</td>
-                                    <td>{{ $dpjp->inisial_residen }}</td>
-                                    <td>{{ $dpjp->tempat_lahir }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($dpjp->tanggal_lahir)->format('d-m-Y') }}</td>
-                                    <td>
+                                    <td class="text-center align-items-center">
+                                        @if($dpjp->ttd)
+                                            <img src="{{ asset('storage/' . $dpjp->ttd) }}" alt="TTD" style="max-height: 50px;">
+                                        @else
+                                            -
+                                        @endif
+                                    </td></td>
+                                    <td class="text-center align-items-center">{{ $dpjp->nama }}</td>
+                                    <td class="text-center align-items-center">{{ $dpjp->inisial_residen }}</td>
+                                    <td class="text-center align-items-center">{{ $dpjp->tempat_lahir }}</td>
+                                    <td class="text-center align-items-center">{{ \Carbon\Carbon::parse($dpjp->tanggal_lahir)->format('d F Y') }}</td>
+                                    <td class="text-center align-items-center">
                                        {{ $dpjp->status }}
                                     </td>
-                                    <td>{{ $dpjp->alamat }}</td>
+                                    <td class="text-center align-items-center">{{ $dpjp->alamat }}</td>
                                 </tr>
                                 @empty
                                 <tr>

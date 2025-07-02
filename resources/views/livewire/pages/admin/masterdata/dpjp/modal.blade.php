@@ -30,7 +30,7 @@
                         <input type="date" class="form-control form-control-solid @error('tanggal_lahir') is-invalid @enderror" wire:model="tanggal_lahir" placeholder="Tanggal Lahir">
                     </div>
                 </div>
-                    
+
 
                 <div class="row g-9 mb-8">
                     <div class="col-md-12">
@@ -43,6 +43,23 @@
                     <div class="col-md-12">
                         <label class="required form-label">Alamat</label>
                         <textarea class="form-control form-control-solid @error('alamat') is-invalid @enderror" wire:model="alamat" placeholder="Alamat" style="resize: vertical; min-height: 38px; overflow-y: auto; word-break: break-word;"></textarea>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="required form-label">Foto TTD</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            class="form-control form-control-solid @error('ttd') is-invalid @enderror"
+                            wire:model="ttd"
+                            placeholder="Foto TTD">
+
+                        @if ($photoPreview)
+                        <div class="mt-2">
+                            <img src="{{ $photoPreview }}" alt="TTD Preview" class="img-thumbnail" style="max-height: 150px; max-width: 100%;">
+                        </div>
+                        @endif
+
+
                     </div>
                 </div>
             </div>

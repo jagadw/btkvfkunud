@@ -51,20 +51,20 @@
                     <table id="kt_datatable_zero_configuration" class="table table-row-bordered table-striped gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
-                                <th>No</th>
-                                <th>Action</th>
-                                <th>Name</th>
-                                <th>Icon</th>
-                                <th>Route</th>
-                                <th>Order</th>
+                                <th class="text-center align-items-center">No</th>
+                                <th class="text-center align-items-center">Action</th>
+                                <th class="text-center align-items-center">Name</th>
+                                <th class="text-center align-items-center">Icon</th>
+                                <th class="text-center align-items-center">Route</th>
+                                <th class="text-center align-items-center">Order</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ( $data as $index => $menu)
     
                             <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>
+                                <td class="text-center align-items-center">{{ $index + 1 }}</td>
+                                <td class="text-center align-items-center">
                                     <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Menu
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                     <!--begin::Menu-->
@@ -83,22 +83,22 @@
                                             <a class="menu-link px-3 w-100" wire:click="createSubMenu({{ $menu->id }})">Tambah SubMenu</a>
                                         </div>
                                 </td>
-                                <td>{{ $menu->name }}</td>
-                                <td>{{ $menu->icon }}</td>
-                                <td>{{ $menu->route }}</td>
-                                <td>{{ $menu->order }}</td>
+                                <td class="text-center align-items-center">{{ $menu->name }}</td>
+                                <td class="text-center align-items-center">{{ $menu->icon }}</td>
+                                <td class="text-center align-items-center">{{ $menu->route }}</td>
+                                <td class="text-center align-items-center">{{ $menu->order }}</td>
                             </tr>
                             <tr class="fw-semibold fs-6">
-                                <th></th>
-                                <th>Action</th>
-                                <th>Name</th>
-                                <th>Route</th>
-                                <th>Permission</th>
+                                <th class="text-center align-items-center"></th>
+                                <th class="text-center align-items-center">Action</th>
+                                <th class="text-center align-items-center">Name</th>
+                                <th class="text-center align-items-center">Route</th>
+                                <th class="text-center align-items-center">Permission</th>
                             </tr>
                             @foreach($menu->submenus as $submenu)
                             <tr>
-                                <td></td>
-                                <td>
+                                <td class="text-center align-items-center"></td>
+                                <td class="text-center align-items-center">
                                     <a href="#" class="btn btn-sm btn-light btn-flex btn-center btn-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">SubMenu
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                     <!--begin::Menu-->
@@ -112,9 +112,9 @@
                                             <a class="menu-link px-3 w-100" wire:click="deleteSubMenu({{ $submenu->id }})">Hapus</a>
                                         </div>
                                 </td>
-                                <td>— {{ $submenu->name }}</td>
-                                <td>{{ $submenu->route }}</td>
-                                <td>{{ $submenu->permission->name }}</td>
+                                <td class="text-center align-items-center">— {{ $submenu->name }}</td>
+                                <td class="text-center align-items-center">{{ $submenu->route }}</td>
+                                <td class="text-center align-items-center">{{ $submenu->permission->name }}</td>
                             </tr>
                             @endforeach
                             @endforeach

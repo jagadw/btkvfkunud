@@ -32,21 +32,21 @@
                     <table class="table-responsive table table-row-bordered gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
-                                <th>No</th>
-                                <th>Aksi</th>
-                                <th>No Rekam Medis</th>
-                                <th>Nama</th>
-                                <th>Usia</th>
-                                <th>Tanggal Lahir</th>
-                                <th>Jenis Kelamin</th>
-                                <th>Asal Rumah Sakit</th>
+                                <th class="text-center align-items-center">No</th>
+                                <th class="text-center align-items-center">Aksi</th>
+                                <th class="text-center align-items-center">No Rekam Medis</th>
+                                <th class="text-center align-items-center">Nama</th>
+                                <th class="text-center align-items-center">Usia</th>
+                                <th class="text-center align-items-center">Tanggal Lahir</th>
+                                <th class="text-center align-items-center">Jenis Kelamin</th>
+                                <th class="text-center align-items-center">Asal Rumah Sakit</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($pasiens as $index => $p)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>
+                                <td class="text-center align-items-center">{{ $index + 1 }}</td>
+                                <td class="text-center align-items-center">
                                     <a href="#" class="btn-primary btn btn-sm btn-light btn-flex btn-center btn-primary fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                         Aksi
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i>
@@ -67,12 +67,12 @@
                                         <!--end::Menu item-->
                                     </div>
                                 </td>
-                                <td>{{ $p->nomor_rekam_medis }}</td>
-                                <td>{{ $p->nama }}</td>
-                                <td>{{ $p->usia }}</td>
-                                <td>{{ \Carbon\Carbon::parse($p->tanggal_lahir)->format('d M Y') }}</td>
-                                <td>{{ ucfirst($p->jenis_kelamin) }}</td>
-                                <td>{{ $p->asal_rumah_sakit }}</td>
+                                <td class="text-center align-items-center">{{ $p->nomor_rekam_medis }}</td>
+                                <td class="text-center align-items-center">{{ $p->nama }}</td>
+                                <td class="text-center align-items-center">{{ $p->usia }}</td>
+                                <td class="text-center align-items-center">{{ \Carbon\Carbon::parse($p->tanggal_lahir)->format('d M Y') }}</td>
+                                <td class="text-center align-items-center">{{ ucfirst($p->jenis_kelamin) }}</td>
+                                <td class="text-center align-items-center">{{ $p->asal_rumah_sakit }}</td>
                             </tr>
                             @empty
                             <tr>

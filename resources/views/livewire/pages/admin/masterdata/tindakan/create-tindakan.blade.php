@@ -101,8 +101,8 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="required">Nama Tindakan</label>
-                            <input class="form-control" wire:model="nama_tindakan" />
+                            <label class="required">Tanggal Operasi</label>
+                            <input type="date" class="form-control" wire:model="tanggal_operasi">
                         </div>
                         <div class="col-md-4">
                             <label class="required">Divisi</label>
@@ -115,17 +115,17 @@
                                 <option value="Endovaskular">Endovaskular</option>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="required">Diagnosa</label>
-                            <input class="form-control" wire:model="diagnosa" />
+                            <textarea class="form-control" wire:model="diagnosa" rows="2" style="min-height: 150px; resize: vertical;"></textarea>
                         </div>
-                        <div class="col-md-4">
-                            <label class="required">Tanggal Operasi</label>
-                            <input type="date" class="form-control" wire:model="tanggal_operasi">
+                        <div class="col-md-6">
+                            <label class="required">Nama Tindakan</label>
+                            <textarea class="form-control" wire:model="nama_tindakan" rows="2" style="min-height: 150px; resize: vertical;"></textarea>
                         </div>
                         <div class="col-md-12">
                             <label class="required">Laporan Tindakan</label>
-                            <textarea class="form-control" wire:model="laporan_tindakan" rows="2"></textarea>
+                            <textarea class="form-control" wire:model="laporan_tindakan" rows="2" style="min-height: 150px; resize: vertical;"></textarea>
                         </div>
 
                     </div>
@@ -136,15 +136,11 @@
                 <h5 class="text-primary fw-bold mb-3">Data Conference</h5>
                 <div class="mb-4">
                     <div class="row g-3">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="required">Tanggal Conference</label>
                             <input type="date" class="form-control" wire:model="tanggal_conference">
                         </div>
-                        <div class="col-md-4">
-                            <label class="required">Hasil Conference</label>
-                            <textarea class="form-control" wire:model="hasil_conference" rows="1"></textarea>
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="required">Kesesuaian</label>
                             <div class="d-flex gap-4 mt-2">
                                 <div class="form-check form-check-custom form-check-solid">
@@ -163,9 +159,13 @@
                         </div>
                     </div>
                     <div class="row g-3">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label class="required">Hasil Conference</label>
+                            <textarea class="form-control" wire:model="hasil_conference" rows="1" style="height: 150px;"></textarea>
+                        </div>
+                        <div class="col-md-6">
                             <label class="required">Realisasi Tindakan</label>
-                            <textarea class="form-control" wire:model="realisasi_tindakan" rows="4" style="min-height: 120px; resize: vertical;"></textarea>
+                            <textarea class="form-control" wire:model="realisasi_tindakan" rows="4" style="height: 150px; resize: vertical;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,9 @@
                             ], selected: @entangle('asistens.' . $index . '.user_id') })" x-init="init()" @click.away="open = false">
                                 <div class="select2-display" @click="toggle()" :class="{ 'open': open }">
                                     <span x-text="selectedLabel() || 'Pilih Asisten'"></span>
-                                    <svg class="select2-arrow" width="20" height="20" fill="none"><path d="M6 8l4 4 4-4" stroke="#888" stroke-width="2" stroke-linecap="round"/></svg>
+                                    <svg class="select2-arrow" width="20" height="20" fill="none">
+                                        <path d="M6 8l4 4 4-4" stroke="#888" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
                                 </div>
                                 <div class="select2-dropdown" x-show="open" x-transition>
                                     <input type="text" class="select2-search" placeholder="Cari asisten..." x-model="search" @keydown.enter.prevent>
@@ -203,117 +205,131 @@
                             </div>
 
                             <style>
-                            .custom-select2 {
-                                position: relative;
-                                width: 100%;
-                                font-family: 'Segoe UI', Arial, sans-serif;
-                            }
-                            .select2-display {
-                                background: #fff;
-                                border: 1.5px solid #b5b5c3;
-                                border-radius: 6px;
-                                padding: 8px 36px 8px 12px;
-                                cursor: pointer;
-                                min-height: 40px;
-                                display: flex;
-                                align-items: center;
-                                position: relative;
-                                transition: border-color 0.2s;
-                            }
-                            .select2-display.open, .select2-display:focus {
-                                border-color: #009ef7;
-                                box-shadow: 0 0 0 2px #e3f2fd;
-                            }
-                            .select2-arrow {
-                                position: absolute;
-                                right: 12px;
-                                top: 50%;
-                                transform: translateY(-50%);
-                                pointer-events: none;
-                            }
-                            .select2-dropdown {
-                                position: absolute;
-                                top: 110%;
-                                left: 0;
-                                width: 100%;
-                                background: #fff;
-                                border: 1.5px solid #b5b5c3;
-                                border-radius: 6px;
-                                box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-                                z-index: 99;
-                                padding: 8px 0 4px 0;
-                            }
-                            .select2-search {
-                                width: 94%;
-                                margin: 0 3%;
-                                padding: 7px 10px;
-                                border: 1px solid #e4e6ef;
-                                border-radius: 4px;
-                                outline: none;
-                                margin-bottom: 6px;
-                                font-size: 15px;
-                                background: #f9f9f9;
-                            }
-                            .select2-options {
-                                max-height: 180px;
-                                overflow-y: auto;
-                            }
-                            .select2-option {
-                                padding: 8px 16px;
-                                cursor: pointer;
-                                transition: background 0.15s;
-                                font-size: 15px;
-                            }
-                            .select2-option.selected, .select2-option:hover {
-                                background: #e3f2fd;
-                                color: #009ef7;
-                            }
-                            .select2-noresult {
-                                padding: 8px 16px;
-                                color: #b5b5c3;
-                                font-size: 14px;
-                            }
+                                .custom-select2 {
+                                    position: relative;
+                                    width: 100%;
+                                    font-family: 'Segoe UI', Arial, sans-serif;
+                                }
+
+                                .select2-display {
+                                    background: #fff;
+                                    border: 1.5px solid #b5b5c3;
+                                    border-radius: 6px;
+                                    padding: 8px 36px 8px 12px;
+                                    cursor: pointer;
+                                    min-height: 40px;
+                                    display: flex;
+                                    align-items: center;
+                                    position: relative;
+                                    transition: border-color 0.2s;
+                                }
+
+                                .select2-display.open,
+                                .select2-display:focus {
+                                    border-color: #009ef7;
+                                    box-shadow: 0 0 0 2px #e3f2fd;
+                                }
+
+                                .select2-arrow {
+                                    position: absolute;
+                                    right: 12px;
+                                    top: 50%;
+                                    transform: translateY(-50%);
+                                    pointer-events: none;
+                                }
+
+                                .select2-dropdown {
+                                    position: absolute;
+                                    top: 110%;
+                                    left: 0;
+                                    width: 100%;
+                                    background: #fff;
+                                    border: 1.5px solid #b5b5c3;
+                                    border-radius: 6px;
+                                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+                                    z-index: 99;
+                                    padding: 8px 0 4px 0;
+                                }
+
+                                .select2-search {
+                                    width: 94%;
+                                    margin: 0 3%;
+                                    padding: 7px 10px;
+                                    border: 1px solid #e4e6ef;
+                                    border-radius: 4px;
+                                    outline: none;
+                                    margin-bottom: 6px;
+                                    font-size: 15px;
+                                    background: #f9f9f9;
+                                }
+
+                                .select2-options {
+                                    max-height: 180px;
+                                    overflow-y: auto;
+                                }
+
+                                .select2-option {
+                                    padding: 8px 16px;
+                                    cursor: pointer;
+                                    transition: background 0.15s;
+                                    font-size: 15px;
+                                }
+
+                                .select2-option.selected,
+                                .select2-option:hover {
+                                    background: #e3f2fd;
+                                    color: #009ef7;
+                                }
+
+                                .select2-noresult {
+                                    padding: 8px 16px;
+                                    color: #b5b5c3;
+                                    font-size: 14px;
+                                }
                             </style>
 
                             <script>
-                            function customSelect2({ options, selected }) {
-                                return {
-                                    open: false,
-                                    search: '',
-                                    options: options,
-                                    selected: selected,
-                                    init() {
-                                        this.$watch('selected', value => {
-                                            this.selected = value;
-                                        });
-                                    },
-                                    toggle() {
-                                        this.open = !this.open;
-                                        if (this.open) {
-                                            this.$nextTick(() => {
-                                                let input = this.$el.querySelector('.select2-search');
-                                                if (input) input.focus();
+                                function customSelect2({
+                                    options,
+                                    selected
+                                }) {
+                                    return {
+                                        open: false,
+                                        search: '',
+                                        options: options,
+                                        selected: selected,
+                                        init() {
+                                            this.$watch('selected', value => {
+                                                this.selected = value;
                                             });
+                                        },
+                                        toggle() {
+                                            this.open = !this.open;
+                                            if (this.open) {
+                                                this.$nextTick(() => {
+                                                    let input = this.$el.querySelector('.select2-search');
+                                                    if (input) input.focus();
+                                                });
+                                            }
+                                        },
+                                        choose(option) {
+                                            this.selected = option.value;
+                                            this.open = false;
+                                            this.search = '';
+                                            this.$dispatch('input', option.value);
+                                        },
+                                        selectedLabel() {
+                                            let found = this.options.find(opt => opt.value == this.selected);
+                                            return found ? found.label : '';
+                                        },
+                                        filteredOptions() {
+                                            if (!this.search) return this.options;
+                                            return this.options.filter(opt =>
+                                                opt.label.toLowerCase().includes(this.search.toLowerCase())
+                                            );
                                         }
-                                    },
-                                    choose(option) {
-                                        this.selected = option.value;
-                                        this.open = false;
-                                        this.search = '';
-                                        this.$dispatch('input', option.value);
-                                    },
-                                    selectedLabel() {
-                                        let found = this.options.find(opt => opt.value == this.selected);
-                                        return found ? found.label : '';
-                                    },
-                                    filteredOptions() {
-                                        if (!this.search) return this.options;
-                                        return this.options.filter(opt =>
-                                            opt.label.toLowerCase().includes(this.search.toLowerCase())
-                                        );
                                     }
                                 }
-                            }
                             </script>
                         </div>
                         <div class="col-md-2" wire:key="asisten-role-{{ $index }}">
@@ -328,7 +344,7 @@
                         </div>
                         <div class="col-md-5" wire:key="asisten-desc-{{ $index }}">
                             <label>Deskripsi</label>
-                            <textarea class="form-control" wire:model="asistens.{{ $index }}.deskripsi" rows="1"></textarea>
+                            <textarea class="form-control" wire:model="asistens.{{ $index }}.deskripsi" rows="1" style="height: 150px;"></textarea>
                         </div>
                         <div class="col-md-2 d-flex align-items-end" wire:key="asisten-action-{{ $index }}">
                             @if($index == 0)
@@ -365,7 +381,7 @@
                         </div>
                         <div class="col-md-5">
                             <label>Deskripsi</label>
-                            <textarea class="form-control" wire:model="on_loop.deskripsi" rows="1"></textarea>
+                            <textarea class="form-control" wire:model="on_loop.deskripsi" rows="1" style="height: 150px;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -373,7 +389,7 @@
                 <hr class="my-4 border-3 border-dark bg-dark">
 
                 {{-- FOTO TINDAKAN --}}
-                <h5 class="text-primary fw-bold mb-3">Foto Tindakan</h5>
+                <h5 class="text-primary fw-bold mb-3">Foto Tindakan (Opsional)</h5>
                 <div class="mb-4">
                     <div class="row g-3">
                         <div class="col-md-12">
@@ -384,7 +400,7 @@
                                 <h6>Preview Foto Tindakan:</h6>
                                 <div class="d-flex flex-column align-items-start">
                                     <img src="{{ $foto_tindakan->temporaryUrl() }}" class="img-fluid rounded" alt="Foto Tindakan" style="max-width: 200px; max-height: auto;">
-                                    <button type="button" class="btn btn-danger btn-sm mt-2" wire:click="removeFoto">Hapus</button>
+                                    <!-- <button type="button" class="btn btn-danger btn-sm mt-2" wire:click="removeFoto">Hapus</button> -->
                                 </div>
                             </div>
                             @endif
@@ -432,11 +448,11 @@
 
         Livewire.on('confirm-delete', (message) => {
             Swal.fire({
-                title: message
-                , showCancelButton: true
-                , confirmButtonText: "Ya"
-                , cancelButtonText: "Tidak"
-                , icon: "warning"
+                title: message,
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+                icon: "warning"
             }).then((result) => {
                 if (result.isConfirmed) {
                     Livewire.dispatch('deleteMahasiswaConfirmed');
@@ -448,6 +464,5 @@
 
 
     });
-
 </script>
 @endpush

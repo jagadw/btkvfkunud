@@ -2,6 +2,7 @@
 
 <html lang="en">
 <!--begin::Head-->
+
 <head>
     <base href="" />
     <title>{{ $title }}</title>
@@ -35,6 +36,7 @@
 </head>
 <!--end::Head-->
 <!--begin::Body-->
+
 <body id="kt_app_body" data-kt-app-layout="dark-sidebar" data-kt-app-header-fixed="true" data-kt-app-sidebar-enabled="true" data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-hoverable="true" data-kt-app-sidebar-push-header="true" data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true" data-kt-app-toolbar-enabled="true" class="app-default">
     <!--begin::Theme mode setup on page load-->
     <script>
@@ -55,7 +57,6 @@
             }
             document.documentElement.setAttribute("data-bs-theme", themeMode);
         }
-
     </script>
     <!--end::Theme mode setup on page load-->
     <!--begin::App-->
@@ -95,7 +96,6 @@
             sessionStorage.setItem('reloaded', 'true');
             window.location.reload();
         }
-
     </script>
 
     <script data-navigate-once src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -125,20 +125,70 @@
             Livewire.hook('morphed', () => {
                 KTMenu.createInstances();
             });
-        });
 
+        });
     </script>
-    
+
+    @if(Auth::user()->roles()->pluck('name')->first() != 'dpjp')
+    <script data-navigate-once src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script data-navigate-once>
+        $(function() {
+            Livewire.on('download-pdf', function(singkatan) {
+
+            // Pilih elemen .main-content
+            console.log('Download PDF triggered, singkatan:', singkatan);
+
+            var element = document.querySelector('.main-content');
+            if (!element) {
+                toastr.error('Main content not found');
+                return;
+            }
+
+            // Opsi konfigurasi
+            var opt = {
+                margin: 0.5,
+                filename: `Log TKV Lanjut I ${singkatan} {{ Auth::user()->mahasiswa?->inisial_residen ?? '' }}.pdf`,
+                image: {
+                type: 'jpeg',
+                quality: 0.98
+                },
+                html2canvas: {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                },
+                jsPDF: {
+                unit: 'in',
+                format: 'a4',
+                orientation: 'portrait'
+                }
+            };
+
+            // Jalankan html2pdf dan langsung save
+            html2pdf()
+                .set(opt)
+                .from(element)
+                .save()
+                .then(() => {
+                toastr.success('PDF berhasil diunduh!');
+                })
+                .catch(() => {
+                toastr.error('Gagal mengunduh PDF');
+                });
+            });
+        });
+    </script>
+    @endif
     <script data-navigate-once>
         var hostUrl = "{{ asset('assets/')}}";
-
     </script>
     <!--begin::Global Javascript Bundle(mandatory for all pages)-->
     <script data-navigate-once src="{{ asset('assets/plugins/global/plugins.bundle.js')}}"></script>
     <script data-navigate-once src="{{ asset('assets/js/scripts.bundle.js')}}"></script>
     <script data-navigate-once src="{{ asset('assets/js/custom/widgets.js') }}"></script>
     <script data-navigate-once src="{{ asset('assets/js/plugin/dropify/dropify.min.js') }}"></script>
-    
+
     @stack('scripts')
     @stack('script')
     {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
@@ -183,4 +233,5 @@
     <!--end::Javascript-->
 </body>
 <!--end::Body-->
+
 </html>

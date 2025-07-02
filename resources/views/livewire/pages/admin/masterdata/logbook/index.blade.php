@@ -45,18 +45,18 @@
                     <table id="kt_datatable_zero_configuration" class="table table-row-bordered table-striped gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
-                                <th>No</th>
-                                <th>Aksi</th>
-                                <th>Nama</th>
-                                <th>Aktivitas</th>
-                                <th>Tanggal</th>
+                                <th class="text-center align-items-center">No</th>
+                                <th class="text-center align-items-center">Aksi</th>
+                                <th class="text-center align-items-center">Nama</th>
+                                <th class="text-center align-items-center">Aktivitas</th>
+                                <th class="text-center align-items-center">Tanggal</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($logbooks as $index => $logbook)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>
+                                <td class="text-center align-items-center">{{ $index + 1 }}</td>
+                                <td class="text-center align-items-center">
                                     <a href="#" class="btn-primary btn btn-sm btn-light btn-flex btn-center fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
                                         Aksi
                                         <i class="ki-duotone ki-down fs-5 ms-1"></i>
@@ -94,9 +94,9 @@
                                     </div>
                                     @endif
                                 </td>
-                                <td>{{ $logbook->user->name }}</td>
-                                <td>{{ $logbook->kegiatan }}</td>
-                                <td>{{ \Carbon\Carbon::parse($logbook->tanggal)->translatedFormat('d F Y') }}</td>
+                                <td class="text-center align-items-center">{{ $logbook->user->name }}</td>
+                                <td class="text-center align-items-center">{{ $logbook->kegiatan }}</td>
+                                <td class="text-center align-items-center">{{ \Carbon\Carbon::parse($logbook->tanggal)->translatedFormat('d F Y') }}</td>
                             </tr>
                             @empty
                             <tr>

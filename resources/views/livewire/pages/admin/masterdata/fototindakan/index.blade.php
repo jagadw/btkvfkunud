@@ -18,24 +18,24 @@
                     <table class="table table-row-bordered table-striped gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
-                                <th>No</th>
-                                <th>Action</th>
-                                <th>Tindakan</th>
-                                <th>Foto</th>
-                                <th>Deskripsi</th>
+                                <th class="text-center align-items-center">No</th>
+                                <th class="text-center align-items-center">Action</th>
+                                <th class="text-center align-items-center">Tindakan</th>
+                                <th class="text-center align-items-center">Foto</th>
+                                <th class="text-center align-items-center">Deskripsi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($fotoTindakans as $index => $foto)
                             <tr>
-                                <td>{{ $index + 1 }}</td>
-                                <td>
+                                <td class="text-center align-items-center">{{ $index + 1 }}</td>
+                                <td class="text-center align-items-center">
                                     <a wire:click="edit({{ $foto->id }})" class="btn btn-sm btn-light">Edit</a>
                                     <a wire:click="delete({{ $foto->id }})" class="btn btn-sm btn-danger">Hapus</a>
                                 </td>
-                                <td>{{ $foto->tindakan->name }}</td>
-                                <td><img src="{{ asset('storage/'.$foto->foto) }}" width="100"></td>
-                                <td>{{ $foto->deskripsi }}</td>
+                                <td class="text-center align-items-center">{{ $foto->tindakan->name }}</td>
+                                <td class="text-center align-items-center"><img src="{{ asset('storage/'.$foto->foto) }}" width="100"></td>
+                                <td class="text-center align-items-center">{{ $foto->deskripsi }}</td>
                             </tr>
                             @empty
                             <tr>

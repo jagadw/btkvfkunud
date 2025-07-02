@@ -42,7 +42,10 @@ class Dashboard extends Component
             $this->userRole = 'dokter';
         } elseif ($userRole === 'developer') {
             $this->userRole = 'developer';
-        } else {
+        } elseif ($userRole === 'dpjp') {
+            $this->userRole = 'dpjp';
+        }
+         else{
             abort(403, 'Unauthorized action.');
         }
 
@@ -77,18 +80,14 @@ class Dashboard extends Component
 
 
             $userId = Auth::id();
-            $this->dataJumlahPasienDitangani = Tindakan::where(function ($query) use ($userId) {
-                $query->where('operator_id', $userId)
-                    ->orWhere('asisten1_id', $userId)
-                    ->orWhere('asisten2_id', $userId)
-                    ->orWhere('on_loop_id', $userId);
+
+            $this->dataJumlahPasienDitangani = Tindakan::whereHas('tindakanAsistens', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
             })->get();
-            $this->dataPasienDitanganiFilter = Tindakan::where(function ($query) use ($userId) {
+
+            $this->dataPasienDitanganiFilter = Tindakan::whereHas('tindakanAsistens', function ($query) use ($userId) {
                 if (Auth::user()->akses_semua == 0) {
-                    $query->where('operator_id', $userId)
-                        ->orWhere('asisten1_id', $userId)
-                        ->orWhere('asisten2_id', $userId)
-                        ->orWhere('on_loop_id', $userId);
+                    $query->where('user_id', $userId);
                 }
             })
                 ->when($this->tanggal_operasi, function ($query) {
@@ -102,15 +101,14 @@ class Dashboard extends Component
                 })
                 ->get();
 
-            $this->totalPasienDitanganiBulanIni = Tindakan::where(function ($query) use ($userId) {
-                $query->where('operator_id', $userId)
-                    ->orWhere('asisten1_id', $userId)
-                    ->orWhere('asisten2_id', $userId)
-                    ->orWhere('on_loop_id', $userId);
+
+            $this->totalPasienDitanganiBulanIni = Tindakan::whereHas('tindakanAsistens', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
             })
                 ->whereMonth('tanggal_operasi', Carbon::now()->month)
                 ->whereYear('tanggal_operasi', Carbon::now()->year)
                 ->count();
+
 
             // if($this->tanggal_operasi){
             //     dd($this->tanggal_operasi);
@@ -123,7 +121,18 @@ class Dashboard extends Component
             ]);
         } elseif ($this->userRole === 'developer') {
             return view('livewire.pages.admin.dashboard');
-        } else {
+        } elseif($this->userRole === 'dpjp'){
+            return view('livewire.pages.dashboard-dpjp',[
+                'dataJumlahBelumVerifikasi' => Tindakan::where('dpjp_id', Auth::id())
+                    ->where('verifikasi', 0)
+                    ->count(),
+                    'dataJumlahSudahVerifikasi' => Tindakan::where('dpjp_id', Auth::id())
+                    ->where('verifikasi', 1)
+                    ->count(),
+            ]);
+        } 
+        
+        else {
             abort(403, 'Unauthorized action.');
         }
     }

@@ -34,7 +34,7 @@
                     <div class="row g-3">
                         <div class="col-md-6" wire:ignore>
                             <label class="required">Nama Pasien</label>
-                            <select class="form-select" wire:model="selectedPasien" data-control="select2" onchange="@this.set('selectedPasien', this.value)" disabled>
+                            <select class="form-select" wire:model="selectedPasien" data-control="select2" onchange="@this.set('selectedPasien', this.value)">
                                 <option value="">-- Cari Pasien --</option>
                                 <option value="manual">+ Tambah Pasien Baru</option>
                                 @foreach($pasiens as $pasien)
@@ -50,7 +50,6 @@
                             <div class="col-md-6">
                                 <label class="required">No. Rekam Medis</label>
                                 <input type="text" placeholder="No Rekam Medis" wire:model="nomor_rekam_medis" maxlength="8" class="form-control @error('nomor_rekam_medis') is-invalid @enderror" pattern="\d{1,8}" title="Maksimal 8 digit angka" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-
                             </div>
                             <div class="col-md-6">
                                 <label class="required">Nama</label>
@@ -101,8 +100,8 @@
                             </select>
                         </div>
                         <div class="col-md-4">
-                            <label class="required">Nama Tindakan</label>
-                            <input class="form-control" wire:model="nama_tindakan" />
+                            <label class="required">Tanggal Operasi</label>
+                            <input type="date" class="form-control" wire:model="tanggal_operasi">
                         </div>
                         <div class="col-md-4">
                             <label class="required">Divisi</label>
@@ -115,19 +114,18 @@
                                 <option value="Endovaskular">Endovaskular</option>
                             </select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="required">Diagnosa</label>
-                            <input class="form-control" wire:model="diagnosa" />
+                            <textarea class="form-control" wire:model="diagnosa" rows="2" style="min-height: 150px; resize: vertical;"></textarea>
                         </div>
-                        <div class="col-md-4">
-                            <label class="required">Tanggal Operasi</label>
-                            <input type="date" class="form-control" wire:model="tanggal_operasi">
+                        <div class="col-md-6">
+                            <label class="required">Nama Tindakan</label>
+                            <textarea class="form-control" wire:model="nama_tindakan" rows="2" style="min-height: 150px; resize: vertical;"></textarea>
                         </div>
                         <div class="col-md-12">
                             <label class="required">Laporan Tindakan</label>
-                            <textarea class="form-control" wire:model="laporan_tindakan" rows="2"></textarea>
+                            <textarea class="form-control" wire:model="laporan_tindakan" rows="2" style="min-height: 150px; resize: vertical;"></textarea>
                         </div>
-
                     </div>
                 </div>
                 {{-- DATA CONFERENCE (Hanya untuk divisi Jantung Dewasa & Jantung Pediatri & Kongengital) --}}
@@ -136,15 +134,11 @@
                 <h5 class="text-primary fw-bold mb-3">Data Conference</h5>
                 <div class="mb-4">
                     <div class="row g-3">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="required">Tanggal Conference</label>
                             <input type="date" class="form-control" wire:model="tanggal_conference">
                         </div>
-                        <div class="col-md-4">
-                            <label class="required">Hasil Conference</label>
-                            <textarea class="form-control" wire:model="hasil_conference" rows="1"></textarea>
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label class="required">Kesesuaian</label>
                             <div class="d-flex gap-4 mt-2">
                                 <div class="form-check form-check-custom form-check-solid">
@@ -163,9 +157,13 @@
                         </div>
                     </div>
                     <div class="row g-3">
-                        <div class="col-md-12">
-                            <label>Realisasi Tindakan</label>
-                            <textarea class="form-control" wire:model="realisasi_tindakan" rows="4" style="min-height: 120px; resize: vertical;"></textarea>
+                        <div class="col-md-6">
+                            <label class="required">Hasil Conference</label>
+                            <textarea class="form-control" wire:model="hasil_conference" rows="1" style="height: 150px;"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="required">Realisasi Tindakan</label>
+                            <textarea class="form-control" wire:model="realisasi_tindakan" rows="4" style="height: 150px; resize: vertical;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -185,16 +183,17 @@
                                     { value: '{{ $dokter->id }}', label: '{{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}' },
                                 @endforeach
                             ], selected: @entangle('asistens.' . $index . '.user_id') })" x-init="init()" @click.away="open = false">
-                                <div class="select2-display" @click="toggle()" :class="{ 'open': open }" style="pointer-events: none; opacity: 0.7;">
+                                <div class="select2-display" @click="toggle()" :class="{ 'open': open }">
                                     <span x-text="selectedLabel() || 'Pilih Asisten'"></span>
                                     <svg class="select2-arrow" width="20" height="20" fill="none">
-                                        <path d="M6 8l4 4 4-4" stroke="#888" stroke-width="2" stroke-linecap="round" /></svg>
+                                        <path d="M6 8l4 4 4-4" stroke="#888" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
                                 </div>
                                 <div class="select2-dropdown" x-show="open" x-transition>
-                                    <input type="text" class="select2-search" placeholder="Cari asisten..." x-model="search" @keydown.enter.prevent disabled>
+                                    <input type="text" class="select2-search" placeholder="Cari asisten..." x-model="search" @keydown.enter.prevent>
                                     <div class="select2-options">
                                         <template x-for="option in filteredOptions()" :key="option.value">
-                                            <div class="select2-option" :class="{ 'selected': option.value == selected }" @click="choose(option)" style="pointer-events: none; opacity: 0.7;">
+                                            <div class="select2-option" :class="{ 'selected': option.value == selected }" @click="choose(option)">
                                                 <span x-text="option.label"></span>
                                             </div>
                                         </template>
@@ -285,25 +284,24 @@
                                     color: #b5b5c3;
                                     font-size: 14px;
                                 }
-
                             </style>
 
                             <script>
                                 function customSelect2({
-                                    options
-                                    , selected
+                                    options,
+                                    selected
                                 }) {
                                     return {
-                                        open: false
-                                        , search: ''
-                                        , options: options
-                                        , selected: selected
-                                        , init() {
+                                        open: false,
+                                        search: '',
+                                        options: options,
+                                        selected: selected,
+                                        init() {
                                             this.$watch('selected', value => {
                                                 this.selected = value;
                                             });
-                                        }
-                                        , toggle() {
+                                        },
+                                        toggle() {
                                             this.open = !this.open;
                                             if (this.open) {
                                                 this.$nextTick(() => {
@@ -311,18 +309,18 @@
                                                     if (input) input.focus();
                                                 });
                                             }
-                                        }
-                                        , choose(option) {
+                                        },
+                                        choose(option) {
                                             this.selected = option.value;
                                             this.open = false;
                                             this.search = '';
                                             this.$dispatch('input', option.value);
-                                        }
-                                        , selectedLabel() {
+                                        },
+                                        selectedLabel() {
                                             let found = this.options.find(opt => opt.value == this.selected);
                                             return found ? found.label : '';
-                                        }
-                                        , filteredOptions() {
+                                        },
+                                        filteredOptions() {
                                             if (!this.search) return this.options;
                                             return this.options.filter(opt =>
                                                 opt.label.toLowerCase().includes(this.search.toLowerCase())
@@ -330,7 +328,6 @@
                                         }
                                     }
                                 }
-
                             </script>
                         </div>
                         <div class="col-md-2" wire:key="asisten-role-{{ $index }}">
@@ -345,7 +342,7 @@
                         </div>
                         <div class="col-md-5" wire:key="asisten-desc-{{ $index }}">
                             <label>Deskripsi</label>
-                            <textarea class="form-control" wire:model="asistens.{{ $index }}.deskripsi" rows="1"></textarea>
+                            <textarea class="form-control" wire:model="asistens.{{ $index }}.deskripsi" rows="1" style="height: 150px;"></textarea>
                         </div>
                         <div class="col-md-2 d-flex align-items-end" wire:key="asisten-action-{{ $index }}">
                             @if($index == 0)
@@ -359,7 +356,7 @@
                         {{-- On Loop --}}
                         <div class="col-md-3" wire:ignore>
                             <label class="required">On Loop</label>
-                            <select class="form-select" wire:model="on_loop.user_id" data-control="select2" onchange="@this.set('on_loop.user_id', this.value)" disabled>
+                            <select class="form-select" wire:model="on_loop.user_id" data-control="select2" onchange="@this.set('on_loop.user_id', this.value)">
                                 <option value="">Pilih On Loop</option>
                                 @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer') && $user->mahasiswa != null) as $dokter)
                                 <option value="{{ $dokter->id }}">
@@ -382,7 +379,7 @@
                         </div>
                         <div class="col-md-5">
                             <label>Deskripsi</label>
-                            <textarea class="form-control" wire:model="on_loop.deskripsi" rows="1"></textarea>
+                            <textarea class="form-control" wire:model="on_loop.deskripsi" rows="1" style="height: 150px;"></textarea>
                         </div>
                     </div>
                 </div>
@@ -390,32 +387,22 @@
                 <hr class="my-4 border-3 border-dark bg-dark">
 
                 {{-- FOTO TINDAKAN --}}
-                <h5 class="text-primary fw-bold mb-3">Foto Tindakan</h5>
+                <h5 class="text-primary fw-bold mb-3">Foto Tindakan (Opsional)</h5>
                 <div class="mb-4">
                     <div class="row g-3">
                         <div class="col-md-12">
                             <label>Foto Tindakan</label>
                             <input type="file" class="form-control" wire:model="foto_tindakan" accept="image/*">
-                            @if($idTindakan)
                             @if ($foto_tindakan)
                             <div class="mt-3">
                                 <h6>Preview Foto Tindakan:</h6>
                                 <div class="d-flex flex-column align-items-start">
-                                    <img src="{{ asset('storage/' . $foto_tindakan)}}" class="img-fluid rounded" alt="Foto Tindakan" style="max-width: 200px; max-height: auto;">
-                                    <button type="button" class="btn btn-danger btn-sm mt-2" wire:click="removeFoto">Hapus</button>
-                                </div>
-                            </div>
-                            @endif
-                            @else
-
-                            <div class="mt-3">
-                                <h6>Preview Foto Tindakan:</h6>
-                                <div class="d-flex flex-column align-items-start">
                                     <img src="{{ $foto_tindakan->temporaryUrl() }}" class="img-fluid rounded" alt="Foto Tindakan" style="max-width: 200px; max-height: auto;">
-                                    <button type="button" class="btn btn-danger btn-sm mt-2" wire:click="removeFoto">Hapus</button>
+                                    <!-- <button type="button" class="btn btn-danger btn-sm mt-2" wire:click="removeFoto">Hapus</button> -->
                                 </div>
                             </div>
                             @endif
+
                         </div>
                     </div>
                 </div>
@@ -429,41 +416,39 @@
             </div>
         </div>
     </div>
-</div>
 
-@push('script')
-{{-- <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugin/dropify/dropify.min.js') }}"></script> --}}
-<script>
-    // $(document).ready(function() {
-    //     $('.dropify').dropify({
-    //         messages: {
-    //             'default': 'Drag and drop a file here or click'
-    //             , 'replace': 'Drag and drop or click to replace'
-    //             , 'remove': 'Remove'
-    //             , 'error': 'Ooops, something wrong appended.'
-    //         }
-    //     });
-    // });
-    $(function() {
-        Livewire.on('confirm-delete', (message) => {
-            Swal.fire({
-                title: message
-                , showCancelButton: true
-                , confirmButtonText: "Ya"
-                , cancelButtonText: "Tidak"
-                , icon: "warning"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Livewire.dispatch('deleteMahasiswaConfirmed');
-                } else {
-                    Swal.fire("DiBatalkan", "Aksi DiBatalkan.", "info");
-                }
+    @push('script')
+    {{-- <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugin/dropify/dropify.min.js') }}"></script> --}}
+    <script>
+        // $(document).ready(function() {
+        //     $('.dropify').dropify({
+        //         messages: {
+        //             'default': 'Drag and drop a file here or click'
+        //             , 'replace': 'Drag and drop or click to replace'
+        //             , 'remove': 'Remove'
+        //             , 'error': 'Ooops, something wrong appended.'
+        //         }
+        //     });
+        // });
+        $(function() {
+            Livewire.on('confirm-delete', (message) => {
+                Swal.fire({
+                    title: message,
+                    showCancelButton: true,
+                    confirmButtonText: "Ya",
+                    cancelButtonText: "Tidak",
+                    icon: "warning"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Livewire.dispatch('deleteMahasiswaConfirmed');
+                    } else {
+                        Swal.fire("DiBatalkan", "Aksi DiBatalkan.", "info");
+                    }
+                });
             });
+
+
         });
-
-
-    });
-
-</script>
-@endpush
+    </script>
+    @endpush

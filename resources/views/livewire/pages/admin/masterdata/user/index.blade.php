@@ -117,7 +117,8 @@
                                 </span>
                             </label>
                             <div class="" wire:ignore>
-                                <select class="form-select @error('selectedMahasiswa') is-invalid @enderror" data-control="select2" data-placeholder="Pilih Mahasiswa" wire:model="selectedMahasiswa" data-allow-clear="true" onchange="@this.set('selectedMahasiswa', Array.from(this.selectedOptions).map(option => option.value))">
+                                <select class="form-select @error('selectedMahasiswa') is-invalid @enderror" data-control="select2" data-placeholder="Pilih Mahasiswa" wire:model="selectedMahasiswa" data-allow-clear="true" onchange="@this.set('selectedMahasiswa', Array.from(this.selectedOptions).map(option => option.value))"
+                                 @if($userId) disabled @endif>
                                     <option></option>
                                     @foreach ($mahasiswas as $mahasiswa)
                                     <option value="{{ $mahasiswa->id }}">{{ $mahasiswa->nama }}</option>
@@ -166,11 +167,11 @@
                     <table id="kt_datatable_zero_configuration" class="table table-row-bordered table-striped gy-5">
                         <thead>
                             <tr class="fw-semibold fs-6">
-                                <th>No</th>
-                                <th>Aksi</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
+                                <th class="text-center align-items-center">No</th>
+                                <th class="text-center align-items-center">Aksi</th>
+                                <th class="text-center align-items-center">Name</th>
+                                <th class="text-center align-items-center">Email</th>
+                                <th class="text-center align-items-center">Role</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -187,8 +188,8 @@
                                     @endphp
                                     @if ($userRole !== 'developer' || $currentUserRole === 'developer')
                                         <tr wire:key="user-{{ $user->id }}">
-                                            <td>{{ $rowNumber++ }}</td>
-                                            <td>
+                                            <td class="text-center align-items-center">{{ $rowNumber++ }}</td>
+                                            <td class="text-center align-items-center">
                                                 <a href="#" class="btn-primary btn btn-sm btn-light btn-flex btn-center btn-primary  fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
                                                     <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
                                                 <!--begin::Menu-->
@@ -210,9 +211,9 @@
                                                     <!--end::Menu item-->
                                                 </div>
                                             </td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>
+                                            <td class="text-center align-items-center">{{ $user->name }}</td>
+                                            <td class="text-center align-items-center">{{ $user->email }}</td>
+                                            <td class="text-center align-items-center">
                                                 @if(strtolower($userRole) === 'operator')
                                                     <span class="badge badge-success">{{ strtoupper($userRole) }}</span>
                                                 @elseif(strtolower($userRole) === 'admin')

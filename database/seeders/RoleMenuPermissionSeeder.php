@@ -96,6 +96,7 @@ class RoleMenuPermissionSeeder extends Seeder
         ]);
 
         $dpjp->syncPermissions([
+            'dashboard',
             'masterdata-verifikasi-tindakan',
             'masterdata-sudah-verifikasi',
         ]);
