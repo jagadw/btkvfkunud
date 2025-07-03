@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <div class="col-md-3 d-flex align-items-end gap-2">
-                        <button 
+                        <!-- <button 
                             class="btn btn-md fw-bold btn-danger" 
                             onclick="exportToPDF()" 
                             @if(
@@ -64,7 +64,7 @@
                         >
                             <i class="bi bi-file-earmark-pdf-fill"></i>
                             Unduh Laporan
-                        </button>
+                        </button> -->
                         {{-- <button class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export EXCEL</button> --}}
                     </div>
                 </div>
@@ -190,9 +190,9 @@
                                 </td>
                                 <td class="text-center align-items-center">
                                     @if ($t->verifikasi == 1)
-                                        <span class="badge text-white bg-success text-white">Sudah Diverifikasi</span>
+                                        <span class="badge text-white bg-success text-white">Sudah <br> Diverifikasi</span>
                                     @else
-                                        <span class="badge text-white bg-danger text-white">Belum Diverifikasi</span>
+                                        <span class="badge text-white bg-danger text-white">Belum <br> Diverifikasi</span>
                                     @endif
                                 </td>
                             </tr>

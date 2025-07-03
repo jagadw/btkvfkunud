@@ -12,8 +12,8 @@ use Livewire\Component;
 use App\Models\TindakanAsisten;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Storage;
-use Livewire\Features\SupportFileUploads\TemporaryUploadedFile as SupportFileUploadsTemporaryUploadedFile;
-use Livewire\TemporaryUploadedFile;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+// use Livewire\TemporaryUploadedFile;
 
 #[Layout('layouts.admin')]
 class CreateTindakan extends Component
@@ -86,7 +86,6 @@ class CreateTindakan extends Component
                     $this->hasil_conference = null;
                 }
 
-                // Ambil data asistens
                 $asistens = TindakanAsisten::where('tindakan_id', $dataTindakan->id)
                     ->where('tipe', 'asisten')
                     ->orderBy('urutan')
@@ -97,7 +96,7 @@ class CreateTindakan extends Component
                         $this->asistens[] = [
                             'user_id' => $asisten->user_id,
                             'role' => $asisten->role,
-                            'deskripsi' => $asisten->deskripsi,
+                            'deskripsi' => $asisten?->deskripsi,
                         ];
                     }
                 } else {
@@ -110,7 +109,6 @@ class CreateTindakan extends Component
                     ];
                 }
 
-                // Ambil data on loop jika ada
                 $onLoop = TindakanAsisten::where('tindakan_id', $dataTindakan->id)
                     ->where('tipe', 'onloop')
                     ->first();
@@ -118,8 +116,10 @@ class CreateTindakan extends Component
                     $this->on_loop = [
                         'user_id' => $onLoop->user_id,
                         'role' => $onLoop->role ?? 'Observer',
-                        'deskripsi' => $onLoop->deskripsi ?? '',
+                        'deskripsi' => $onLoop?->deskripsi ?? '',
+
                     ];
+                    // dd($this->on_loop);
                 } else {
                     $this->on_loop = [
                         'user_id' => '',
@@ -199,7 +199,7 @@ class CreateTindakan extends Component
 
     public function updatedFotoTindakan()
     {
-        if($this->idTindakan){
+        if ($this->idTindakan) {
             $this->foto_tindakan_lama = null;
         }
         $this->dispatch('success', 'Foto berhasil di-load.');
@@ -361,7 +361,7 @@ class CreateTindakan extends Component
     public function update()
     {
         try {
-
+            // Validasi
             $rules = [
                 'selectedPasien' => 'required',
                 'dpjp_id' => 'required|exists:users,id',
@@ -370,7 +370,7 @@ class CreateTindakan extends Component
                 'diagnosa' => 'required|string',
                 'tanggal_operasi' => 'required|date',
                 'laporan_tindakan' => 'required|string',
-                'foto_tindakan' => 'nullable|image|mimes:jpeg,png,jpg|max:4096', // Maksimal 4MB
+                'foto_tindakan' => 'nullable|image|mimes:jpeg,png,jpg|max:4096',
             ];
 
             if ($this->selectedPasien === 'manual') {
@@ -392,20 +392,18 @@ class CreateTindakan extends Component
                 ]);
             }
 
-            // Validasi asisten
             foreach ($this->asistens ?? [] as $idx => $asisten) {
                 if (!empty($asisten['user_id'])) {
                     $rules["asistens.$idx.user_id"] = 'required|exists:users,id';
                     $rules["asistens.$idx.role"] = 'required|string|max:50';
-                    $rules["asistens.$idx.deskripsi"] = 'required|string|max:255';
+                    $rules["asistens.$idx.deskripsi"] = 'required|string';
                 }
             }
 
-            // Validasi on loop
             if (!empty($this->on_loop['user_id'])) {
                 $rules['on_loop.user_id'] = 'required|exists:users,id';
                 $rules['on_loop.role'] = 'required|string|max:50';
-                $rules['on_loop.deskripsi'] = 'required|string|max:255';
+                $rules['on_loop.deskripsi'] = 'required|string';
             } else {
                 throw \Illuminate\Validation\ValidationException::withMessages([
                     'on_loop.user_id' => ['Data on loop wajib diisi.'],
@@ -414,9 +412,16 @@ class CreateTindakan extends Component
 
             $this->validate($rules);
 
+            // 🔥 Ambil data tindakan existing
+            $tindakan = Tindakan::where('id', $this->idTindakan)->first();
+            if (!$tindakan) {
+                $this->dispatch('error', 'Data tindakan tidak ditemukan.');
+                return;
+            }
+
             // Pasien
             if ($this->selectedPasien === 'manual') {
-                $pasien = Pasien::find($this->pasien_id);
+                $pasien = Pasien::where('id', $this->pasien_id)->first();
                 if ($pasien) {
                     $pasien->update([
                         'nama' => $this->nama,
@@ -425,32 +430,22 @@ class CreateTindakan extends Component
                         'jenis_kelamin' => $this->jenis_kelamin,
                         'asal_rumah_sakit' => $this->asal_rumah_sakit,
                     ]);
-                } else {
-                    $pasien = Pasien::create([
-                        'nama' => $this->nama,
-                        'nomor_rekam_medis' => $this->nomor_rekam_medis,
-                        'tanggal_lahir' => $this->tanggal_lahir,
-                        'jenis_kelamin' => $this->jenis_kelamin,
-                        'asal_rumah_sakit' => $this->asal_rumah_sakit,
-                    ]);
                 }
-                $this->pasien_id = $pasien->id;
+                $this->pasien_id = $pasien ? $pasien->id : $this->pasien_id;
             } else {
                 $this->pasien_id = $this->selectedPasien;
             }
 
-            //tindakan
-            $tindakan = Tindakan::findOrFail($this->idTindakan);
-
+            // Foto
             $fotoPath = $tindakan->foto_tindakan;
-            if ($this->foto_tindakan && $this->foto_tindakan instanceof SupportFileUploadsTemporaryUploadedFile) {
+            if ($this->foto_tindakan && $this->foto_tindakan instanceof TemporaryUploadedFile) {
                 if ($fotoPath && Storage::disk('public')->exists($fotoPath)) {
                     Storage::disk('public')->delete($fotoPath);
                 }
                 $fotoPath = Storage::disk('public')->putFile('foto-tindakan', $this->foto_tindakan);
             }
 
-
+            // Update tindakan
             $tindakan->update([
                 'pasien_id' => $this->pasien_id,
                 'dpjp_id' => $this->dpjp_id,
@@ -462,25 +457,26 @@ class CreateTindakan extends Component
                 'foto_tindakan' => $fotoPath,
             ]);
 
-            // conference   
-            if (in_array($this->divisi, ['Jantung Dewasa', 'Jantung Pediatri & Kongengital'])) {
-                Conference::updateOrCreate(
-                    ['tindakan_id' => $tindakan->id],
-                    [
+            // Conference (hanya update jika sudah ada)
+            $conference = Conference::where('tindakan_id', $tindakan->id)->first();
+            if ($conference) {
+                if (in_array($this->divisi, ['Jantung Dewasa', 'Jantung Pediatri & Kongengital'])) {
+                    $conference->update([
                         'pasien_id' => $this->pasien_id,
                         'diagnosa' => $this->diagnosa,
                         'tanggal_conference' => $this->tanggal_conference,
                         'hasil_conference' => $this->hasil_conference,
                         'realisasi_tindakan' => $this->realisasi_tindakan,
                         'kesesuaian' => (bool) $this->kesesuaian,
-                    ]
-                );
-            } else {
-                Conference::where('tindakan_id', $tindakan->id)->delete();
+                    ]);
+                } else {
+                    $conference->delete();
+                }
             }
 
-            // asisten
+            // Asisten (hapus dulu semua lalu insert ulang)
             TindakanAsisten::where('tindakan_id', $tindakan->id)->where('tipe', 'asisten')->delete();
+
             foreach ($this->asistens ?? [] as $idx => $asisten) {
                 if (!empty($asisten['user_id'])) {
                     TindakanAsisten::create([
@@ -494,8 +490,9 @@ class CreateTindakan extends Component
                 }
             }
 
-            // 
+            // On loop (hapus dulu, insert ulang satu data)
             TindakanAsisten::where('tindakan_id', $tindakan->id)->where('tipe', 'onloop')->delete();
+
             TindakanAsisten::create([
                 'tindakan_id' => $tindakan->id,
                 'user_id' => $this->on_loop['user_id'],
@@ -504,7 +501,6 @@ class CreateTindakan extends Component
                 'role' => $this->on_loop['role'] ?? 'Observer',
                 'deskripsi' => $this->on_loop['deskripsi'] ?? null,
             ]);
-
 
             $this->dispatch('success', 'Tindakan berhasil diupdate.');
             return redirect()->route('tindakan');
@@ -517,6 +513,10 @@ class CreateTindakan extends Component
             return;
         }
     }
+
+
+
+
 
 
     public function render()

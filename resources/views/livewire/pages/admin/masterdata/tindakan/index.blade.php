@@ -30,7 +30,7 @@
                     @endif
                     >
                     <i class="bi bi-file-earmark-pdf-fill"></i>
-                    Unduh Laporan
+                    Preview Laporan
                 </button>
                 @php
                 if(Auth::user()->roles->pluck('name')->first() == 'dokter') {
@@ -231,7 +231,7 @@
                                     </td>
                                     <td class="text-center align-items-center">
                                         @if ($t->verifikasi == 1)
-                                        <span class="badge text-white bg-success text-white">Sudah Diverifikasi</span>
+                                        <span class="badge text-white bg-success text-white">Sudah <br> Di Verifikasi</span>
                                         @else
                                         <span class="badge text-white bg-danger d-flex flex-column align-items-center" style="line-height:1.2;">
                                             <span>Belum</span>

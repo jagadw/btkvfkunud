@@ -12,7 +12,7 @@ use Livewire\Attributes\Layout;
 #[Layout('layouts.admin')]
 class SemuaTindakan extends Component
 {
-    public $tanggal_operasi, $search = '', $fotoPreview;
+    public $tanggal_operasi, $search = '', $fotoPreview, $selectedDivisi;
 
     public function mount()
     {
@@ -63,6 +63,9 @@ class SemuaTindakan extends Component
                     $q->where('nama', 'like', '%' . $this->search . '%')
                         ->orWhere('nomor_rekam_medis', 'like', '%' . $this->search . '%');
                 });
+            })
+            ->when($this->selectedDivisi, function ($query) {
+                $query->where('divisi', $this->selectedDivisi);
             })
             ->get(),
             'pasiens' => Pasien::all(),

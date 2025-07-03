@@ -72,18 +72,18 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::deleting(function ($user) {
-            $user->mahasiswa()->delete();
-            $user->logBook()->each(function ($logBook) {
-                $logBook->delete();
-            });
-        });
+        // static::deleting(function ($user) {
+        //     $user->mahasiswa()->delete();
+        //     $user->logBook()->each(function ($logBook) {
+        //         $logBook->delete();
+        //     });
+        // });
 
-        static::restoring(function ($user) {
-            $user->mahasiswa()->restore();
-            $user->logBook()->each(function ($logBook) {
-                $logBook->restore();
-            });
-        });
+        // static::restoring(function ($user) {
+        //     $user->mahasiswa()->restore();
+        //     $user->logBook()->each(function ($logBook) {
+        //         $logBook->restore();
+        //     });
+        // });
     }
 }

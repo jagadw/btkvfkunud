@@ -410,7 +410,7 @@
 
                 <div class="d-flex justify-content-end">
                     <a class="btn btn-danger me-2" href="{{ route('tindakan') }}" wire:navigate>Batal</a>
-                    <button class="btn btn-primary" wire:click="store">{{ $idTindakan ? 'Update' : 'Simpan' }}</button>
+                    <button class="btn btn-primary" wire:click="update">{{ $idTindakan ? 'Update' : 'Simpan' }}</button>
                 </div>
 
             </div>

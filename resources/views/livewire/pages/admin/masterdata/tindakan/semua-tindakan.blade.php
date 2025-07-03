@@ -15,6 +15,7 @@
                     <li class="breadcrumb-item text-muted">Semua Tindakan</li>
                 </ul>
             </div>
+
             <!-- <div class="d-flex align-items-center gap-2 gap-lg-3">
                 @php
                 if(Auth::user()->roles->pluck('name')->first() == 'dokter') {
@@ -49,7 +50,18 @@
                             <input type="date" id="tanggal_operasi_end" class="form-control" wire:model="tanggal_operasi_end" onchange="@this.set('tanggal_operasi_end', this.value)">
                         </div>
                     </div>
-                    <div class="col-md-3 d-flex align-items-end gap-2">
+                    <div class="col-md-3">
+                        <label>Divisi</label>
+                        <select class="form-select" wire:model="selectedDivisi" onchange="@this.set('selectedDivisi', this.value)">
+                            <option value="">Pilih Divisi</option>
+                            <option value="Jantung Dewasa">Jantung Dewasa</option>
+                            <option value="Jantung Pediatri & Kongengital">Jantung Pediatri & Kongengital</option>
+                            <option value="Toraks">Toraks</option>
+                            <option value="Vaskular">Vaskular</option>
+                            <option value="Endovaskular">Endovaskular</option>
+                        </select>
+                    </div>
+                    <!-- <div class="col-md-3 d-flex align-items-end gap-2">
                         <button 
                             class="btn btn-md fw-bold btn-danger" 
                             onclick="exportToPDF()" 
@@ -66,7 +78,7 @@
                             Unduh Laporan
                         </button>
                         {{-- <button class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export EXCEL</button> --}}
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="main m-5 overflow-auto">
@@ -92,14 +104,14 @@
                                 <th rowspan="2" class="align-middle" style="min-width:120px; width: 140px;">Tanggal Operasi</th>
                                 @for ($i = 1; $i <= $maxAsisten; $i++)
                                     <th colspan="3" class="text-center align-middle" style="min-width:240px; width: 260px;">Asisten {{ $i }}</th>
-                                @endfor
-                                <th colspan="3" class="text-center align-middle" style="min-width:240px; width: 260px;">On Loop</th>
-                                <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Tanggal Conference</th>
-                                <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Hasil Conference</th>
-                                <th rowspan="2" class="align-middle" style="min-width:110px; width: 120px;">Kesesuaian</th>
-                                <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Realisasi Tindakan</th>
-                                <th rowspan="2" class="align-middle" style="min-width:120px; width: 130px;">Foto Tindakan</th>
-                                <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Status Verifikasi</th>
+                                    @endfor
+                                    <th colspan="3" class="text-center align-middle" style="min-width:240px; width: 260px;">On Loop</th>
+                                    <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Tanggal Conference</th>
+                                    <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Hasil Conference</th>
+                                    <th rowspan="2" class="align-middle" style="min-width:110px; width: 120px;">Kesesuaian</th>
+                                    <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Realisasi Tindakan</th>
+                                    <th rowspan="2" class="align-middle" style="min-width:120px; width: 130px;">Foto Tindakan</th>
+                                    <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Status Verifikasi</th>
                             </tr>
                             <tr class="fw-semibold fs-6 border-2 text-center align-middle">
                                 {{-- Kolom Asisten --}}
@@ -107,10 +119,10 @@
                                     <th class="align-middle" style="min-width:80px; width: 90px;">Nama</th>
                                     <th class="align-middle" style="min-width:60px; width: 70px;">Role</th>
                                     <th class="align-middle" style="min-width:100px; width: 110px;">Deskripsi</th>
-                                @endfor
-                                <th class="align-middle" style="min-width:80px; width: 90px;">Nama</th>
-                                <th class="align-middle" style="min-width:60px; width: 70px;">Role</th>
-                                <th class="align-middle" style="min-width:100px; width: 110px;">Deskripsi</th>
+                                    @endfor
+                                    <th class="align-middle" style="min-width:80px; width: 90px;">Nama</th>
+                                    <th class="align-middle" style="min-width:60px; width: 70px;">Role</th>
+                                    <th class="align-middle" style="min-width:100px; width: 110px;">Deskripsi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,7 +133,7 @@
                             @endphp
                             <tr>
                                 <td class="text-center align-items-center">{{ $index + 1 }}</td>
-                                
+
                                 <td class="text-center align-items-center">{{ $t->pasien->nomor_rekam_medis ?? '-' }}</td>
                                 <td class="text-center align-items-center">{{ $t->pasien->nama ?? '-' }}</td>
                                 <td class="text-center align-items-center">{{ $t->dpjp->name ?? '-' }}</td>
@@ -131,70 +143,70 @@
 
                                 {{-- Kolom Asisten --}}
                                 @foreach ($asistens as $as)
-                                    <td class="text-center align-items-center">{{ $as->user->name ?? '-' }}</td>
-                                    <td class="text-center align-items-center">{{ $as->role ?? '-' }}</td>
-                                    <td class="text-center align-items-center">
-                                        @if ($as->deskripsi)
-                                            <small>{{ $as->deskripsi }}</small>
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
+                                <td class="text-center align-items-center">{{ $as->user->name ?? '-' }}</td>
+                                <td class="text-center align-items-center">{{ $as->role ?? '-' }}</td>
+                                <td class="text-center align-items-center">
+                                    @if ($as->deskripsi)
+                                    <small>{{ $as->deskripsi }}</small>
+                                    @else
+                                    -
+                                    @endif
+                                </td>
                                 @endforeach
                                 {{-- Jika asisten kurang, tambah kolom kosong --}}
                                 @for ($i = $asistens->count(); $i < $maxAsisten; $i++)
                                     <td class="text-center align-items-center">-</td>
                                     <td class="text-center align-items-center">-</td>
                                     <td class="text-center align-items-center">-</td>
-                                @endfor
+                                    @endfor
 
-                                {{-- Kolom On Loop --}}
-                                @if ($onloop)
+                                    {{-- Kolom On Loop --}}
+                                    @if ($onloop)
                                     <td class="text-center align-items-center">{{ $onloop->user->name ?? '-' }}</td>
                                     <td class="text-center align-items-center">{{ $onloop->role ?? '-' }}</td>
                                     <td class="text-center align-items-center">
                                         @if ($onloop->deskripsi)
-                                            <small>{{ $onloop->deskripsi }}</small>
+                                        <small>{{ $onloop->deskripsi }}</small>
                                         @else
-                                            -
+                                        -
                                         @endif
                                     </td>
-                                @else
+                                    @else
                                     <td class="text-center align-items-center">-</td>
                                     <td class="text-center align-items-center">-</td>
                                     <td class="text-center align-items-center">-</td>
-                                @endif
+                                    @endif
 
-                                <td class="text-center align-items-center">{{ $t->conference?->tanggal_conference ? \Carbon\Carbon::parse($t->conference->tanggal_conference)->format('d M Y') : '-' }}</td>
-                                <td class="text-center align-items-center">{{ $t->conference?->hasil_conference ?? '-' }}</td>
-                                <td class="text-center align-items-center">
-                                    @if ($t->conference)
+                                    <td class="text-center align-items-center">{{ $t->conference?->tanggal_conference ? \Carbon\Carbon::parse($t->conference->tanggal_conference)->format('d M Y') : '-' }}</td>
+                                    <td class="text-center align-items-center">{{ $t->conference?->hasil_conference ?? '-' }}</td>
+                                    <td class="text-center align-items-center">
+                                        @if ($t->conference)
                                         @if ($t->conference?->kesesuaian)
-                                            <span class="badge bg-success text-white">Ya</span>
+                                        <span class="badge bg-success text-white">Ya</span>
                                         @else
-                                            <span class="badge bg-danger text-white">Tidak</span>
+                                        <span class="badge bg-danger text-white">Tidak</span>
                                         @endif
-                                    @else
+                                        @else
                                         -
-                                    @endif
-                                </td>
-                                <td class="text-center align-items-center">
-                                    {{ $t->conference?->realisasi_tindakan ?? '-' }}
-                                </td>
-                                <td class="text-center align-items-center">
-                                    @if ($t->foto_tindakan)
+                                        @endif
+                                    </td>
+                                    <td class="text-center align-items-center">
+                                        {{ $t->conference?->realisasi_tindakan ?? '-' }}
+                                    </td>
+                                    <td class="text-center align-items-center">
+                                        @if ($t->foto_tindakan)
                                         <button class="btn btn-sm btn-primary" wire:click="showFoto('{{ $t->foto_tindakan }}')">Lihat Foto</button>
-                                    @else
+                                        @else
                                         -
-                                    @endif
-                                </td>
-                                <td class="text-center align-items-center">
-                                    @if ($t->verifikasi == 1)
-                                        <span class="badge text-white bg-success text-white">Sudah Diverifikasi</span>
-                                    @else
-                                        <span class="badge text-white bg-danger text-white">Belum Diverifikasi</span>
-                                    @endif
-                                </td>
+                                        @endif
+                                    </td>
+                                    <td class="text-center align-items-center">
+                                        @if ($t->verifikasi == 1)
+                                        <span class="badge text-white bg-success text-white">Sudah <br>Di Verifikasi</span>
+                                        @else
+                                        <span class="badge text-white bg-danger text-white">Belum <br> Diverifikasi</span>
+                                        @endif
+                                    </td>
                             </tr>
                             @empty
                             <tr>
@@ -317,11 +329,11 @@
 
         Livewire.on('confirm-delete', (message) => {
             Swal.fire({
-                title: message
-                , showCancelButton: true
-                , confirmButtonText: "Ya"
-                , cancelButtonText: "Tidak"
-                , icon: "warning"
+                title: message,
+                showCancelButton: true,
+                confirmButtonText: "Ya",
+                cancelButtonText: "Tidak",
+                icon: "warning"
             }).then((result) => {
                 if (result.isConfirmed) {
                     Livewire.dispatch('deleteTindakanConfirmed');
@@ -333,6 +345,5 @@
 
 
     });
-
 </script>
 @endpush

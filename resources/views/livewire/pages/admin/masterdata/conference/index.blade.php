@@ -38,10 +38,10 @@
                     <label class="mb-1">Tanggal Conference</label>
                     <input type="month" id="tanggal_conference" class="form-control" wire:model="tanggal_conference" onchange="@this.set('tanggal_conference', this.value)">
                 </div>
-                <div class="col-md-5 d-flex align-items-end justify-content-end gap-2">
+                <!-- <div class="col-md-5 d-flex align-items-end justify-content-end gap-2">
                     <button class="btn btn-sm fw-bold btn-danger" onclick="exportToPDF()">Export To PDF</button>
                     <button class="btn btn-sm fw-bold btn-success" onclick="exportToExcel()">Export To EXCEL</button>
-                </div>
+                </div> -->
             </div>
 
             <div class="main m-5">

@@ -11,7 +11,16 @@ use Livewire\Component;
 class VerifikasiTindakan extends Component
 {
     public $tanggal_operasi_start, $tanggal_operasi_end, $search = '';
-    public $selectedTindakans = [];
+    public $selectedTindakans = [], $fotoPreview;
+    public function showFoto($foto)
+    {
+        $this->fotoPreview = $foto;
+        $this->dispatch('show-modal');
+    }
+    public function closeModal()
+    {
+        $this->dispatch('hide-modal');
+    }
 
 
     public function toggleSelectAll()
