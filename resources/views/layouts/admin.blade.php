@@ -136,8 +136,6 @@
         $(function() {
             Livewire.on('download-pdf', function(singkatan) {
 
-            // Pilih elemen .main-content
-            console.log('Download PDF triggered, singkatan:', singkatan);
 
             var element = document.querySelector('.main-content');
             if (!element) {
@@ -148,7 +146,7 @@
             // Opsi konfigurasi
             var opt = {
                 margin: 0.5,
-                filename: `Log TKV Lanjut I ${singkatan} {{ Auth::user()->mahasiswa?->inisial_residen ?? '' }}.pdf`,
+                filename: `Log TKV Lanjut I ${singkatan} {{ $selectedDokter ?? (Auth::user()->mahasiswa?->inisial_residen ?? '') }}.pdf`,
                 image: {
                 type: 'jpeg',
                 quality: 0.98

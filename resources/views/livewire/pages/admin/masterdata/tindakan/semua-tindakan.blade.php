@@ -23,7 +23,7 @@
                 $tindakans->isEmpty() ||
                 empty($tanggal_operasi_start) ||
                 empty($tanggal_operasi_end)
-                ||empty($selectedDivisi) || empty($tindakans) || empty($selectedDokter)
+                ||empty($selectedDivisi)  || empty($selectedDokter) || empty($tindakans)
                 )
                 disabled
                 @endif
@@ -122,25 +122,31 @@
                                             <span class="badge text-white {{ $t->verifikasi == 1 ? 'bg-success' : 'bg-danger' }}">
                                                 {{ $t->verifikasi == 1 ? 'Terverifikasi' : 'Belum Verifikasi' }}
                                             </span>
-                                            <!-- <div class="dropdown">
+                                            <div class="dropdown">
                                                 <button class="btn btn-sm btn-icon btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="bi bi-three-dots"></i>
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                     <li>
-                                                        <a class="w-100 fw-bold btn btn-warning text-dark" href="{{ route('edit-tindakan', ['id' => encrypt($t->id)]) }}">
-                                                            <i class="fa-solid fa-pen-to-square text-dark"></i>
-                                                            Edit
-                                                        </a>
+                                                        <button
+                                                            class="w-100 btn btn-sm btn-primary"
+                                                            wire:click="showFoto('{{ $t->foto_tindakan }}')"
+                                                            @if(empty($t->foto_tindakan)) disabled @endif
+                                                            >
+                                                            Lihat Foto
+                                                        </button>
                                                     </li>
                                                     <li>
-                                                        <a class="w-100 fw-bold btn btn-danger text-white" href="#" wire:click="delete({{ $t->id }})">
-                                                            <i class="fa-solid fa-trash"></i>
-                                                            Hapus
-                                                        </a>
+                                                        <a href="{{ route('detail-tindakan',encrypt($t->id)) }}" class="btn btn-info w-100">Detail</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('preview-laporan', encrypt($t->id)) }}" class="w-100 btn btn-danger">
+                                                            <i class="bi bi-file-earmark-pdf-fill"></i>
+
+                                                            Preview</a>
                                                     </li>
                                                 </ul>
-                                            </div> -->
+                                            </div>
                                         </div>
 
                                         <!-- <div class="mb-2">
@@ -192,15 +198,7 @@
                                         <div class="mt-auto d-flex justify-content-between">
 
 
-                                            <button
-                                                class="btn btn-sm btn-primary"
-                                                wire:click="showFoto('{{ $t->foto_tindakan }}')"
-                                                @if(empty($t->foto_tindakan)) disabled @endif
-                                                >
-                                                Lihat Foto
-                                            </button>
 
-                                            <a href="{{ route('detail-tindakan',encrypt($t->id)) }}" class="btn btn-sm btn-info">Detail</a>
                                         </div>
                                     </div>
                                 </div>

@@ -49,7 +49,7 @@
                         <div class="d-flex flex-column text-center">
                             <p class="fw-bold mb-1">LAPORAN KEGIATAN</p>
                             <p class="fw-bold mb-1">PPDS BEDAH TORAKS KARDIAK DAN VASKULAR</p>
-                            <p class="fw-bold mb-3">STASE BEDAH {{ $tindakans->first()->divisi ?? '-'}}</p>
+                            <p class="fw-bold mb-3">STASE BEDAH {{strtoupper( $tindakans->first()->divisi ?? '-')}}</p>
                             <p class="fw-bold mb-1">RSUP PROF DR I.G.N.G NGOERAH DENPASAR-BALI</p>
                             <p class="fw-bold mb-2">
                                 Periode : {{ \Carbon\Carbon::parse($tanggal_operasi_start)->translatedFormat('d F Y') }} – {{ \Carbon\Carbon::parse($tanggal_operasi_end)->translatedFormat('d F Y') }}
@@ -104,7 +104,11 @@
                                 {{
                                     optional(
                                         $tindakan->tindakanAsistens
-                                            ->where('user_id', Auth::id())
+                                            ->when(isset($selectedDokter), function($query) use ($selectedDokter) {
+                                                return $query->where('user_id', $selectedDokter);
+                                            }, function($query) {
+                                                return $query->where('user_id', Auth::id());
+                                            })
                                             ->first()
                                     )->role ?? '-'
                                 }}
@@ -136,7 +140,11 @@
                 </div>
                 <div class="mb-2">
                     <div><strong>Periode</strong> : {{ \Carbon\Carbon::parse($tanggal_operasi_start)->translatedFormat('d F Y') }} – {{ \Carbon\Carbon::parse($tanggal_operasi_end)->translatedFormat('d F Y') }}</div>
-                    <div><strong>Residen</strong> : {{ Auth::user()->mahasiswa->nama }}</div>
+                    @if(isset($selectedDokter))
+                        <div><strong>Residen</strong> : {{ \App\Models\User::find($selectedDokter)?->mahasiswa?->nama ?? '-' }}</div>
+                    @else
+                        <div><strong>Residen</strong> : {{ Auth::user()->mahasiswa->nama }}</div>
+                    @endif
                     <div><strong>Stase</strong> : Bedah {{ $tindakans->first()->divisi ?? '-' }}</div>
                     <div><strong>Jumlah Operasi</strong> :</div>
                 </div>

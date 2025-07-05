@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\ExportSingle;
 use App\Livewire\SemuaTindakan;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Dashboard;
@@ -34,6 +35,8 @@ Route::get('/', function () {
         Route::get('/tindakan/edit/{id}', \App\Livewire\CreateTindakan::class)->name('edit-tindakan');
         Route::get('/tindakan/{id}/foto-tindakan', action: CreateFotoTindakan::class)->name('create-fototindakan');
         Route::get('/tindakan/{id}/detail', DetailTindakan::class)->name('detail-tindakan');
+        Route::get('/tindakan/{id}/preview', ExportSingle::class)->name('preview-laporan');
+        
 
         Route::get('/logbook', \App\Livewire\LogBook::class)->name('logbook');
         Route::get('/logbook/add', \App\Livewire\CreateLogBook::class)->name(name: 'add-logbook');
