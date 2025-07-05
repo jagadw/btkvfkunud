@@ -46,108 +46,7 @@
     </div>
     <!--end::Toolbar-->
 
-    <div class="collapse @if($showForm) show @endif m-5" id="userFormAccordion">
-        <div class="accordion-item">
-            {{-- <h2 class="accordion-header" id="headingUserForm">
-                {{ $userId ? 'Edit' : 'Tambah' }} User
 
-            </h2> --}}
-            <div id="collapseUserForm" class="accordion-collapse collapse show" aria-labelledby="headingUserForm" data-bs-parent="#userFormAccordion">
-                <div class="accordion-body">
-                    <div class="row g-9 mb-8">
-                        <div class="d-flex flex-column col-md-6 mb-8 fv-row">
-                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
-                                <span class="required">Username</span>
-                                <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
-                                    <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                        <span class="path3"></span>
-                                    </i>
-                                </span>
-                            </label>
-                            <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Username" id="name" autocomplete="off" wire:model="name" />
-                        </div>
-                        <div class="d-flex flex-column col-md-6 mb-8 fv-row">
-                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
-                                <span class="required">Email</span>
-                                <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target Position for future usage and reference">
-                                    <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                        <span class="path3"></span>
-                                    </i>
-                                </span>
-                            </label>
-                            <input type="text" class="form-control form-control-solid @error('email') is-invalid @enderror" placeholder="Email" autocomplete="off" id="position" wire:model="email" />
-                        </div>
-                    </div>
-                    <div class="row g-9 mb-8">
-                        <div class="d-flex flex-column col-md-6 mb-8 fv-row">
-                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
-                                <span class="required">Role</span>
-                                <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
-                                    <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                        <span class="path3"></span>
-                                    </i>
-                                </span>
-                            </label>
-                            <div class="">
-                                <select class="form-select @error('role') is-invalid @enderror" data-control="select2" data-placeholder="Select Role" wire:model="selectedRole">
-                                    <option>Pilih Role</option>
-                                    @foreach ($roles as $role)
-                                    @if ($role->name !== 'developer' || (auth()->user() && auth()->user()->hasRole('developer')))
-                                    <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                    @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-column col-md-6 mb-8 fv-row">
-                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
-                                <span >Mahasiswa</span>
-                                <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target name for future usage and reference">
-                                    <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                        <span class="path3"></span>
-                                    </i>
-                                </span>
-                            </label>
-                            <div class="" wire:ignore>
-                                <select class="form-select @error('selectedMahasiswa') is-invalid @enderror" data-control="select2" data-placeholder="Pilih Mahasiswa" wire:model="selectedMahasiswa" data-allow-clear="true" onchange="@this.set('selectedMahasiswa', Array.from(this.selectedOptions).map(option => option.value))"
-                                 @if($userId) disabled @endif>
-                                    <option></option>
-                                    @foreach ($mahasiswas as $mahasiswa)
-                                    <option value="{{ $mahasiswa->id }}">{{ $mahasiswa->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-column col-md-6 mb-8 fv-row">
-                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
-                                <span class="required">Password</span>
-                                <span class="ms-1" data-bs-toggle="tooltip" title="Specify a target Position for future usage and reference">
-                                    <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
-                                        <span class="path1"></span>
-                                        <span class="path2"></span>
-                                        <span class="path3"></span>
-                                    </i>
-                                </span>
-                            </label>
-                            <input type="text" class="form-control form-control-solid @error('name') is-invalid @enderror" placeholder="Passoword" autocomplete="off" id="position" wire:model="password" />
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                        <button type="button" class="btn btn-light me-2" wire:click="closeModal">Close</button>
-                        <button class="btn btn-primary" wire:click="{{ isset($userId) ? 'update' : 'store' }}">{{ $userId ? 'Update' : 'Store' }}</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <!--begin::Content-->
     <div id="kt_app_content" class="app-content flex-column-fluid">
         <!--begin::Content container-->
@@ -182,52 +81,55 @@
 
                                 @php $rowNumber = 1; @endphp
                                 @foreach ($data as $user)
-                                    @php
-                                        $userRole = $user->getRoleNames()->first();
-                                        $currentUserRole = Auth::user()->roles->pluck('name')->first();
-                                    @endphp
-                                    @if ($userRole !== 'developer' || $currentUserRole === 'developer')
-                                        <tr wire:key="user-{{ $user->id }}">
-                                            <td class="text-center align-items-center">{{ $rowNumber++ }}</td>
-                                            <td class="text-center align-items-center">
-                                                <a href="#" class="btn-primary btn btn-sm btn-light btn-flex btn-center btn-primary  fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
-                                                    <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
-                                                <!--begin::Menu-->
-                                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a wire:click="edit({{ $user->id }})" class="menu-link bg-warning text-dark px-3 w-100">Edit</a>
-                                                    </div>
-                                                    <!--end::Menu item-->
-                                                    <!--begin::Menu item-->
-                                                    <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link bg-danger text-white px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $user->id }})">Hapus</a>
-                                                    </div>
-                                                    @if($userRole === 'dokter')
-                                                    <div class="menu-item px-3">
-                                                        <a href="#" class="menu-link px-3 w-100 bg-info text-white" data-kt-ecommerce-product-filter="delete_row" wire:click="aksesSemua({{ $user->id }})">{{ $user->akses_semua == 1 ? 'Tarik Akses' : 'Berikan Akses' }}</a>
-                                                    </div>
-                                                    @endif
-                                                    <!--end::Menu item-->
-                                                </div>
-                                            </td>
-                                            <td class="text-center align-items-center">{{ $user->name }}</td>
-                                            <td class="text-center align-items-center">{{ $user->email }}</td>
-                                            <td class="text-center align-items-center">
-                                                @if(strtolower($userRole) === 'operator')
-                                                    <span class="badge badge-success">{{ strtoupper($userRole) }}</span>
-                                                @elseif(strtolower($userRole) === 'admin')
-                                                    <span class="badge badge-primary">{{ strtoupper($userRole) }}</span>
-                                                @elseif(strtolower($userRole) === 'dokter')
-                                                    <span class="badge badge-info">{{ strtoupper($userRole) }}</span>
-                                                @elseif(strtolower($userRole) === 'developer')
-                                                    <span class="badge badge-warning">{{ strtoupper($userRole) }}</span>
-                                                @else
-                                                    <span class="badge badge-secondary">{{ strtoupper($userRole) }}</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endif
+                                @php
+                                $userRole = $user->getRoleNames()->first();
+                                $currentUserRole = Auth::user()->roles->pluck('name')->first();
+                                @endphp
+                                @if ($userRole !== 'developer' || $currentUserRole === 'developer')
+                                <tr wire:key="user-{{ $user->id }}">
+                                    <td class="text-center align-items-center">{{ $rowNumber++ }}</td>
+                                    <td class="text-center align-items-center">
+                                        <a href="#" class="btn-primary btn btn-sm btn-light btn-flex btn-center btn-primary  fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">Aksi
+                                            <i class="ki-duotone ki-down fs-5 ms-1"></i></a>
+                                        <!--begin::Menu-->
+                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item px-3">
+                                                <a wire:click="edit({{ $user->id }})" class="menu-link bg-warning text-dark px-3 w-100">Edit</a>
+                                            </div>
+                                            <!--end::Menu item-->
+                                            <!--begin::Menu item-->
+                                            <div class="menu-item px-3">
+                                                <a href="#" class="menu-link bg-danger text-white px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="delete({{ $user->id }})">Hapus</a>
+                                            </div>
+                                            <div class="menu-item px-3">
+                                                <a href="#" class="menu-link bg-danger text-white px-3 w-100" data-kt-ecommerce-product-filter="delete_row" wire:click="nonAktif({{ $user->id }})">Non Aktifkan</a>
+                                            </div>
+                                            @if($userRole === 'dokter')
+                                            <div class="menu-item px-3">
+                                                <a href="#" class="menu-link px-3 w-100 bg-info text-white" data-kt-ecommerce-product-filter="delete_row" wire:click="aksesSemua({{ $user->id }})">{{ $user->akses_semua == 1 ? 'Tarik Akses' : 'Berikan Akses' }}</a>
+                                            </div>
+                                            @endif
+                                            <!--end::Menu item-->
+                                        </div>
+                                    </td>
+                                    <td class="text-center align-items-center">{{ $user->name }}</td>
+                                    <td class="text-center align-items-center">{{ $user->email }}</td>
+                                    <td class="text-center align-items-center">
+                                        @if(strtolower($userRole) === 'operator')
+                                        <span class="badge badge-success">{{ strtoupper($userRole) }}</span>
+                                        @elseif(strtolower($userRole) === 'admin')
+                                        <span class="badge badge-primary">{{ strtoupper($userRole) }}</span>
+                                        @elseif(strtolower($userRole) === 'dokter')
+                                        <span class="badge badge-info">{{ strtoupper($userRole) }}</span>
+                                        @elseif(strtolower($userRole) === 'developer')
+                                        <span class="badge badge-warning">{{ strtoupper($userRole) }}</span>
+                                        @else
+                                        <span class="badge badge-secondary">{{ strtoupper($userRole) }}</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endif
                                 @endforeach
                                 @endif
                         </tbody>
@@ -236,15 +138,15 @@
                     </table>
                     {{-- <div class="mt-4 d-flex justify-content-center">
                         {{ $data->onEachSide(1)->links() }}
-                    </div> --}}
-                </div>
-
-                @include('livewire.pages.admin.masterdata.user.modal')
+                </div> --}}
             </div>
 
-
+            @include('livewire.pages.admin.masterdata.user.modal')
         </div>
+
+
     </div>
+</div>
 </div>
 @push('scripts')
 <script>
@@ -277,11 +179,11 @@
         });
         Livewire.on('confirm-delete', (message) => {
             Swal.fire({
-                title: message
-                , showCancelButton: true
-                , confirmButtonText: "Yes"
-                , cancelButtonText: "No"
-                , icon: "warning"
+                title: message,
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                cancelButtonText: "No",
+                icon: "warning"
             }).then((result) => {
                 if (result.isConfirmed) {
                     Livewire.dispatch('deleteUser');
@@ -292,7 +194,38 @@
         });
 
 
+
     });
 
+    document.addEventListener('livewire:navigated', () => {
+        if ($('#selectRole').length) {
+            const roleValue = $('#selectRole').val();
+            if (roleValue === 'dpjp') {
+                setTimeout(function() {
+                    $('#selectDpjp').select2();
+                }, 500);
+            } else if (roleValue === 'dokter') {
+                setTimeout(function() {
+                    $('#selectMahasiswa').select2();
+                }, 500);
+            }
+            $('#selectRole').on('change', function(e) {
+                @this.set('selectedRole', e.target.value);
+                setTimeout(function() {
+                    if (e.target.value === 'dpjp') {
+                        $('#selectDpjp').select2();
+                    } else if( e.target.value === 'dokter') {
+                        $('#selectMahasiswa').select2();
+                    }
+                }, 500);
+                // $('#selectUser').select2();
+            
+            });
+        }
+    });
+
+    
+ 
 </script>
+
 @endpush

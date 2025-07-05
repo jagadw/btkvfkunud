@@ -52,7 +52,7 @@
                                 <th class="text-center align-items-center">No</th>
                                 <th class="text-center align-items-center">No Rekam Medis</th>
                                 <th class="text-center align-items-center">Nama Pasien</th>
-                                <th class="text-center align-items-center">Diagnosa</th>
+                                <!-- <th class="text-center align-items-center">Diagnosa</th> -->
                                 <th class="text-center align-items-center">Hasil Conference</th>
                                 <th class="text-center align-items-center">Realisasi Tindakan</th>
                                 <th class="text-center align-items-center">Kesesuaian</th>
@@ -65,7 +65,7 @@
                                 <td class="text-center align-items-center">{{ $index + 1 }}</td>
                                 <td class="text-center align-items-center">{{ $c->pasien->nomor_rekam_medis ?? '-' }}</td>
                                 <td class="text-center align-items-center">{{ $c->pasien->nama ?? '-' }}</td>
-                                <td class="text-center align-items-center">{{ $c->diagnosa ?? '-' }}</td>
+                                <!-- <td class="text-center align-items-center">{{ $c->diagnosa ?? '-' }}</td> -->
                                 <td class="text-center align-items-center">{{ $c->hasil_conference }}</td>
                                 <td class="text-center align-items-center">{{ $c->realisasi_tindakan }}</td>
                                 <td class="text-center align-items-center">

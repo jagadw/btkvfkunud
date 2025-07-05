@@ -34,7 +34,7 @@
                     <div class="row g-3">
                         <div class="col-md-6" wire:ignore>
                             <label class="required">Nama Pasien</label>
-                            <select class="form-select" wire:model="selectedPasien" data-control="select2" onchange="@this.set('selectedPasien', this.value)">
+                            <select class="form-select" wire:model="selectedPasien" data-control="select2" onchange="@this.set('selectedPasien', this.value)" disabled>
                                 <option value="">-- Cari Pasien --</option>
                                 <option value="manual">+ Tambah Pasien Baru</option>
                                 @foreach($pasiens as $pasien)
@@ -332,7 +332,7 @@
                         </div>
                         <div class="col-md-2" wire:key="asisten-role-{{ $index }}">
                             <label class="required">Role</label>
-                            <select class="form-select" wire:model="asistens.{{ $index }}.role">
+                            <select class="form-select" wire:model="asistens.{{ $index }}.role" >
                                 <option value="">Pilih Role</option>
                                 <option value="Mandiri">Mandiri</option>
                                 <option value="Bimbingan">Bimbingan</option>
@@ -356,7 +356,7 @@
                         {{-- On Loop --}}
                         <div class="col-md-3" wire:ignore>
                             <label class="required">On Loop</label>
-                            <select class="form-select" wire:model="on_loop.user_id" data-control="select2" onchange="@this.set('on_loop.user_id', this.value)">
+                            <select class="form-select" wire:model="on_loop.user_id" data-control="select2" onchange="@this.set('on_loop.user_id', this.value)" disabled>
                                 <option value="">Pilih On Loop</option>
                                 @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer') && $user->mahasiswa != null) as $dokter)
                                 <option value="{{ $dokter->id }}">

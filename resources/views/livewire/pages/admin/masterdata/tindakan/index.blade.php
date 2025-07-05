@@ -93,160 +93,114 @@
                     })->max();
                     @endphp
 
-                    <table id="table-responsive" class="table table-row-bordered table-striped gy-5">
-                        <thead>
-                            <tr class="fw-semibold fs-6 border-2 text-center align-middle">
-                                <th rowspan="2" class="align-middle" style="min-width:40px; width: 50px;">No</th>
-                                <th rowspan="2" class="aksi align-middle" style="min-width:80px; width: 90px;">Aksi</th>
-                                <th rowspan="2" class="align-middle" style="min-width:120px; width: 140px;">No Rekam Medis</th>
-                                <th rowspan="2" class="align-middle" style="min-width:150px; width: 180px;">Pasien</th>
-                                <th rowspan="2" class="align-middle" style="min-width:120px; width: 140px;">DPJP</th>
-                                <th rowspan="2" class="align-middle" style="min-width:160px; width: 200px;">Nama Tindakan</th>
-                                <th rowspan="2" class="align-middle" style="min-width:120px; width: 150px;">Diagnosa</th>
-                                <th rowspan="2" class="align-middle" style="min-width:120px; width: 140px;">Tanggal Operasi</th>
-                                @for ($i = 1; $i <= $maxAsisten; $i++)
-                                    <th colspan="3" class="text-center align-middle" style="min-width:240px; width: 260px;">Asisten {{ $i }}</th>
-                                    @endfor
-                                    <th colspan="3" class="text-center align-middle" style="min-width:240px; width: 260px;">On Loop</th>
-                                    <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Tanggal Conference</th>
-                                    <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Hasil Conference</th>
-                                    <th rowspan="2" class="align-middle" style="min-width:110px; width: 120px;">Kesesuaian</th>
-                                    <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Realisasi Tindakan</th>
-                                    <th rowspan="2" class="align-middle" style="min-width:120px; width: 130px;">Foto Tindakan</th>
-                                    <th rowspan="2" class="align-middle" style="min-width:140px; width: 160px;">Status Verifikasi</th>
-                            </tr>
-                            <tr class="fw-semibold fs-6 border-2 text-center align-middle">
-                                {{-- Kolom Asisten --}}
-                                @for ($i = 1; $i <= $maxAsisten; $i++)
-                                    <th class="align-middle" style="min-width:80px; width: 90px;">Nama</th>
-                                    <th class="align-middle" style="min-width:60px; width: 70px;">Role</th>
-                                    <th class="align-middle" style="min-width:100px; width: 110px;">Deskripsi</th>
-                                    @endfor
-                                    <th class="align-middle" style="min-width:80px; width: 90px;">Nama</th>
-                                    <th class="align-middle" style="min-width:60px; width: 70px;">Role</th>
-                                    <th class="align-middle" style="min-width:100px; width: 110px;">Deskripsi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($tindakans as $index => $t)
+                    <div class="container">
+                        <!-- <h2 class="mb-6">Data Tindakan</h2> -->
+                        <div class="row g-6">
+                            @forelse ($tindakans as $t)
                             @php
                             $asistens = $t->tindakanAsistens->where('tipe', 'asisten')->values();
                             $onloop = $t->tindakanAsistens->where('tipe', 'onloop')->first();
                             @endphp
-                            <tr>
-                                <td class="text-center align-items-center">{{ $index + 1 }}</td>
-                                <td class="aksi">
-                                    <div class="dropdown">
-                                        <a href="#" class="btn-primary btn btn-sm btn-light btn-flex btn-center btn-primary fs-5" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                            Aksi
-                                            <i class="ki-duotone ki-down fs-5 ms-1"></i>
-                                        </a>
-                                        @php
-                                        if(Auth::user()->roles->pluck('name')->first() == 'dokter') {
-                                        $mahasiswa = Auth::user()->mahasiswa()->withTrashed()->first();
-                                        $disabled = !$mahasiswa || ($mahasiswa && ($mahasiswa->deleted_at || $mahasiswa->status == 'nonaktif'));
-                                        } else {
-                                        $disabled = false;
-                                        }
-                                        @endphp
-                                        @if(!$disabled)
-                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semibold fs-7 w-125px py-4" data-kt-menu="true">
-                                            <div class="menu-item px-3">
-                                                <a href="{{ route('edit-tindakan', ['id' => encrypt($t->id)]) }}" class="menu-link bg-warning text-dark px-3 w-100">Edit</a>
-                                            </div>
-                                            <div class="menu-item px-3">
-                                                <a href="#" class="menu-link bg-danger text-white px-3 w-100" wire:click="delete({{ $t->id }})">Hapus</a>
+
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card shadow-sm border rounded h-100">
+                                    <div class="card-body d-flex flex-column">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="card-title mb-0">Data Tindakan</h5>
+                                            <span class="badge text-white {{ $t->verifikasi == 1 ? 'bg-success' : 'bg-danger' }}">
+                                                {{ $t->verifikasi == 1 ? 'Terverifikasi' : 'Belum Verifikasi' }}
+                                            </span>
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-icon btn-primary" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="bi bi-three-dots"></i>
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li>
+                                                        <a class="w-100 fw-bold btn btn-warning text-dark" href="{{ route('edit-tindakan', ['id' => encrypt($t->id)]) }}">
+                                                           <i class="fa-solid fa-pen-to-square text-dark"></i>
+                                                            Edit
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a class="w-100 fw-bold btn btn-danger text-white" href="#" wire:click="delete({{ $t->id }})">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                            Hapus
+                                                        </a>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
-                                        @else
-                                        <div class="menu-item px-3"></div>
-                                        @endif
+
+                                        <!-- <div class="mb-2">
+                                            <strong>{{ $t->nama_tindakan ?? '-' }}</strong>
+                                        </div> -->
+                                        <div class="mb-2">
+                                            <strong>No Rekam Medis:</strong> {{ $t->pasien->nomor_rekam_medis ?? '-' }}
+                                        </div>
+                                        <div class="mb-2">
+                                            <strong>Nama Pasien:</strong> {{ $t->pasien->nama ?? '-' }}
+                                        </div>
+                                        <div class="mb-2">
+                                            <strong>DPJP:</strong> {{ $t->dpjp->name ?? '-' }}
+                                        </div>
+                                        <div class="mb-2">
+                                            <strong>Divis:</strong> {{ $t->divisi ?? '-' }}
+                                        </div>
+                                        <div class="mb-2">
+                                            <strong>Diagnosa:</strong> {{ $t->diagnosa ?? '-' }}
+                                        </div>
+                                        <div class="mb-3">
+                                            <strong>Tanggal Operasi:</strong> {{ \Carbon\Carbon::parse($t->tanggal_operasi)->format('d M Y') }}
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <strong>Asisten:</strong>
+                                            @if($asistens->count())
+                                            <ul class="list-unstyled ms-2 mb-0">
+                                                @foreach ($asistens as $as)
+                                                <li>
+                                                    • {{ $as->user->name ?? '-' }} ({{ $as->role ?? '-' }})
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                            @else
+                                            <div class="ms-2">-</div>
+                                            @endif
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <strong>On Loop:</strong>
+                                            @if($onloop)
+                                            <div class="ms-2">• {{ $onloop->user->name ?? '-' }} ({{ $onloop->role ?? '-' }})</div>
+                                            @else
+                                            <div class="ms-2">-</div>
+                                            @endif
+                                        </div>
+
+                                        <div class="mt-auto d-flex justify-content-between">
+
+
+                                            <button
+                                                class="btn btn-sm btn-primary"
+                                                wire:click="showFoto('{{ $t->foto_tindakan }}')"
+                                                @if(empty($t->foto_tindakan)) disabled @endif
+                                                >
+                                                Lihat Foto
+                                            </button>
+
+                                            <a href="{{ route('detail-tindakan',encrypt($t->id)) }}" class="btn btn-sm btn-info">Detail</a>
+                                        </div>
                                     </div>
-                                </td>
-                                <td class="text-center align-items-center">{{ $t->pasien->nomor_rekam_medis ?? '-' }}</td>
-                                <td class="text-center align-items-center">{{ $t->pasien->nama ?? '-' }}</td>
-                                <td class="text-center align-items-center">{{ $t->dpjp->name ?? '-' }}</td>
-                                <td class="text-center align-items-center">{{ $t->nama_tindakan ?? '-' }}</td>
-                                <td class="text-center align-items-center">{{ $t->diagnosa ?? '-' }}</td>
-                                <td class="text-center align-items-center">{{ \Carbon\Carbon::parse($t->tanggal_operasi)->format('d M Y') }}</td>
-
-                                {{-- Kolom Asisten --}}
-                                @foreach ($asistens as $as)
-                                <td class="text-center align-items-center">{{ $as->user->name ?? '-' }}</td>
-                                <td class="text-center align-items-center">{{ $as->role ?? '-' }}</td>
-                                <td class="text-center align-items-center">
-                                    @if ($as->deskripsi)
-                                    <small>{{ $as->deskripsi }}</small>
-                                    @else
-                                    -
-                                    @endif
-                                </td>
-                                @endforeach
-                                {{-- Jika asisten kurang, tambah kolom kosong --}}
-                                @for ($i = $asistens->count(); $i < $maxAsisten; $i++)
-                                    <td class="text-center align-items-center">-</td>
-                                    <td class="text-center align-items-center">-</td>
-                                    <td class="text-center align-items-center">-</td>
-                                    @endfor
-
-                                    {{-- Kolom On Loop --}}
-                                    @if ($onloop)
-                                    <td class="text-center align-items-center">{{ $onloop->user->name ?? '-' }}</td>
-                                    <td class="text-center align-items-center">{{ $onloop->role ?? '-' }}</td>
-                                    <td class="text-center align-items-center">
-                                        @if ($onloop->deskripsi)
-                                        <small>{{ $onloop->deskripsi }}</small>
-                                        @else
-                                        -
-                                        @endif
-                                    </td>
-                                    @else
-                                    <td class="text-center align-items-center">-</td>
-                                    <td class="text-center align-items-center">-</td>
-                                    <td class="text-center align-items-center">-</td>
-                                    @endif
-
-                                    <td class="text-center align-items-center">{{ $t->conference?->tanggal_conference ? \Carbon\Carbon::parse($t->conference->tanggal_conference)->format('d M Y') : '-' }}</td>
-                                    <td class="text-center align-items-center">{{ $t->conference?->hasil_conference ?? '-' }}</td>
-                                    <td class="text-center align-items-center">
-                                        @if ($t->conference)
-                                        @if ($t->conference?->kesesuaian)
-                                        <span class="badge bg-success text-white fs-6">Ya</span>
-                                        @else
-                                        <span class="badge bg-danger text-white fs-6">Tidak</span>
-                                        @endif
-                                        @else
-                                        -
-                                        @endif
-                                    </td>
-                                    <td class="text-center align-items-center">
-                                        {{ $t->conference?->realisasi_tindakan ?? '-' }}
-                                    </td>
-                                    <td class="text-center align-items-center">
-                                        @if ($t->foto_tindakan)
-                                        <button class="btn btn-sm btn-primary" wire:click="showFoto('{{ $t->foto_tindakan }}')">Lihat Foto</button>
-                                        @else
-                                        -
-                                        @endif
-                                    </td>
-                                    <td class="text-center align-items-center">
-                                        @if ($t->verifikasi == 1)
-                                        <span class="badge text-white bg-success text-white">Sudah <br> Di Verifikasi</span>
-                                        @else
-                                        <span class="badge text-white bg-danger d-flex flex-column align-items-center" style="line-height:1.2;">
-                                            <span>Belum</span>
-                                            <span>Di Verifikasi</span>
-                                        </span>
-                                        @endif
-                                    </td>
-                            </tr>
+                                </div>
+                            </div>
                             @empty
-                            <tr>
-                                <td colspan="{{ 20 + ($maxAsisten * 3) + 3 }}" class="text-center">Data Tidak Ditemukan</td>
-                            </tr>
+                            <div class="col-12 text-center">
+                                <p>Data Tidak Ditemukan</p>
+                            </div>
                             @endforelse
-                        </tbody>
-                    </table>
+                        </div>
+                    </div>
+
 
 
 

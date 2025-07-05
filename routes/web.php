@@ -8,6 +8,7 @@ use App\Livewire\RolesPermissions;
 use App\Livewire\User;
 use App\Livewire\Auth\Login;
 use App\Livewire\CreateFotoTindakan;
+use App\Livewire\DetailTindakan;
 use App\Livewire\FotoTindakan;
 
 Route::get('/', function () {
@@ -32,6 +33,7 @@ Route::get('/', function () {
         Route::get('/tindakan/add', \App\Livewire\CreateTindakan::class)->name('create-tindakan');
         Route::get('/tindakan/edit/{id}', \App\Livewire\CreateTindakan::class)->name('edit-tindakan');
         Route::get('/tindakan/{id}/foto-tindakan', action: CreateFotoTindakan::class)->name('create-fototindakan');
+        Route::get('/tindakan/{id}/detail', DetailTindakan::class)->name('detail-tindakan');
 
         Route::get('/logbook', \App\Livewire\LogBook::class)->name('logbook');
         Route::get('/logbook/add', \App\Livewire\CreateLogBook::class)->name(name: 'add-logbook');

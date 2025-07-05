@@ -76,13 +76,14 @@ $menus = Menu::with('submenus')->get();
                                 if ($submenu->route == 'tindakan') {
                                 $submenuRouteArray[] = 'create-tindakan';
                                 $submenuRouteArray[] = 'edit-tindakan';
+                                $submenuRouteArray[] = 'detail-tindakan';
                                 }
                                 if ($submenu->route == 'logbook') {
                                 $submenuRouteArray[] = 'add-logbook';
                                 $submenuRouteArray[] = 'edit-logbook';
                                 }
                                 @endphp
-                                <a class="menu-link {{ request()->routeIs($submenuRouteArray) ? 'active' : '' }}" href="{{ route($submenu->route) }}" wire:navigate>
+                                <a class="menu-link {{ request()->routeIs($submenuRouteArray) ? 'active' : '' }}" href="{{ route($submenu->route) }}" {{ $submenu->route != 'user' ? 'wire:navigate' : '' }}>
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>

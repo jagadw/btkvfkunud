@@ -12,8 +12,8 @@ use Livewire\Attributes\Layout;
 #[Layout('layouts.admin')]
 class SemuaTindakan extends Component
 {
-    public $tanggal_operasi, $search = '', $fotoPreview, $selectedDivisi;
-
+    public $tanggal_operasi, $search = '', $fotoPreview, $selectedDivisi, $selectedDokter;
+    public $tanggal_operasi_start, $tanggal_operasi_end;
     public function mount()
     {
         $user = Auth::user();
@@ -67,9 +67,15 @@ class SemuaTindakan extends Component
             ->when($this->selectedDivisi, function ($query) {
                 $query->where('divisi', $this->selectedDivisi);
             })
+            ->when($this->selectedDokter, function ($query) {
+               $query->whereHas('tindakanAsistens', function ($q) {
+                    $q->where('user_id', $this->selectedDokter);
+                });
+            })
+            ->where('verifikasi', 1)
             ->get(),
             'pasiens' => Pasien::all(),
-            'dokters' => User::with('mahasiswa')->whereHas('roles', fn($q) => $q->where('name', 'dokter'))->get(),
+            'dokters' => User::whereHas('roles', fn($q) => $q->where('name', 'dokter'))->get(),
             'users' => User::all(),
         ]);
     }
