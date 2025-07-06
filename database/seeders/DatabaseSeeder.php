@@ -30,12 +30,12 @@ class DatabaseSeeder extends Seeder
 
         // Create a developer user
 
-        $developerUser = User::factory()->create([
-            'name' => 'Harrys',
-            'email' => 'harrysputra46@gmail.com',
-            'password' => bcrypt('developerbtkv')
-        ]);
-        $developerUser->assignRole('operator');
+        // $developerUser = User::factory()->create([
+        //     'name' => 'Harrys',
+        //     'email' => 'harrysputra46@gmail.com',
+        //     'password' => bcrypt('developerbtkv')
+        // ]);
+        // $developerUser->assignRole('operator');
 
         $admin =  User::factory()->create([
             'name' => 'Resident BTKV',
