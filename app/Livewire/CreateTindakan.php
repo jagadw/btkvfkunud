@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Conference;
+use App\Models\Dpjp;
 use App\Models\Pasien;
 use App\Models\Tindakan;
 use App\Models\User;
@@ -291,10 +292,11 @@ class CreateTindakan extends Component
             if ($this->foto_tindakan) {
                 $fotoPath = Storage::disk('public')->putFile('foto-tindakan', $this->foto_tindakan);
             }
-
+            $currentKoordinator = Dpjp::where('is_koordinator', 1)->first();
             $tindakan = Tindakan::create([
                 'pasien_id' => $this->pasien_id,
                 'dpjp_id' => $this->dpjp_id,
+                'koordinator_id' => $currentKoordinator->user?->id,
                 'nama_tindakan' => $this->nama_tindakan,
                 'divisi' => $this->divisi,
                 'diagnosa' => $this->diagnosa,
@@ -325,8 +327,9 @@ class CreateTindakan extends Component
                             'user_id' => $asisten['user_id'],
                             'tipe' => 'asisten',
                             'urutan' => $idx + 1,
-                            'role' => isset($asisten['role']) && strlen($asisten['role']) <= 50 ? $asisten['role'] : null,
-                            'deskripsi' => isset($asisten['deskripsi']) && strlen($asisten['deskripsi']) <= 255 ? $asisten['deskripsi'] : null,
+                            'role' => $asisten['role'] ?? null,
+                            'deskripsi' => $asisten['deskripsi'] ?? null,
+
                         ]);
                     }
                 }
@@ -339,8 +342,9 @@ class CreateTindakan extends Component
                     'user_id' => $this->on_loop['user_id'],
                     'tipe' => 'onloop',
                     'urutan' => null,
-                    'role' => isset($this->on_loop['role']) && strlen($this->on_loop['role']) <= 50 ? $this->on_loop['role'] : 'Observer',
-                    'deskripsi' => isset($this->on_loop['deskripsi']) && strlen($this->on_loop['deskripsi']) <= 255 ? $this->on_loop['deskripsi'] : null,
+                    'role' => $this->on_loop['role'] ?? 'Observer',
+                    'deskripsi' => $this->on_loop['deskripsi'] ?? null,
+
                 ]);
             }
 
@@ -352,7 +356,7 @@ class CreateTindakan extends Component
             $this->dispatch('error', implode(' ', $messages));
             return;
         } catch (\Throwable $e) {
-            $this->dispatch('error', 'Terjadi kesalahan sistem. Silakan coba lagi atau hubungi admin.');
+            $this->dispatch('error', $e->getMessage());
             return;
         }
     }

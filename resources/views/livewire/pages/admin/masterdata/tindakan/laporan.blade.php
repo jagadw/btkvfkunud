@@ -104,7 +104,7 @@
                                 {{
                                     optional(
                                         $tindakan->tindakanAsistens
-                                            ->when(isset($selectedDokter), function($query) use ($selectedDokter) {
+                                            ->when(isset($selectedDokter) && $selectedDokter, function($query) use ($selectedDokter) {
                                                 return $query->where('user_id', $selectedDokter);
                                             }, function($query) {
                                                 return $query->where('user_id', Auth::id());
@@ -112,6 +112,7 @@
                                             ->first()
                                     )->role ?? '-'
                                 }}
+
                             </td>
                             <td class="text-center align-itemms-center">
                                 @if($tindakan->dpjp?->dpjp?->ttd)
@@ -141,9 +142,9 @@
                 <div class="mb-2">
                     <div><strong>Periode</strong> : {{ \Carbon\Carbon::parse($tanggal_operasi_start)->translatedFormat('d F Y') }} – {{ \Carbon\Carbon::parse($tanggal_operasi_end)->translatedFormat('d F Y') }}</div>
                     @if(isset($selectedDokter))
-                        <div><strong>Residen</strong> : {{ \App\Models\User::find($selectedDokter)?->mahasiswa?->nama ?? '-' }}</div>
+                    <div><strong>Residen</strong> : {{ \App\Models\User::find($selectedDokter)?->mahasiswa?->nama ?? '-' }}</div>
                     @else
-                        <div><strong>Residen</strong> : {{ Auth::user()->mahasiswa->nama }}</div>
+                    <div><strong>Residen</strong> : {{ Auth::user()->mahasiswa->nama }}</div>
                     @endif
                     <div><strong>Stase</strong> : Bedah {{ $tindakans->first()->divisi ?? '-' }}</div>
                     <div><strong>Jumlah Operasi</strong> :</div>
@@ -194,8 +195,11 @@
                     <div>Fakultas Kedokteran Universitas Udayana</div>
                     <div>RSUP Prof. Dr. I.G.N.G Ngoerah Denpasar</div>
                 </div>
+                <br>
+                <br>
+                <br>
                 <div class="mt-5 d-flex flex-column align-items-end text-right">
-                    <strong>Dr. dr. Ketut Putu Yasa, Sp.B, Sp.BTKV, Subsp.VE(K), FICS, FIATCVS</strong>
+                    <strong>{{$tindakan->koordinator->name}}</strong>
                 </div>
             </div>
         </div>

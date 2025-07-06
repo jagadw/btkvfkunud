@@ -67,7 +67,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(LogBook::class);
     }
-
+    
     protected static function boot()
     {
         parent::boot();

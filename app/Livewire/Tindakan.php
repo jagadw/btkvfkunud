@@ -27,6 +27,7 @@ class Tindakan extends Component
     public $isEdit = false;
     public $search = '';
     public $tindakanForPrint;
+    public $selectedDokter;
 
     public function mount()
     {
@@ -101,7 +102,7 @@ class Tindakan extends Component
                 ]
             );
         } else {
-            $tindakans = TindakanModel::where(function ($query) {
+            $tindakans = TindakanModel::with('koordinator')->where(function ($query) {
                 $user = Auth::user();
                 $userId = $user->id;
 

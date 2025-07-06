@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('pasien_id')->references('id')->on('pasiens')->onDelete('cascade');
             $table->unsignedBigInteger('dpjp_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('koordinator_id')->references('id')->on('')->onDelete('cascade');
             $table->text('nama_tindakan');
             $table->enum('divisi', [
                 'Jantung Dewasa',

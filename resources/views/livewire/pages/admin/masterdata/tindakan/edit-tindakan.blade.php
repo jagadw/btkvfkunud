@@ -356,7 +356,7 @@
                         {{-- On Loop --}}
                         <div class="col-md-3" wire:ignore>
                             <label class="required">On Loop</label>
-                            <select class="form-select" wire:model="on_loop.user_id" data-control="select2" onchange="@this.set('on_loop.user_id', this.value)" disabled>
+                            <select class="form-select" wire:model="on_loop.user_id" data-control="select2" onchange="@this.set('on_loop.user_id', this.value)" >
                                 <option value="">Pilih On Loop</option>
                                 @foreach($users->filter(fn($user) => !$user->roles->pluck('name')->contains('developer') && $user->mahasiswa != null) as $dokter)
                                 <option value="{{ $dokter->id }}">

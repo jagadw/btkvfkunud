@@ -11,6 +11,7 @@ class Tindakan extends Model
     protected $fillable = [
         'pasien_id',
         'dpjp_id',
+        'koordinator_id',
         'on_loop_id',
         'nama_tindakan',
         'divisi',
@@ -28,6 +29,10 @@ class Tindakan extends Model
     public function dpjp()
     {
         return $this->belongsTo(User::class, 'dpjp_id', 'id')->withTrashed();
+    }
+    public function koordinator()
+    {
+         return $this->belongsTo(User::class, 'koordinator_id', 'id')->withTrashed();
     }
     public function tindakanAsistens()
     {

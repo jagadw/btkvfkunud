@@ -33,20 +33,19 @@ class Conference extends Component
 
     public function render()
     {
-        return view('livewire.pages.admin.masterdata.conference.index', [
-            // Ambil data tindakan yang terkait dengan user dokter (asisten1_id, asisten2_id, on_loop_id)
-            'tindakans' => $tindakans = \App\Models\Tindakan::with('conference')
-                ->where(function ($query) {
-                    $user = Auth::user();
-                    if ($user->roles->pluck('name')->first() === 'dokter' && $user->akses_semua == 0) {
-                        $query->where('asisten1_id', $user->id)
-                            ->orWhere('asisten2_id', $user->id)
-                            ->orWhere('on_loop_id', $user->id);
-                    }
-                })
-                ->get(),
+        $tindakans = \App\Models\Tindakan::with('conference')
+            ->where(function ($query) {
+                $user = Auth::user();
+                if ($user->roles->pluck('name')->first() === 'dokter' && $user->akses_semua == 0) {
+                    $query->where('asisten1_id', $user->id)
+                        ->orWhere('asisten2_id', $user->id)
+                        ->orWhere('on_loop_id', $user->id);
+                }
+            })
+            ->get();
 
-            // Ambil data conference yang tindakan_id-nya ada di tindakan yang ditemukan di atas
+        return view('livewire.pages.admin.masterdata.conference.index', [
+            'tindakans' => $tindakans,
             'conference' => ConferenceModel::with(['pasien', 'tindakan'])
                 ->whereIn('tindakan_id', $tindakans->pluck('id'))
                 ->when($this->tanggal_conference, function ($query) {

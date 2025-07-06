@@ -53,9 +53,16 @@ class Dpjp extends Component
     public function resetForm()
     {
         $this->reset([
-            'dpjpId', 'user_id', 'nama', 'inisial_residen',
-            'tempat_lahir', 'tanggal_lahir', 'status',
-            'alamat', 'ttd', 'photoPreview'
+            'dpjpId',
+            'user_id',
+            'nama',
+            'inisial_residen',
+            'tempat_lahir',
+            'tanggal_lahir',
+            'status',
+            'alamat',
+            'ttd',
+            'photoPreview'
         ]);
     }
 
@@ -103,8 +110,13 @@ class Dpjp extends Component
     {
         $data = DpjpModel::findOrFail($id);
         $this->fill($data->only([
-            'user_id', 'nama', 'inisial_residen',
-            'tempat_lahir', 'tanggal_lahir', 'status', 'alamat'
+            'user_id',
+            'nama',
+            'inisial_residen',
+            'tempat_lahir',
+            'tanggal_lahir',
+            'status',
+            'alamat'
         ]));
         $this->dpjpId = $id;
 
@@ -188,6 +200,24 @@ class Dpjp extends Component
         $this->dispatch('delete-success', 'DPJP Berhasil di Non Aktifkan!.');
     }
 
+    public function setKoordinator($id)
+    {
+        $dataDpjp = DpjpModel::where('id', $id)->first();
+        // check current coordinator
+        $currentCoordinator = DpjpModel::where('is_koordinator', 1)->first();
+        if ($currentCoordinator) {
+            $currentCoordinator->is_koordinator = false;
+            $currentCoordinator->save();
+            $dataDpjp->is_koordinator = true;
+            $dataDpjp->save();
+
+            $this->dispatch('success', 'DPJP telah dijadikan Koordinator Program Studi');
+        } else {
+            $dataDpjp->is_koordinator = true;
+            $dataDpjp->save();
+            $this->dispatch('success', 'DPJP telah dijadikan Koordinator Program Studi');
+        }
+    }
     public function render()
     {
         return view('livewire.pages.admin.masterdata.dpjp.index', [

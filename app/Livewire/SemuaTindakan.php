@@ -95,7 +95,7 @@ class SemuaTindakan extends Component
             return view('livewire.pages.admin.masterdata.tindakan.semua-tindakan', [
                 'tindakans' => $this->tindakanForPrint,
                 'pasiens' => Pasien::all(),
-                'dokters' => User::whereHas('roles', fn($q) => $q->where('name', 'dokter'))->get(),
+                'dokters' => User::has('mahasiswa')->get(),
                 'users' => User::all(),
             ]);
         } else {

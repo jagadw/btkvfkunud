@@ -67,6 +67,9 @@
                                             <div class="menu-item px-3 ">
                                                 <a wire:click="edit({{ $dpjp->id }})" class=" bg-warning text-dark menu-link px-3 w-100">Edit</a>
                                             </div>
+                                            <div class="menu-item px-3 ">
+                                                <a wire:click="setKoordinator({{ $dpjp->id }})" class=" bg-info text-white menu-link px-3 w-100">Jadikan Koordinator</a>
+                                            </div>
                                             <div class="menu-item px-3">
                                                 <a href="#" class="menu-link px-3 w-100 text-white bg-danger" wire:click="delete({{ $dpjp->id }})">Non Aktifkan</a>
                                             </div>
@@ -79,7 +82,12 @@
                                             -
                                         @endif
                                     </td></td>
-                                    <td class="text-center align-items-center">{{ $dpjp->nama }}</td>
+                                    <td class="text-center align-items-center">
+                                    {{ $dpjp->nama }}
+                                    @if($dpjp->is_koordinator == true)
+                                    <span class="badge badge-success text-white">Koordinator</span>
+                                    @endif
+                                </td>
                                     <td class="text-center align-items-center">{{ $dpjp->inisial_residen }}</td>
                                     <td class="text-center align-items-center">{{ $dpjp->tempat_lahir }}</td>
                                     <td class="text-center align-items-center">{{ \Carbon\Carbon::parse($dpjp->tanggal_lahir)->format('d F Y') }}</td>

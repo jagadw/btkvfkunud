@@ -47,6 +47,7 @@ class DpjpSeeder extends Seeder
             'tanggal_lahir' => '1960-11-15',
             'status' => 'Menikah',
             'alamat' => 'Jalan Gunung Himalaya I B, No. 8, Denpasar',
+            'is_koordinator' => 1,
         ]);
 
         // 3
