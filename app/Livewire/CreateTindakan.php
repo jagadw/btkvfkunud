@@ -265,7 +265,7 @@ class CreateTindakan extends Component
             } else {
                 $rules['on_loop.user_id'] = 'required|exists:users,id';
                 $rules['on_loop.role'] = 'required|string|max:50';
-                $rules['on_loop.deskripsi'] = 'required|string|';
+                $rules['on_loop.deskripsi'] = 'nullable|string';
             }
 
             // Validasi semua inputan sebelum insert
@@ -407,7 +407,7 @@ class CreateTindakan extends Component
             if (!empty($this->on_loop['user_id'])) {
                 $rules['on_loop.user_id'] = 'required|exists:users,id';
                 $rules['on_loop.role'] = 'required|string|max:50';
-                $rules['on_loop.deskripsi'] = 'required|string';
+                $rules['on_loop.deskripsi'] = 'nullable|string';
             } else {
                 throw \Illuminate\Validation\ValidationException::withMessages([
                     'on_loop.user_id' => ['Data on loop wajib diisi.'],
