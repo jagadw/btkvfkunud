@@ -150,6 +150,28 @@
                     <div><strong>Jumlah Operasi</strong> :</div>
                 </div>
 
+                @php
+                    $asistenCount = 0;
+                    $bimbinganCount = 0;
+                    $mandiriCount = 0;
+
+                    foreach ($tindakans as $tindakan) {
+                        $role = optional(
+                            $tindakan->tindakanAsistens
+                                ->when(isset($selectedDokter) && $selectedDokter, function($query) use ($selectedDokter) {
+                                    return $query->where('user_id', $selectedDokter);
+                                }, function($query) {
+                                    return $query->where('user_id', Auth::id());
+                                })
+                                ->first()
+                        )->role;
+
+                        if ($role === 'Asisten') $asistenCount++;
+                        if ($role === 'Bimbingan') $bimbinganCount++;
+                        if ($role === 'Mandiri') $mandiriCount++;
+                    }
+                    $totalCount = $asistenCount + $bimbinganCount + $mandiriCount;
+                @endphp
                 <table class="table table-bordered table-sm w-auto mb-4">
                     <thead class="thead-light">
                         <tr>
@@ -161,22 +183,22 @@
                     <tbody>
                         <tr>
                             <td class="text-center align-itemms-center">Asisten</td>
-                            <td class="text-center align-itemms-center"></td>
+                            <td class="text-center align-itemms-center">{{ $asistenCount }}</td>
                             <td class="text-center align-itemms-center"></td>
                         </tr>
                         <tr>
                             <td class="text-center align-itemms-center">Bimbingan</td>
-                            <td class="text-center align-itemms-center"></td>
+                            <td class="text-center align-itemms-center">{{ $bimbinganCount }}</td>
                             <td class="text-center align-itemms-center"></td>
                         </tr>
                         <tr>
                             <td class="text-center align-itemms-center">Mandiri</td>
-                            <td class="text-center align-itemms-center"></td>
+                            <td class="text-center align-itemms-center">{{ $mandiriCount }}</td>
                             <td class="text-center align-itemms-center"></td>
                         </tr>
                         <tr>
                             <td class="text-center align-itemms-center"><strong>Total</strong></td>
-                            <td class="text-center align-itemms-center"></td>
+                            <td class="text-center align-itemms-center"><strong>{{ $totalCount }}</strong></td>
                             <td class="text-center align-itemms-center"></td>
                         </tr>
                     </tbody>
