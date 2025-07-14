@@ -13,11 +13,11 @@
                     <li class="breadcrumb-item">
                         <span class="bullet bg-gray-400 w-5px h-2px"></span>
                     </li>
-                    <li class="breadcrumb-item text-muted">Dpjp</li>
+                    <li class="breadcrumb-item text-muted">DPJP</li>
                 </ul>
             </div>
             <div class="d-flex align-items-center gap-2 gap-lg-3">
-                <button class="btn btn-sm fw-bold btn-primary fs-5" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#dpjpModal">Tambah Dpjp</button>
+                <button class="btn btn-sm fw-bold btn-primary fs-5" wire:click="resetForm" data-bs-toggle="modal" data-bs-target="#dpjpModal">Tambah DPJP</button>
             </div>
         </div>
     </div>

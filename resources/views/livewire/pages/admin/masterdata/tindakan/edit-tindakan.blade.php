@@ -108,7 +108,7 @@
                             <select class="form-select" wire:model="divisi" onchange="Livewire.dispatch('divisiChanged')">
                                 <option value="">Pilih Divisi</option>
                                 <option value="Jantung Dewasa">Jantung Dewasa</option>
-                                <option value="Jantung Pediatri & Kongengital">Jantung Pediatri & Kongengital</option>
+                                <option value="Jantung Pediatrik dan Kongenital">Jantung Pediatrik dan Kongenital</option>
                                 <option value="Toraks">Toraks</option>
                                 <option value="Vaskular">Vaskular</option>
                                 <option value="Endovaskular">Endovaskular</option>
@@ -128,8 +128,8 @@
                         </div>
                     </div>
                 </div>
-                {{-- DATA CONFERENCE (Hanya untuk divisi Jantung Dewasa & Jantung Pediatri & Kongengital) --}}
-                @if($divisi == 'Jantung Dewasa' || $divisi == 'Jantung Pediatri & Kongengital')
+                {{-- DATA CONFERENCE (Hanya untuk divisi Jantung Dewasa & Jantung Pediatrik dan Kongenital) --}}
+                @if($divisi == 'Jantung Dewasa' || $divisi == 'Jantung Pediatrik dan Kongenital')
                 <hr class="my-4 border-3 border-dark bg-dark">
                 <h5 class="text-primary fw-bold mb-3">Data Conference</h5>
                 <div class="mb-4">

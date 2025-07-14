@@ -178,7 +178,7 @@
                         </div>
                     </div>
     
-                    @if($divisi == 'Jantung Dewasa' || $divisi == 'Jantung Pediatri & Kongengital')
+                    @if($divisi == 'Jantung Dewasa' || $divisi == 'Jantung Pediatrik dan Kongenital')
                     <hr class="my-4">
     
                     <h5 class="text-dark fw-bold mb-4">Data Conference</h5>

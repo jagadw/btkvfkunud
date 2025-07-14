@@ -71,7 +71,7 @@
                         <select class="form-select" wire:model="selectedDivisi" onchange="@this.set('selectedDivisi', this.value)">
                             <option value="">Pilih Divisi</option>
                             <option value="Jantung Dewasa">Jantung Dewasa</option>
-                            <option value="Jantung Pediatri & Kongengital">Jantung Pediatri & Kongengital</option>
+                            <option value="Jantung Pediatrik dan Kongenital">Jantung Pediatrik dan Kongenital</option>
                             <option value="Toraks">Toraks</option>
                             <option value="Vaskular">Vaskular</option>
                             <option value="Endovaskular">Endovaskular</option>
