@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\Dpjp;
 use App\Models\TindakanAsisten;
 use Livewire\Component;
 use App\Models\Tindakan;
@@ -14,7 +15,7 @@ use Livewire\Attributes\Layout;
 class SemuaTindakan extends Component
 {
     public $tanggal_operasi, $search = '', $fotoPreview, $selectedDivisi, $selectedDokter;
-    public $tanggal_operasi_start, $tanggal_operasi_end, $isExport, $tindakanForPrint;
+    public $tanggal_operasi_start, $tanggal_operasi_end, $isExport, $tindakanForPrint, $selectedDPJP;
     public function mount()
     {
         $user = Auth::user();
@@ -90,6 +91,9 @@ class SemuaTindakan extends Component
                             $q->where('user_id', $this->selectedDokter);
                         });
                     })
+                    ->when($this->selectedDPJP, function ($query) {
+                        $query->where('dpjp_id', $this->selectedDPJP);
+                    })
                     ->where('verifikasi', 1)
                     ->get();
             return view('livewire.pages.admin.masterdata.tindakan.semua-tindakan', [
@@ -97,6 +101,7 @@ class SemuaTindakan extends Component
                 'pasiens' => Pasien::all(),
                 'dokters' => User::has('mahasiswa')->get(),
                 'users' => User::all(),
+                'dpjps' => User::has('dpjp')->get(),
             ]);
         } else {
             $tindakans = Tindakan::where(function ($query) {

@@ -99,7 +99,13 @@
                             </td>
                             <td class="text-center align-itemms-center">{{ $tindakan->diagnosa }}</td>
                             <td class="text-center align-itemms-center">{{ $tindakan->nama_tindakan }}</td>
-                            <td class="text-center align-itemms-center">{{ 'dr.' . $tindakan->dpjp?->dpjp?->inisial_residen }}</td>
+                            <td class="text-center align-itemms-center">
+                                {{
+                                    isset($selectedDPJP) && $selectedDPJP
+                                        ? ('dr.' . (\App\Models\User::find($selectedDPJP)?->dpjp?->inisial_residen ?? '-'))
+                                        : ('dr.' . ($tindakan->dpjp?->dpjp?->inisial_residen ?? '-'))
+                                }}
+                            </td>
                             <td class="text-center align-itemms-center">
                                 {{
                                     optional(

@@ -65,7 +65,7 @@
                             <input type="date" id="tanggal_operasi_end" class="form-control" wire:model="tanggal_operasi_end" onchange="@this.set('tanggal_operasi_end', this.value)">
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <label>Divisi</label>
                         <select class="form-select" wire:model="selectedDivisi" onchange="@this.set('selectedDivisi', this.value)">
                             <option value="">Pilih Divisi</option>
@@ -76,7 +76,7 @@
                             <option value="Endovaskular">Endovaskular</option>
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <label for="">Pilih Dokter</label>
                         <div class="" wire:ignore>
                             <select class="form-select" data-control="select2" data-placeholder="Pilih Dokter" wire:model="selectedDokter" onchange="@this.set('selectedDokter', this.value)">
@@ -84,6 +84,19 @@
                                 @foreach ($dokters as $dokter)
                                 <option value="{{ $dokter->id }}">
                                     {{ $dokter->mahasiswa->nama . ' - ' . $dokter->mahasiswa->inisial_residen }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Pilih DPJP</label>
+                        <div class="" wire:ignore>
+                            <select class="form-select" data-control="select2" data-placeholder="Pilih DPJP" wire:model="selectedDPJP" onchange="@this.set('selectedDPJP', this.value)">
+                                <option></option>
+                                @foreach ($dpjps as $dpjp)
+                                <option value="{{ $dpjp->id }}">
+                                    {{ $dpjp->dpjp?->nama . ' - ' . $dpjp->dpjp?->inisial_residen }}
                                 </option>
                                 @endforeach
                             </select>
