@@ -121,14 +121,14 @@
                                                             Edit
                                                         </a>
                                                     </li>
-                                                    @if(Auth::user()->roles()->pluck('name')->first() == 'operator' || Auth::user()->roles()->pluck('name')->first() == 'admin')
                                                     <li>
                                                         <a class="w-100 fw-bold btn btn-danger text-white" href="#" wire:click="delete({{ $t->id }})">
                                                             <i class="fa-solid fa-trash"></i>
                                                             Hapus
                                                         </a>
                                                     </li>
-                                                    @endif
+                                                    <!-- @if(Auth::user()->roles()->pluck('name')->first() == 'operator' || Auth::user()->roles()->pluck('name')->first() == 'admin')
+                                                    @endif -->
                                                 </ul>
                                             </div>
                                         </div>

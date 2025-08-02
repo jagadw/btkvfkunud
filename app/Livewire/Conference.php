@@ -37,9 +37,9 @@ class Conference extends Component
             ->where(function ($query) {
                 $user = Auth::user();
                 if ($user->roles->pluck('name')->first() === 'dokter' && $user->akses_semua == 0) {
-                    $query->where('asisten1_id', $user->id)
-                        ->orWhere('asisten2_id', $user->id)
-                        ->orWhere('on_loop_id', $user->id);
+                    $query->whereHas('tindakanAsistens', function ($q) use ($user) {
+                        $q->where('user_id', $user->id);
+                    });
                 }
             })
             ->get();
@@ -65,14 +65,4 @@ class Conference extends Component
         ]);
     }
 
-    public function resetForm()
-    {
-        $this->reset([
-            'pasien_id',
-            'diagnosa',
-            'tanggal_conference',
-            'hasil_conference',
-            'isEdit'
-        ]);
-    }
 }
