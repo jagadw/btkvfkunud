@@ -70,7 +70,7 @@ class DpjpSeeder extends Seeder
         // 4
         $user4 = User::create([
             'name' => 'dr. I Komang Adhi Parama Harta, Sp.BTKV., Subsp.JD(K), FICS, FIATCVS',
-            'email' => 'adhiparamaharta@gmaiil.com',
+            'email' => 'adhiparamaharta@gmail.com',
             'password' => Hash::make('komangadhi'),
         ]);
         $user4->assignRole('dpjp');

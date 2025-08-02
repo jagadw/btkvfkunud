@@ -34,7 +34,7 @@ class RoleMenuPermissionSeeder extends Seeder
             'masterdata-conference',
             'masterdata-tindakan',
             'masterdata-fototindakan',
-            'masterdata-logbook',
+            // 'masterdata-logbook',
             'masterdata-dpjp',
             'masterdata-verifikasi-tindakan',
             'masterdata-sudah-verifikasi',
@@ -55,7 +55,7 @@ class RoleMenuPermissionSeeder extends Seeder
             'masterdata-conference',
             'masterdata-tindakan',
             // 'masterdata-fototindakan',
-            'masterdata-logbook',
+            // 'masterdata-logbook',
             'masterdata-dpjp',
         ]);
 
@@ -69,7 +69,7 @@ class RoleMenuPermissionSeeder extends Seeder
             'masterdata-conference',
             'masterdata-tindakan',
             // 'masterdata-fototindakan',
-            'masterdata-logbook',
+            // 'masterdata-logbook',
             'masterdata-dpjp',
         ]);
 
@@ -83,7 +83,7 @@ class RoleMenuPermissionSeeder extends Seeder
             'masterdata-conference',
             'masterdata-tindakan',
             // 'masterdata-fototindakan',
-            'masterdata-logbook',
+            // 'masterdata-logbook',
             'masterdata-dpjp',
         ]);
 
@@ -92,7 +92,7 @@ class RoleMenuPermissionSeeder extends Seeder
             'masterdata-tindakan',
             // 'masterdata-fototindakan',
             'masterdata-conference',
-            'masterdata-logbook',
+            // 'masterdata-logbook',
         ]);
 
         $dpjp->syncPermissions([
@@ -183,13 +183,13 @@ class RoleMenuPermissionSeeder extends Seeder
             'order' => 8,
             'permission_id' => Permission::where('name', 'masterdata-conference')->first()->id
         ]);
-        SubMenu::create([
-            'menu_id' => $masterData->id,
-            'name' => 'Logbook',
-            'route' => 'logbook',
-            'order' => 9,
-            'permission_id' => Permission::where('name', 'masterdata-logbook')->first()->id
-        ]);
+        // SubMenu::create([
+        //     'menu_id' => $masterData->id,
+        //     'name' => 'Logbook',
+        //     'route' => 'logbook',
+        //     'order' => 9,
+        //     'permission_id' => Permission::where('name', 'masterdata-logbook')->first()->id
+        // ]);
         SubMenu::create([
             'menu_id' => $masterData->id,
             'name' => 'Foto Tindakan',
